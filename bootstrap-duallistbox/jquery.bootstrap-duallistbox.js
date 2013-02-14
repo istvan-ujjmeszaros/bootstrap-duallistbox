@@ -39,8 +39,9 @@
                 });
             }
 
-            if ($(this).data('duallistbox_generated'))
+            if ($(this).data('duallistbox_generated')) {
                 return this;
+            }
 
             var settings = $.extend( {
                 preserveselectiononmove : false,            // 'all' / 'moved' / false
@@ -365,8 +366,12 @@
 
             function moveall()
             {
-                if (settings.preserveselectiononmove) {
-                    saveselections();
+                if (settings.preserveselectiononmove === 'all') {
+                    saveselections1();
+                    saveselections2();
+                }
+                else if (settings.preserveselectiononmove === 'moved') {
+                    saveselections1();
                 }
 
                 elements.originalselect.find('option').each(function() {
@@ -380,8 +385,12 @@
 
             function removeall()
             {
-                if (settings.preserveselectiononmove) {
-                    saveselections();
+                if (settings.preserveselectiononmove === 'all') {
+                    saveselections1();
+                    saveselections2();
+                }
+                else if (settings.preserveselectiononmove === 'moved') {
+                    saveselections2();
                 }
 
                 elements.originalselect.find('option').each(function() {
