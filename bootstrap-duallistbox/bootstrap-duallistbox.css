@@ -23,7 +23,6 @@
 .bootstrap-duallistbox-container .move,
 .bootstrap-duallistbox-container .remove {
     width: 60%;
-    font-size: 12px;
 }
 
 .bootstrap-duallistbox-container .btn-group .btn {
@@ -38,7 +37,6 @@
 .bootstrap-duallistbox-container .moveall,
 .bootstrap-duallistbox-container .removeall {
     width: 40%;
-    font-size: 8px;
 }
 
 .bootstrap-duallistbox-container .btn-group > .btn + .btn {

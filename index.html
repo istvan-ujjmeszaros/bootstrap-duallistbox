@@ -36,18 +36,18 @@
         </div>
 
 
-        <div class="container-fluid">
+        <div class="container-fluid" style="max-width:920px;margin:0 auto;">
             <div class="row-fluid">
                 <h2>Bootstrap Dual Listbox</h2>
                 <p>
                     Bootstrap Dual Listbox is a responsive dual listbox widget optimized for Twitter Bootstrap. It works on all modern browsers and on touch devices.
                 </p>
                 <h3>Example with default values</h3>
+                <p>
+                    The dual listbox is created from a select multiple by calling <code>.bootstrapDualListbox(settings);</code> on a selector. The selector can be any element, not just selects. When the method is called on a selector other than a select, then all select childrens are converted into dual list boxes.
+                </p>
                 <div class="row-fluid">
                     <div class="span12">
-                        <p>
-                            The dual listbox is created from a select multiple by calling <code>.bootstrapDualListbox(settings);</code> on a selector. The selector can be any element, not just selects. When the method is called on a selector other than a select, then all select childrens are converted into dual list boxes.
-                        </p>
                         <select multiple="multiple" size="10" name="duallistbox_demo1" class='demo1 span12'>
                             <option value="option1">Option 1</option>
                             <option value="option2">Option 2</option>
@@ -64,35 +64,6 @@
                             $('.demo1').bootstrapDualListbox();
                         </script>
                     </div>
-                </div>
-            </div>
-
-            <div class='row-fluid'>
-                <div class="span12">
-                    <h3>Settings</h3>
-                    <dl class="dl-horizontal">
-                        <dt><code>preserveselectiononmove</code></dt>
-                        <dd><code><strong>false</strong></code>: Selections are cleared on move. This is the forced setting on Android because of a <a href="http://code.google.com/p/android/issues/detail?id=16922" target="_blank">bug</a>.</dd>
-                        <dd><code>'moved'</code>: Selection is cleared in the list where the options are moved to, and the moved options are selected after move.</dd>
-                        <dd><code>'all'</code>: Selection is preserved between the lists, so the previously selected options are selected even after moving them or other options into their list.</dd>
-                        <dt><code>moveonselect</code></dt>
-                        <dd><code><strong>true</strong></code>: The options are automatically moved on selection. This setting is forced on touch devices.</dd>
-                        <dd><code>false</code>: The selected options can be moved with a button.</dd>
-                        <dt><code>initialfilterfrom</code></dt>
-                        <dd><code><strong>''</strong></code>: This is the initial value of the filter for the unselected values (left side). Default is empty string.</dd>
-                        <dt><code>initialfilterto</code></dt>
-                        <dd><code><strong>''</strong></code>: This is the initial value of the filter for the selected values (on the right). Default is empty string.</dd>
-                        <dt><code>helperselectnamepostfix</code></dt>
-                        <dd><code><strong>'_helper'</strong></code>: when set, the helper selects are submitted with the original selects name postfixed with this value.</dd>
-                        <dd><code>false</code>: the helper selects are not submitted.</dd>
-                        <dt><code>infotext</code></dt>
-                        <dd><code><strong>'Showing all {0}'</strong></code>: this is the info text when no filter applied to the options list and the list is not empty.</dd>
-                        <dd><code>false</code>: None of the info texts are visible.
-                        <dt><code>infotextfiltered</code></dt>
-                        <dd><code><strong>'&lt;span class="label label-warning"&gt;Filtered&lt;/span&gt; {0} from {1}'</strong></code>: this is the info text when not all of the options are visible.</dd>
-                        <dt><code>infotextempty</code></dt>
-                        <dd><code><strong>'Empty list'</strong></code>: this is the info text when the list is empty.</dd>
-                    </dl>
                 </div>
             </div>
 
@@ -142,12 +113,42 @@ $('.demo2').bootstrapDualListbox({
                         </script>
                     </div>
 
-
-                    <h3>Download</h3>
-                    <p><a href="https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox" target="_blank">Download</a> from github. Please report issues and suggestions to github's issue tracker or contact me on <a href="https://plus.google.com/101242556570448529330/posts" target="_blank">g+</a> or <a href="https://twitter.com/styu007" target="_blank">twitter</a>!</p>
                 </div>
             </div>
 
+            <div class='row-fluid'>
+                <div class="span12">
+                    <h3>Settings</h3>
+                    <dl class="dl-horizontal">
+                        <dt><code>preserveselectiononmove</code></dt>
+                        <dd><code><strong>false</strong></code>: Selections are cleared on move. This is the forced setting on Android because of a <a href="http://code.google.com/p/android/issues/detail?id=16922" target="_blank">bug</a>.</dd>
+                        <dd><code>'moved'</code>: Selection is cleared in the list where the options are moved to, and the moved options are selected after move.</dd>
+                        <dd><code>'all'</code>: Selection is preserved between the lists, so the previously selected options are selected even after moving them or other options into their list.</dd>
+                        <dt><code>moveonselect</code></dt>
+                        <dd><code><strong>true</strong></code>: The options are automatically moved on selection. This setting is forced on touch devices.</dd>
+                        <dd><code>false</code>: The selected options can be moved with a button.</dd>
+                        <dt><code>initialfilterfrom</code></dt>
+                        <dd><code><strong>''</strong></code>: This is the initial value of the filter for the unselected values (left side). Default is empty string.</dd>
+                        <dt><code>initialfilterto</code></dt>
+                        <dd><code><strong>''</strong></code>: This is the initial value of the filter for the selected values (on the right). Default is empty string.</dd>
+                        <dt><code>helperselectnamepostfix</code></dt>
+                        <dd><code><strong>'_helper'</strong></code>: when set, the helper selects are submitted with the original selects name postfixed with this value.</dd>
+                        <dd><code>false</code>: the helper selects are not submitted.</dd>
+                        <dt><code>infotext</code></dt>
+                        <dd><code><strong>'Showing all {0}'</strong></code>: this is the info text when no filter applied to the options list and the list is not empty.</dd>
+                        <dd><code>false</code>: None of the info texts are visible.
+                        <dt><code>infotextfiltered</code></dt>
+                        <dd><code><strong>'&lt;span class="label label-warning"&gt;Filtered&lt;/span&gt; {0} from {1}'</strong></code>: this is the info text when not all of the options are visible.</dd>
+                        <dt><code>infotextempty</code></dt>
+                        <dd><code><strong>'Empty list'</strong></code>: this is the info text when the list is empty.</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <h3>Download</h3>
+                <p><a href="https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox" target="_blank">Download</a> from github. Please report issues and suggestions to github's issue tracker or contact me on <a href="https://plus.google.com/101242556570448529330/posts" target="_blank">g+</a> or <a href="https://twitter.com/styu007" target="_blank">twitter</a>!</p>
+            </div>
 
         </div>
 

@@ -3,8 +3,8 @@ Bootstrap Dual Listbox
 Responsive dual multiple select with filtering. Designed to work on
 small touch devices.
 
-https://github.com/istvan-meszaros/bootstrap-duallistbox
-http://www.virtuosoft.eu/code/bootstrap-duallistbox/
+- https://github.com/istvan-meszaros/bootstrap-duallistbox
+- http://www.virtuosoft.eu/code/bootstrap-duallistbox/
 
 Copyright 2013 István Ujj-Mészáros
 
