@@ -1,5 +1,4 @@
 Bootstrap Dual Listbox
-v1.0.0
 
 Responsive dual multiple select with filtering. Designed to work on
 small touch devices.

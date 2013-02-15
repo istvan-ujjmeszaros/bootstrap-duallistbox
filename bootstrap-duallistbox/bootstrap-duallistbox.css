@@ -9,50 +9,36 @@
     font-size: 11px;
 }
 
-.clear1,
-.clear2 {
+.bootstrap-duallistbox-container .clear1,
+.bootstrap-duallistbox-container .clear2 {
     display: none;
     font-size: 10px;
 }
 
-.box1.filtered .clear1,
-.box2.filtered .clear2 {
+.bootstrap-duallistbox-container .box1.filtered .clear1,
+.bootstrap-duallistbox-container .box2.filtered .clear2 {
     display: inline-block;
 }
 
-.bootstrap-duallistbox-container .move, .bootstrap-duallistbox-container .remove {
+.bootstrap-duallistbox-container .move,
+.bootstrap-duallistbox-container .remove {
     width: 60%;
     font-size: 12px;
 }
 
 .bootstrap-duallistbox-container .btn-group .btn {
-    -moz-border-bottom-left-radius: 0;
-    -webkit-border-bottom-left-radius: 0;
-    -ms-border-bottom-left-radius: 0;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    -moz-border-bottom-right-radius: 0;
-    -webkit-border-bottom-right-radius: 0;
-    -ms-border-bottom-right-radius: 0;
 }
 .bootstrap-duallistbox-container select {
-    -moz-border-top-left-radius: 0;
-    -webkit-border-top-left-radius: 0;
-    -ms-border-top-left-radius: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    -moz-border-top-right-radius: 0;
-    -webkit-border-top-right-radius: 0;
-    -ms-border-top-right-radius: 0;
 }
 
-.bootstrap-duallistbox-container .moveall, .bootstrap-duallistbox-container .removeall {
+.bootstrap-duallistbox-container .moveall,
+.bootstrap-duallistbox-container .removeall {
     width: 40%;
     font-size: 8px;
-}
-
-.bootstrap-duallistbox-container:not(.moveonselect) .move, .bootstrap-duallistbox-container:not(.moveonselect) .removeall {
-    border-left-color: #f5f5f5;
 }
 
 .bootstrap-duallistbox-container .btn-group > .btn + .btn {
@@ -74,10 +60,16 @@
     box-sizing: border-box;
 }
 
-.bootstrap-duallistbox-container.moveonselect .move, .bootstrap-duallistbox-container.moveonselect .remove {
+.bootstrap-duallistbox-container .filter.placeholder {
+    color: #aaa;
+}
+
+.bootstrap-duallistbox-container.moveonselect .move,
+.bootstrap-duallistbox-container.moveonselect .remove {
     display:none;
 }
 
-.bootstrap-duallistbox-container.moveonselect .moveall, .bootstrap-duallistbox-container.moveonselect .removeall {
+.bootstrap-duallistbox-container.moveonselect .moveall,
+.bootstrap-duallistbox-container.moveonselect .removeall {
     width: 100%;
 }
