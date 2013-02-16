@@ -7,6 +7,10 @@
         <meta name="description" content="Responsive dual select boxes (dual list boxes) for Bootstrap.">
         <meta name="author" content="István Ujj-Mészáros">
 
+        <meta itemprop="name" content="Bootstrap Dual List Box">
+        <meta itemprop="description" content="Bootstrap Dual Listbox is a responsive dual listbox widget optimized for Twitter Bootstrap. It works on all modern browsers and on touch devices.">
+        <meta itemprop="image" content="http://www.virtuosoft.eu/code/bootstrap-duallistbox/preview/bootstrap-duallistbox.jpg">
+
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
         <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" media="all">
         <link href="libraries/prettify/prettify.css" rel="stylesheet" type="text/css" media="all">
@@ -38,6 +42,7 @@
 
         <div class="container-fluid" style="max-width:920px;margin:0 auto;">
             <div class="row-fluid">
+
                 <h2>Bootstrap Dual Listbox</h2>
                 <p>
                     Bootstrap Dual Listbox is a responsive dual listbox widget optimized for Twitter Bootstrap. It works on all modern browsers and on touch devices.
@@ -80,35 +85,32 @@ $('.demo2').bootstrapDualListbox({
 });
                         </pre>
                         <select multiple="multiple" size="10" name="duallistbox_demo2" class='demo2 span6'>
-                            <option value="abc">abc</option>
-                            <option value="bcd">bcd</option>
-                            <option value="cde">cde</option>
-                            <option value="def" selected='selected'>def</option>
-                            <option value="efg">efg</option>
-                            <option value="fgh">fgh</option>
-                            <option value="ghi">ghi</option>
-                            <option value="hij">hij</option>
-                            <option value="ijk">ijk</option>
-                            <option value="jkl">jkl</option>
-                            <option value="klm">klm</option>
-                            <option value="lmn">lmn</option>
-                            <option value="mno">mno</option>
-                            <option value="nop">nop</option>
-                            <option value="opq">opq</option>
-                            <option value="pqr">pqr</option>
-                            <option value="qrs">qrs</option>
-                            <option value="rst">rst</option>
-                            <option value="stu">stu</option>
-                            <option value="tuv">tuv</option>
-                            <option value="uvw">uvw</option>
-                            <option value="vwx">vwx</option>
-                            <option value="wxy">wxy</option>
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3" selected="selected">Option 3</option>
+                            <option value="option4">Option 4</option>
+                            <option value="option5">Option 5</option>
+                            <option value="option6" selected="selected">Option 6</option>
+                            <option value="option7">Option 7</option>
+                            <option value="option8">Option 8</option>
+                            <option value="option9">Option 9</option>
+                            <option value="option0">Option 10</option>
+                            <option value="option0">Option 11</option>
+                            <option value="option0">Option 12</option>
+                            <option value="option0">Option 13</option>
+                            <option value="option0">Option 14</option>
+                            <option value="option0">Option 15</option>
+                            <option value="option0">Option 16</option>
+                            <option value="option0">Option 17</option>
+                            <option value="option0">Option 18</option>
+                            <option value="option0">Option 19</option>
+                            <option value="option0">Option 20</option>
                         </select>
                         <script>
                             $('.demo2').bootstrapDualListbox({
                                 preserveselectiononmove: 'moved',
                                 moveonselect: false,
-                                initialfilterfrom: 'g|k|y'
+                                initialfilterfrom: 'ion ([7-9]|[1][0-2])'
                             });
                         </script>
                     </div>
@@ -155,6 +157,7 @@ $('.demo2').bootstrapDualListbox({
         <script src="libraries/jquery-placeholder/jquery.placeholder.js"></script>
 
         <script>
-            prettyPrint();
-            $('input').placeholder();
+                $('input').placeholder();
+                prettyPrint();
         </script>
+
