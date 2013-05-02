@@ -52,10 +52,11 @@
                 infotext                : 'Showing all {0}',// text when all options are visible / false for no info text
                 infotextfiltered        : '<span class="label label-warning">Filtered</span> {0} from {1}',// when not all of the options are visible due to the filter
                 infotextempty           : 'Empty list',      // when there are no options present in the list
-                selectorminimalheight   : 100
+                selectorminimalheight   : 100,
+                showfilterinputs        : true
             }, options);
 
-            var container = $('<div class="row-fluid bootstrap-duallistbox-container"><div class="span6 box1"><span class="info-container"><span class="info"></span><button class="btn btn-mini clear1 pull-right">X</button></span><input placeholder="Filter" class="filter" type="text"><div class="btn-group buttons"><button class="btn moveall" type="button" title="Move all"><i class="icon-arrow-right"></i><i class="icon-arrow-right"></i></button><button class="btn move" type="button" title="Move selected"><i class="icon-arrow-right"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div><div class="span6 box2"><span class="info-container"><span class="info"></span><button class="btn btn-mini clear2 pull-right">x</button></span><input placeholder="Filter" class="filter" type="text"><div class="btn-group buttons"><button class="btn remove" type="button" title="Remove selected"><i class="icon-arrow-left"></i></button><button class="btn removeall" type="button" title="Remove all"><i class="icon-arrow-left"></i><i class="icon-arrow-left"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div></div>').insertBefore($(this)),
+            var container = $(['<div class="row-fluid bootstrap-duallistbox-container"><div class="span6 box1"><span class="info-container"><span class="info"></span><button class="btn btn-mini clear1 pull-right">X</button></span><input placeholder="Filter" class="filter" type="text"><div class="btn-group buttons"><button class="btn moveall" type="button" title="Move all"><i class="icon-arrow-right"></i><i class="icon-arrow-right"></i></button><button class="btn move" type="button" title="Move selected"><i class="icon-arrow-right"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div><div class="span6 box2"><span class="info-container"><span class="info"></span><button class="btn btn-mini clear2 pull-right">x</button></span><input placeholder="Filter" class="filter" type="text"><div class="btn-group buttons"><button class="btn remove" type="button" title="Remove selected"><i class="icon-arrow-left"></i></button><button class="btn removeall" type="button" title="Remove all"><i class="icon-arrow-left"></i><i class="icon-arrow-left"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div></div>']).insertBefore($(this)),
                 elements = {
                     originalselect: $(this),
                     box1: $('.box1', container),
@@ -118,8 +119,13 @@
                     $(this).data('_selected', false);
                 });
 
-                elements.filterinput1.val(settings.initialfilterfrom);
-                elements.filterinput2.val(settings.initialfilterto);
+                if (settings.showfilterinputs === false) {
+                    elements.filterinput1.hide();
+                    elements.filterinput2.hide();
+                } else {
+                    elements.filterinput1.val(settings.initialfilterfrom);
+                    elements.filterinput2.val(settings.initialfilterto);
+                }
 
                 bindevents();
                 refreshselects();
