@@ -108,7 +108,7 @@
                 var c = elements.originalselect.attr('class');
 
                 if (typeof c !== 'undefined' && c !== false)
-                    c = elements.originalselect.attr('class').match(/\bspan[1-9][0-2]?/);
+                    c = c.match(/\bspan[1-9][0-2]?/);
 
                 if (!!c) {
                     container.addClass(c.toString());
