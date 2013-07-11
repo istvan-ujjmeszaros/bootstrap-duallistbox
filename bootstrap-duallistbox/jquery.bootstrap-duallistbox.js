@@ -105,7 +105,11 @@
                     elements.select2.attr('name', originalselectname + settings.helperselectnamepostfix + '2');
                 }
 
-                var c = elements.originalselect.attr('class').match(/\bspan[1-9][0-2]?/);
+                var c = elements.originalselect.attr('class');
+
+                if (typeof c !== 'undefined' && c !== false)
+                    c = elements.originalselect.attr('class').match(/\bspan[1-9][0-2]?/);
+
                 if (!!c) {
                     container.addClass(c.toString());
                 }
