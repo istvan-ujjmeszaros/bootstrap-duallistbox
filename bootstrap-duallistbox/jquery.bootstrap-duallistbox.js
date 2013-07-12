@@ -32,14 +32,16 @@
     $.fn.bootstrapDualListbox = function(options) {
 
         return this.each(function() {
-            if (!$(this).is("select"))
+            var $this = $(this);
+
+            if (!$this.is("select"))
             {
-                return $(this).find("select").each(function() {
-                    $(this).bootstrapDualListbox();
+                return $this.find("select").each(function(index, item) {
+                    $(item).bootstrapDualListbox();
                 });
             }
 
-            if ($(this).data('duallistbox_generated')) {
+            if ($this.data('duallistbox_generated')) {
                 return this;
             }
 
@@ -57,9 +59,9 @@
                 filtertextclear         : 'show all'
             }, options);
 
-            var container = $('<div class="row-fluid bootstrap-duallistbox-container"><div class="span6 box1"><span class="info-container"><span class="info"></span><button type="button" class="btn btn-mini clear1 pull-right">' + settings.filtertextclear + '</button></span><input placeholder="Filter" class="filter" type="text"><div class="btn-group buttons"><button type="button" class="btn moveall" title="Move all"><i class="icon-arrow-right"></i><i class="icon-arrow-right"></i></button><button type="button" class="btn move" title="Move selected"><i class="icon-arrow-right"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div><div class="span6 box2"><span class="info-container"><span class="info"></span><button type="button" class="btn btn-mini clear2 pull-right">' + settings.filtertextclear + '</button></span><input placeholder="Filter" class="filter" type="text"><div class="btn-group buttons"><button type="button" class="btn remove" title="Remove selected"><i class="icon-arrow-left"></i></button><button type="button" class="btn removeall" title="Remove all"><i class="icon-arrow-left"></i><i class="icon-arrow-left"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div></div>').insertBefore($(this)),
+            var container = $('<div class="row-fluid bootstrap-duallistbox-container"><div class="span6 box1"><span class="info-container"><span class="info"></span><button type="button" class="btn btn-mini clear1 pull-right">' + settings.filtertextclear + '</button></span><input placeholder="Filter" class="filter" type="text"><div class="btn-group buttons"><button type="button" class="btn moveall" title="Move all"><i class="icon-arrow-right"></i><i class="icon-arrow-right"></i></button><button type="button" class="btn move" title="Move selected"><i class="icon-arrow-right"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div><div class="span6 box2"><span class="info-container"><span class="info"></span><button type="button" class="btn btn-mini clear2 pull-right">' + settings.filtertextclear + '</button></span><input placeholder="Filter" class="filter" type="text"><div class="btn-group buttons"><button type="button" class="btn remove" title="Remove selected"><i class="icon-arrow-left"></i></button><button type="button" class="btn removeall" title="Remove all"><i class="icon-arrow-left"></i><i class="icon-arrow-left"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div></div>').insertBefore($this),
                 elements = {
-                    originalselect: $(this),
+                    originalselect: $this,
                     box1: $('.box1', container),
                     box2: $('.box2', container),
                     filterinput1: $('.box1 .filter', container),
@@ -119,9 +121,11 @@
                 elements.select1.height(height);
                 elements.select2.height(height);
 
-                elements.originalselect.css('display', 'none').find('option').each(function() {
-                    $(this).data('original-index', i++);
-                    $(this).data('_selected', false);
+                elements.originalselect.css('display', 'none').find('option').each(function(index, item) {
+                    var $item = $(item);
+
+                    $item.data('original-index', i++);
+                    $item.data('_selected', false);
                 });
 
                 if (settings.showfilterinputs === false) {
@@ -143,13 +147,15 @@
                 elements.select1.empty();
                 elements.select2.empty();
 
-                elements.originalselect.find('option').each(function() {
-                    if ($(this).prop('selected')) {
+                elements.originalselect.find('option').each(function(index, item) {
+                    var $item = $(item);
+
+                    if ($item.prop('selected')) {
                         selectedelements++;
-                        elements.select2.append($(this).clone(true).prop('selected', $(this).data('_selected')));
+                        elements.select2.append($item.clone(true).prop('selected', $item.data('_selected')));
                     }
                     else {
-                        elements.select1.append($(this).clone(true).prop('selected', $(this).data('_selected')));
+                        elements.select1.append($item.clone(true).prop('selected', $item.data('_selected')));
                     }
                 });
 
@@ -268,15 +274,19 @@
 
             function saveselections1()
             {
-                elements.select1.find('option').each(function() {
-                    elements.originalselect.find('option').eq($(this).data('original-index')).data('_selected', $(this).prop('selected'));
+                elements.select1.find('option').each(function(index, item) {
+                    var $item = $(item);
+
+                    elements.originalselect.find('option').eq($item.data('original-index')).data('_selected', $item.prop('selected'));
                 });
             }
 
             function saveselections2()
             {
-                elements.select2.find('option').each(function() {
-                    elements.originalselect.find('option').eq($(this).data('original-index')).data('_selected', $(this).prop('selected'));
+                elements.select2.find('option').each(function(index, item) {
+                    var $item = $(item);
+
+                    elements.originalselect.find('option').eq($item.data('original-index')).data('_selected', $item.prop('selected'));
                 });
             }
 
@@ -287,13 +297,15 @@
 
                 var regex = new RegExp($.trim(elements.filterinput1.val()), "gi");
 
-                elements.originalselect.find('option').not(':selected').each(function() {
-                    if (this.text.match(regex) !== null) {
-                        elements.originalselect.find('option').eq($(this).data('original-index')).data('filtered1', false);
-                        elements.select1.append($(this).clone(true).prop('selected', $(this).data('_selected')));
+                elements.originalselect.find('option').not(':selected').each(function(index, item) {
+                    var $item = $(item);
+
+                    if (item.text.match(regex) !== null) {
+                        elements.originalselect.find('option').eq($item.data('original-index')).data('filtered1', false);
+                        elements.select1.append($item.clone(true).prop('selected', $item.data('_selected')));
                     }
                     else {
-                        elements.originalselect.find('option').eq($(this).data('original-index')).data('filtered1', true);
+                        elements.originalselect.find('option').eq($item.data('original-index')).data('filtered1', true);
                     }
                 });
 
@@ -307,13 +319,15 @@
 
                 var regex = new RegExp($.trim(elements.filterinput2.val()), "gi");
 
-                elements.originalselect.find('option:selected').each(function() {
-                    if (this.text.match(regex) !== null) {
-                        elements.originalselect.find('option').eq($(this).data('original-index')).data('filtered2', false);
-                        elements.select2.append($(this).clone(true).prop('selected', $(this).data('_selected')));
+                elements.originalselect.find('option:selected').each(function(index, item) {
+                    var $item = $(item);
+
+                    if (item.text.match(regex) !== null) {
+                        elements.originalselect.find('option').eq($item.data('original-index')).data('filtered2', false);
+                        elements.select2.append($item.clone(true).prop('selected', $item.data('_selected')));
                     }
                     else {
-                        elements.originalselect.find('option').eq($(this).data('original-index')).data('filtered2', true);
+                        elements.originalselect.find('option').eq($item.data('original-index')).data('filtered2', true);
                     }
                 });
 
@@ -329,9 +343,11 @@
 
             function changeselectionstate(original_index, selected)
             {
-                elements.originalselect.find('option').each(function() {
-                    if ($(this).data('original-index') === original_index) {
-                        $(this).prop('selected', selected);
+                elements.originalselect.find('option').each(function(index, item) {
+                    var $item = $(item);
+
+                    if ($item.data('original-index') === original_index) {
+                        $item.prop('selected', selected);
                     }
                 });
             }
@@ -346,9 +362,11 @@
                     saveselections1();
                 }
 
-                elements.select1.find('option:selected').each(function() {
-                    if (!$(this).data('filtered1')) {
-                        changeselectionstate($(this).data('original-index'), true);
+                elements.select1.find('option:selected').each(function(index, item) {
+                    var $item = $(item);
+
+                    if (!$item.data('filtered1')) {
+                        changeselectionstate($item.data('original-index'), true);
                     }
                 });
 
@@ -367,9 +385,11 @@
                     saveselections2();
                 }
 
-                elements.select2.find('option:selected').each(function() {
-                    if (!$(this).data('filtered2')) {
-                        changeselectionstate($(this).data('original-index'), false);
+                elements.select2.find('option:selected').each(function(index, item) {
+                    var $item = $(item);
+
+                    if (!$item.data('filtered2')) {
+                        changeselectionstate($item.data('original-index'), false);
                     }
                 });
 
@@ -388,9 +408,11 @@
                     saveselections1();
                 }
 
-                elements.originalselect.find('option').each(function() {
-                    if (!$(this).data('filtered1')) {
-                        $(this).prop('selected', true);
+                elements.originalselect.find('option').each(function(index, item) {
+                    var $item = $(item);
+
+                    if (!$item.data('filtered1')) {
+                        $item.prop('selected', true);
                     }
                 });
 
@@ -407,9 +429,11 @@
                     saveselections2();
                 }
 
-                elements.originalselect.find('option').each(function() {
-                    if (!$(this).data('filtered2')) {
-                        $(this).prop('selected', false);
+                elements.originalselect.find('option').each(function(index, item) {
+                    var $item = $(item);
+
+                    if (!$item.data('filtered2')) {
+                        $item.prop('selected', false);
                     }
                 });
 
