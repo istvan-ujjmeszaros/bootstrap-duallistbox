@@ -53,6 +53,8 @@
                 </p>
                 <div class="row-fluid">
                     <div class="span12">
+                        <pre class="prettyprint">
+var demo1 = $('[name=duallistbox_demo1]').bootstrapDualListbox();</pre>
                         <select multiple="multiple" size="10" name="duallistbox_demo1">
                             <option value="option1">Option 1</option>
                             <option value="option2">Option 2</option>
@@ -66,7 +68,7 @@
                             <option value="option0">Option 10</option>
                         </select>
                         <script>
-                            $('[name=duallistbox_demo1]').bootstrapDualListbox();
+                            var demo1 = $('[name=duallistbox_demo1]').bootstrapDualListbox();
                         </script>
                     </div>
                 </div>
@@ -107,13 +109,48 @@ $('.demo2').bootstrapDualListbox({
                             <option value="option0">Option 20</option>
                         </select>
                         <script>
-                            $('.demo2').bootstrapDualListbox({
+                            var demo2 = $('.demo2').bootstrapDualListbox({
                                 preserveselectiononmove: 'moved',
                                 moveonselect: false,
                                 initialfilterfrom: 'ion ([7-9]|[1][0-2])'
                             });
                         </script>
                     </div>
+
+                        <h3><span class="label label-warning">new</span> Dinamically add options to the selects</h3>
+                        <p>
+                            The options must be added to/removed from the original select.<br>
+                            Note that the <code>bootstrapduallistbox.refresh</code> event must be triggered on it after manipulating the options.
+                        </p>
+                        <p>
+                            If there are some highlighted options in the lists, then triggering the <code>bootstrapduallistbox.refresh</code> event with the optional <code>true</code> parameter results the highlights to be removed. Example usage: <code>demo2.trigger('bootstrapduallistbox.refresh', true)</code><br>
+                            It has meaning only when <code>moveonselect</code> setting is <code>false</code>.
+                        </p>
+                        <p>
+                            <button id="demo2-add" type="button" class="btn">Add options to demo2</button>
+                            <button id="demo2-add-clear" type="button" class="btn">Add with clearing highlights</button>
+                        </p>
+                        <pre class="prettyprint">
+$(&quot;#demo2-add&quot;).click(function(){
+    demo2.append('&lt;option value=&quot;apples&quot;&gt;Apples&lt;/option&gt;&lt;option value=&quot;oranges&quot; selected&gt;Oranges&lt;/option&gt;');
+    demo2.trigger('bootstrapduallistbox.refresh');
+});
+
+$(&quot;#demo2-add-clear&quot;).click(function(){
+    demo2.append('&lt;option value=&quot;apples&quot;&gt;Apples&lt;/option&gt;&lt;option value=&quot;oranges&quot; selected&gt;Oranges&lt;/option&gt;');
+    demo2.trigger('bootstrapduallistbox.refresh', true);
+});</pre>
+                        <script>
+                            $("#demo2-add").click(function(){
+                                demo2.append('<option value="apples">Apples</option><option value="oranges" selected>Oranges</option>');
+                                demo2.trigger('bootstrapduallistbox.refresh');
+                            });
+
+                            $("#demo2-add-clear").click(function(){
+                                demo2.append('<option value="apples">Apples</option><option value="oranges" selected>Oranges</option>');
+                                demo2.trigger('bootstrapduallistbox.refresh', true);
+                            });
+                        </script>
 
                 </div>
             </div>

@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  Bootstrap Dual Listbox
- *  v1.0.3
+ *  v1.0.4
  *
  *  Responsive dual multiple select with filtering. Designed to work on
  *  small touch devices.
@@ -80,7 +80,6 @@
                 },
                 i = 0,
                 selectedelements = 0,
-                numberofelements = elements.originalselect.find('option').length,
                 // Selections are invisible on android if the containing select is styled with CSS
                 // http://code.google.com/p/android/issues/detail?id=16922
                 isbuggyandroid = /android/i.test(navigator.userAgent.toLowerCase());
@@ -121,12 +120,9 @@
                 elements.select1.height(height);
                 elements.select2.height(height);
 
-                elements.originalselect.css('display', 'none').find('option').each(function(index, item) {
-                    var $item = $(item);
+                elements.originalselect.css('display', 'none');
 
-                    $item.data('original-index', i++);
-                    $item.data('_selected', false);
-                });
+                updateselectionstates();
 
                 if (settings.showfilterinputs === false) {
                     elements.filterinput1.hide();
@@ -138,6 +134,20 @@
 
                 bindevents();
                 refreshselects();
+            }
+
+            function updateselectionstates()
+            {
+                elements.originalselect.find('option').each(function(index, item) {
+                    var $item = $(item);
+
+                    if (typeof($item.data('original-index')) === 'undefined')
+                        $item.data('original-index', i++);
+
+                    if (typeof($item.data('_selected')) === 'undefined') {
+                        $item.data('_selected', false);
+                    }
+                });
             }
 
             function refreshselects()
@@ -180,7 +190,7 @@
 
                 var visible1 = elements.select1.find('option').length,
                     visible2 = elements.select2.find('option').length,
-                    all1 = numberofelements - selectedelements,
+                    all1 = elements.originalselect.find('option').length - selectedelements,
                     all2 = selectedelements;
 
                 if (all1 === 0) {
@@ -223,6 +233,20 @@
                         e.preventDefault();
                         elements.filterinput2.focusout();
                     }
+                });
+
+                elements.originalselect.on('bootstrapduallistbox.refresh', function(e, clearselections){
+                    updateselectionstates();
+
+                    if (!clearselections) {
+                        saveselections1();
+                        saveselections2();
+                    }
+                    else {
+                        clearselections12();
+                    }
+
+                    refreshselects();
                 });
 
                 elements.filter1clear.on('click', function() {
@@ -287,6 +311,13 @@
                     var $item = $(item);
 
                     elements.originalselect.find('option').eq($item.data('original-index')).data('_selected', $item.prop('selected'));
+                });
+            }
+
+            function clearselections12()
+            {
+                elements.select1.find('option').each(function() {
+                    elements.originalselect.find('option').data('_selected', false);
                 });
             }
 
