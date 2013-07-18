@@ -46,6 +46,8 @@
             }
 
             var settings = $.extend( {
+                nonselectedlistlabel    : false, // 'string', false
+                selectedlistlabel       : false, // 'string', false
                 preserveselectiononmove : false,            // 'all' / 'moved' / false
                 moveonselect            : true,             // true/false (forced true on androids, see the comment later)
                 initialfilterfrom       : '',               // string, filter selectables list on init
@@ -99,6 +101,20 @@
                 }
 
                 var originalselectname = elements.originalselect.attr('name') || '';
+
+                if (settings.nonselectedlistlabel) {
+                    var nonselectedlistid = 'bootstrap-duallistbox-nonselected-list_' + originalselectname;
+
+                    elements.box1.prepend('<label for="' + nonselectedlistid + '">' + settings.nonselectedlistlabel + '</label>');
+                    elements.select1.prop('id', nonselectedlistid);
+                }
+
+                if (settings.selectedlistlabel) {
+                    var selectedlistid = 'bootstrap-duallistbox-selected-list_' + originalselectname;
+
+                    elements.box2.prepend('<label for="' + selectedlistid + '">' + settings.selectedlistlabel + '</label>');
+                    elements.select2.prop('id', selectedlistid);
+                }
 
                 if (!!settings.helperselectnamepostfix)
                 {
