@@ -124,7 +124,7 @@
 
                 var c = elements.originalselect.attr('class');
 
-                if (typeof c !== 'undefined' && c !== false)
+                if (typeof c !== 'undefined' && c)
                     c = c.match(/\bspan[1-9][0-2]?/);
 
                 if (!!c) {
@@ -136,11 +136,11 @@
                 elements.select1.height(height);
                 elements.select2.height(height);
 
-                elements.originalselect.css('display', 'none');
+                elements.originalselect.addClass('hide');
 
                 updateselectionstates();
 
-                if (settings.showfilterinputs === false) {
+                if (!settings.showfilterinputs) {
                     elements.filterinput1.hide();
                     elements.filterinput2.hide();
                 } else {
@@ -200,40 +200,41 @@
 
             function refreshinfo()
             {
-                if (settings.infotext === false) {
+                if (!settings.infotext) {
                     return;
                 }
 
                 var visible1 = elements.select1.find('option').length,
                     visible2 = elements.select2.find('option').length,
                     all1 = elements.originalselect.find('option').length - selectedelements,
-                    all2 = selectedelements;
+                    all2 = selectedelements,
+                    content = '';
 
                 if (all1 === 0) {
-                    elements.info1.html(settings.infotextempty);
-                    elements.box1.removeClass("filtered");
+                    content = settings.infotextempty;
                 }
                 else if (visible1 === all1) {
-                    elements.info1.html(formatstring(settings.infotext, [visible1, all1]));
-                    elements.box1.removeClass("filtered");
+                    content = formatstring(settings.infotext, [visible1, all1]);
                 }
                 else {
-                    elements.info1.html(formatstring(settings.infotextfiltered, [visible1, all1]));
-                    elements.box1.addClass("filtered");
+                    content = formatstring(settings.infotextfiltered, [visible1, all1]);
                 }
 
+                elements.info1.html(content);
+                elements.box1.toggleClass('filtered', !(visible1 === all1 || all1 === 0));
+
                 if (all2 === 0) {
-                    elements.info2.html(settings.infotextempty);
-                    elements.box2.removeClass("filtered");
+                    content = settings.infotextempty;
                 }
                 else if (visible2 === all2) {
-                    elements.info2.html(formatstring(settings.infotext, [visible2, all2]));
-                    elements.box2.removeClass("filtered");
+                    content = formatstring(settings.infotext, [visible2, all2]);
                 }
                 else {
-                    elements.info2.html(formatstring(settings.infotextfiltered, [visible2, all2]));
-                    elements.box2.addClass("filtered");
+                    content = formatstring(settings.infotextfiltered, [visible2, all2]);
                 }
+
+                elements.info2.html(content);
+                elements.box2.toggleClass('filtered', !(visible2 === all1 || all2 === 0));
             }
 
             function bindevents()
@@ -346,14 +347,14 @@
 
                 elements.originalselect.find('option').not(':selected').each(function(index, item) {
                     var $item = $(item);
+                    var isFiltered = true;
 
-                    if (item.text.match(regex) !== null) {
-                        elements.originalselect.find('option').eq($item.data('original-index')).data('filtered1', false);
+                    if (item.text.match(regex)) {
+                        isFiltered = false;
                         elements.select1.append($item.clone(true).prop('selected', $item.data('_selected')));
                     }
-                    else {
-                        elements.originalselect.find('option').eq($item.data('original-index')).data('filtered1', true);
-                    }
+
+                    elements.originalselect.find('option').eq($item.data('original-index')).data('filtered1', isFiltered);
                 });
 
                 refreshinfo();
@@ -368,14 +369,14 @@
 
                 elements.originalselect.find('option:selected').each(function(index, item) {
                     var $item = $(item);
+                    var isFiltered = true;
 
-                    if (item.text.match(regex) !== null) {
-                        elements.originalselect.find('option').eq($item.data('original-index')).data('filtered2', false);
+                    if (item.text.match(regex)) {
+                        isFiltered = false;
                         elements.select2.append($item.clone(true).prop('selected', $item.data('_selected')));
                     }
-                    else {
-                        elements.originalselect.find('option').eq($item.data('original-index')).data('filtered2', true);
-                    }
+
+                    elements.originalselect.find('option').eq($item.data('original-index')).data('filtered2', isFiltered);
                 });
 
                 refreshinfo();
