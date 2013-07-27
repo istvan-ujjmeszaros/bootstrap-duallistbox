@@ -11,18 +11,14 @@
         <meta itemprop="description" content="Bootstrap Dual Listbox is a responsive dual listbox widget optimized for Twitter Bootstrap. It works on all modern browsers and on touch devices.">
         <meta itemprop="image" content="http://www.virtuosoft.eu/code/bootstrap-duallistbox/preview/bootstrap-duallistbox.jpg">
 
+        <script src="libraries/modernizr/modernizr-custom.min.js"></script>
+
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
         <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" media="all">
         <link href="libraries/prettify/prettify.css" rel="stylesheet" type="text/css" media="all">
         <link href="bootstrap-duallistbox/bootstrap-duallistbox.css" rel="stylesheet" type="text/css" media="all">
 
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-
         <script src="libraries/jquery-1.9.0.min.js"></script>
-        <script src="libraries/modernizr/modernizr-custom.min.js"></script>
         <script src="libraries/prettify/prettify.js"></script>
         <script src="bootstrap-duallistbox/jquery.bootstrap-duallistbox.js"></script>
 
@@ -167,30 +163,41 @@ $(&quot;#demo2-add-clear&quot;).click(function(){
                         <dd><code><strong>false</strong></code>: Selections are cleared on move. This is the forced setting on Android because of a <a href="http://code.google.com/p/android/issues/detail?id=16922" target="_blank">bug</a>.</dd>
                         <dd><code>'moved'</code>: Selection is cleared in the list where the options are moved to, and the moved options are selected after move.</dd>
                         <dd><code>'all'</code>: Selection is preserved between the lists, so the previously selected options are selected even after moving them or other options into their list.</dd>
+
                         <dt><code>moveonselect</code></dt>
                         <dd><code><strong>true</strong></code>: The options are automatically moved on selection. This setting is forced on touch devices.</dd>
                         <dd><code>false</code>: The selected options can be moved with a button.</dd>
+
                         <dt><code>initialfilterfrom</code></dt>
                         <dd><code><strong>''</strong></code>: This is the initial value of the filter for the unselected values (left side). Default is empty string.</dd>
+
                         <dt><code>initialfilterto</code></dt>
                         <dd><code><strong>''</strong></code>: This is the initial value of the filter for the selected values (on the right). Default is empty string.</dd>
+
                         <dt><code>helperselectnamepostfix</code></dt>
                         <dd><code><strong>'_helper'</strong></code>: when set, the helper selects are submitted with the original selects name postfixed with this value.</dd>
                         <dd><code>false</code>: the helper selects are not submitted.</dd>
+
                         <dt><code>infotext</code></dt>
                         <dd><code><strong>'Showing all {0}'</strong></code>: this is the info text when no filter applied to the options list and the list is not empty.</dd>
                         <dd><code>false</code>: None of the info texts are visible.
+
                         <dt><code>infotextfiltered</code></dt>
                         <dd><code><strong>'&lt;span class="label label-warning"&gt;Filtered&lt;/span&gt; {0} from {1}'</strong></code>: this is the info text when not all of the options are visible.</dd>
+
                         <dt><code>infotextempty</code></dt>
                         <dd><code><strong>'Empty list'</strong></code>: this is the info text when the list is empty.</dd>
+
                         <dt><code>selectorminimalheight</code></dt>
                         <dd><code><strong>100</strong></code>: this is the minimal height of the rendered selects in pixels (normally they inherit the original selects height, but this is 0 in a modal when duallistbox is initialized, so this will be the height in such cases).</dd>
+
                         <dt><code>filtertextclear</code></dt>
                         <dd><code><strong>'show all'</strong></code>: this is the text on the button which clears the filters</dd>
+
                         <dt><code>nonselectedlistlabel</code></dt>
                         <dd><code><strong>false</strong></code>: This label is not displayed. Default option.</dd>
                         <dd><code>'string'</code>: The label for the non-selected options list</dd>
+
                         <dt><code>selectedlistlabel</code></dt>
                         <dd><code><strong>false</strong></code>: This label is not displayed. Default option.</dd>
                         <dd><code>'string'</code>: The label for the selected options list</dd>
