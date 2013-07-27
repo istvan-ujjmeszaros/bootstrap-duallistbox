@@ -124,8 +124,9 @@
 
                 var c = elements.originalselect.attr('class');
 
-                if (typeof c !== 'undefined' && c)
+                if (typeof c !== 'undefined' && c) {
                     c = c.match(/\bspan[1-9][0-2]?/);
+                }
 
                 if (!!c) {
                     container.addClass(c.toString());
@@ -157,8 +158,9 @@
                 elements.originalselect.find('option').each(function(index, item) {
                     var $item = $(item);
 
-                    if (typeof($item.data('original-index')) === 'undefined')
+                    if (typeof($item.data('original-index')) === 'undefined') {
                         $item.data('original-index', i++);
+                    }
 
                     if (typeof($item.data('_selected')) === 'undefined') {
                         $item.data('_selected', false);
