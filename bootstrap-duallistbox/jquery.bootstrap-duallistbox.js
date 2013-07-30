@@ -37,7 +37,7 @@
             if (!$this.is("select"))
             {
                 return $this.find("select").each(function(index, item) {
-                    $(item).bootstrapDualListbox();
+                    $(item).bootstrapDualListbox(options);
                 });
             }
 
