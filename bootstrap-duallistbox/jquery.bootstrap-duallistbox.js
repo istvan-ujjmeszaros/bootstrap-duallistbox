@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  Bootstrap Dual Listbox
- *  v1.0.6
+ *  v1.0.7
  *
  *  Responsive dual multiple select with filtering. Designed to work on
  *  small touch devices.
@@ -237,7 +237,7 @@
                 }
 
                 elements.info2.html(content);
-                elements.box2.toggleClass('filtered', !(visible2 === all1 || all2 === 0));
+                elements.box2.toggleClass('filtered', !(visible2 === all2 || all2 === 0));
             }
 
             function bindevents()
