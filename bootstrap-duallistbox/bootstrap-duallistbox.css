@@ -3,6 +3,10 @@
     margin-bottom: -1px;
 }
 
+.bootstrap-duallistbox-container label {
+    display: block;
+}
+
 .bootstrap-duallistbox-container .info {
     display: inline-block;
     margin-bottom: 5px;
@@ -39,7 +43,7 @@
     width: 40%;
 }
 
-.bootstrap-duallistbox-container .btn-group > .btn + .btn {
+.bootstrap-duallistbox-container.bs2compatible .btn-group > .btn + .btn {
     margin-left: 0;
 }
 

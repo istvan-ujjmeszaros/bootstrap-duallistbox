@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  Bootstrap Dual Listbox
- *  v1.0.7
+ *  v2.0.0
  *
  *  Responsive dual multiple select with filtering. Designed to work on
  *  small touch devices.
@@ -46,6 +46,7 @@
             }
 
             var settings = $.extend( {
+                bootstrap2compatible    : false,
                 preserveselectiononmove : false,            // 'all' / 'moved' / false
                 moveonselect            : true,             // true/false (forced true on androids, see the comment later)
                 initialfilterfrom       : '',               // string, filter selectables list on init
@@ -62,8 +63,16 @@
                 selectedlistlabel       : false             // 'string', false
             }, options);
 
-            var container = $('<div class="row-fluid bootstrap-duallistbox-container"><div class="span6 box1"><span class="info-container"><span class="info"></span><button type="button" class="btn btn-mini clear1 pull-right">' + settings.filtertextclear + '</button></span><input placeholder="' + settings.filterplaceholder + '" class="filter" type="text"><div class="btn-group buttons"><button type="button" class="btn moveall" title="Move all"><i class="icon-arrow-right"></i><i class="icon-arrow-right"></i></button><button type="button" class="btn move" title="Move selected"><i class="icon-arrow-right"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div><div class="span6 box2"><span class="info-container"><span class="info"></span><button type="button" class="btn btn-mini clear2 pull-right">' + settings.filtertextclear + '</button></span><input placeholder="' + settings.filterplaceholder + '" class="filter" type="text"><div class="btn-group buttons"><button type="button" class="btn remove" title="Remove selected"><i class="icon-arrow-left"></i></button><button type="button" class="btn removeall" title="Remove all"><i class="icon-arrow-left"></i><i class="icon-arrow-left"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div></div>').insertBefore($this),
-                elements = {
+            var container;
+
+            if (settings.bootstrap2compatible) {
+                container = $('<div class="row-fluid bootstrap-duallistbox-container bs2compatible"><div class="span6 box1"><span class="info-container"><span class="info"></span><button type="button" class="btn btn-mini clear1 pull-right">' + settings.filtertextclear + '</button></span><input placeholder="' + settings.filterplaceholder + '" class="filter" type="text"><div class="btn-group buttons"><button type="button" class="btn moveall" title="Move all"><i class="icon-arrow-right"></i><i class="icon-arrow-right"></i></button><button type="button" class="btn move" title="Move selected"><i class="icon-arrow-right"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div><div class="span6 box2"><span class="info-container"><span class="info"></span><button type="button" class="btn btn-mini clear2 pull-right">' + settings.filtertextclear + '</button></span><input placeholder="' + settings.filterplaceholder + '" class="filter" type="text"><div class="btn-group buttons"><button type="button" class="btn remove" title="Remove selected"><i class="icon-arrow-left"></i></button><button type="button" class="btn removeall" title="Remove all"><i class="icon-arrow-left"></i><i class="icon-arrow-left"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div></div>').insertBefore($this);
+            }
+            else {
+                container = $('<div class="row bootstrap-duallistbox-container"><div class="col-md-6 box1"><span class="info-container"><span class="info"></span><button type="button" class="btn btn-default btn-xs clear1 pull-right">' + settings.filtertextclear + '</button></span><input placeholder="' + settings.filterplaceholder + '" class="filter" type="text"><div class="btn-group buttons"><button type="button" class="btn btn-default moveall" title="Move all"><i class="glyphicon glyphicon-arrow-right"></i><i class="glyphicon glyphicon-arrow-right"></i></button><button type="button" class="btn btn-default move" title="Move selected"><i class="glyphicon glyphicon-arrow-right"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div><div class="col-md-6 box2"><span class="info-container"><span class="info"></span><button type="button" class="btn btn-default btn-xs clear2 pull-right">' + settings.filtertextclear + '</button></span><input placeholder="' + settings.filterplaceholder + '" class="filter" type="text"><div class="btn-group buttons"><button type="button" class="btn btn-default remove" title="Remove selected"><i class="glyphicon glyphicon-arrow-left"></i></button><button type="button" class="btn btn-default removeall" title="Remove all"><i class="glyphicon glyphicon-arrow-left"></i><i class="glyphicon glyphicon-arrow-left"></i></button></div><select multiple="multiple" data-duallistbox_generated="true"></select></div></div>').insertBefore($this);
+            }
+
+            var elements = {
                     originalselect: $this,
                     box1: $('.box1', container),
                     box2: $('.box2', container),
@@ -224,7 +233,7 @@
                 }
 
                 elements.info1.html(content);
-                elements.box1.toggleClass('filtered', !(visible1 === all1 || all1 === 0));
+                elements.box1.toggleClass('filtered', !(visible1 === all1 || all1 === 0));
 
                 if (all2 === 0) {
                     content = settings.infotextempty;
@@ -237,7 +246,7 @@
                 }
 
                 elements.info2.html(content);
-                elements.box2.toggleClass('filtered', !(visible2 === all2 || all2 === 0));
+                elements.box2.toggleClass('filtered', !(visible2 === all2 || all2 === 0));
             }
 
             function bindevents()

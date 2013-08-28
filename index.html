@@ -117,20 +117,20 @@ $('.demo2').bootstrapDualListbox({
                         </script>
                     </div>
 
-                        <h3><span class="label label-warning">new</span> Dynamically add options to the selects</h3>
-                        <p>
-                            The options must be added to/removed from the original select.<br>
-                            Note that the <code>bootstrapduallistbox.refresh</code> event must be triggered on it after manipulating the options.
-                        </p>
-                        <p>
-                            If there are some highlighted options in the lists, then triggering the <code>bootstrapduallistbox.refresh</code> event with the optional <code>true</code> parameter results the highlights to be removed. Example usage: <code>demo2.trigger('bootstrapduallistbox.refresh', true)</code><br>
-                            It has meaning only when <code>moveonselect</code> setting is <code>false</code>.
-                        </p>
-                        <p>
-                            <button id="demo2-add" type="button" class="btn">Add options to demo2</button>
-                            <button id="demo2-add-clear" type="button" class="btn">Add with clearing highlights</button>
-                        </p>
-                        <pre class="prettyprint">
+                    <h3><span class="label label-warning">new</span> Dynamically add options to the selects</h3>
+                    <p>
+                        The options must be added to/removed from the original select.<br>
+                        Note that the <code>bootstrapduallistbox.refresh</code> event must be triggered on it after manipulating the options.
+                    </p>
+                    <p>
+                        If there are some highlighted options in the lists, then triggering the <code>bootstrapduallistbox.refresh</code> event with the optional <code>true</code> parameter results the highlights to be removed. Example usage: <code>demo2.trigger('bootstrapduallistbox.refresh', true)</code><br>
+                        It has meaning only when <code>moveonselect</code> setting is <code>false</code>.
+                    </p>
+                    <p>
+                        <button id="demo2-add" type="button" class="btn">Add options to demo2</button>
+                        <button id="demo2-add-clear" type="button" class="btn">Add with clearing highlights</button>
+                    </p>
+                    <pre class="prettyprint">
 $(&quot;#demo2-add&quot;).click(function(){
     demo2.append('&lt;option value=&quot;apples&quot;&gt;Apples&lt;/option&gt;&lt;option value=&quot;oranges&quot; selected&gt;Oranges&lt;/option&gt;');
     demo2.trigger('bootstrapduallistbox.refresh');
@@ -140,17 +140,17 @@ $(&quot;#demo2-add-clear&quot;).click(function(){
     demo2.append('&lt;option value=&quot;apples&quot;&gt;Apples&lt;/option&gt;&lt;option value=&quot;oranges&quot; selected&gt;Oranges&lt;/option&gt;');
     demo2.trigger('bootstrapduallistbox.refresh', true);
 });</pre>
-                        <script>
-                            $("#demo2-add").click(function(){
-                                demo2.append('<option value="apples">Apples</option><option value="oranges" selected>Oranges</option>');
-                                demo2.trigger('bootstrapduallistbox.refresh');
-                            });
+                    <script>
+                        $("#demo2-add").click(function() {
+                            demo2.append('<option value="apples">Apples</option><option value="oranges" selected>Oranges</option>');
+                            demo2.trigger('bootstrapduallistbox.refresh');
+                        });
 
-                            $("#demo2-add-clear").click(function(){
-                                demo2.append('<option value="apples">Apples</option><option value="oranges" selected>Oranges</option>');
-                                demo2.trigger('bootstrapduallistbox.refresh', true);
-                            });
-                        </script>
+                        $("#demo2-add-clear").click(function() {
+                            demo2.append('<option value="apples">Apples</option><option value="oranges" selected>Oranges</option>');
+                            demo2.trigger('bootstrapduallistbox.refresh', true);
+                        });
+                    </script>
 
                 </div>
             </div>
@@ -159,6 +159,8 @@ $(&quot;#demo2-add-clear&quot;).click(function(){
                 <div class="span12">
                     <h3>Settings</h3>
                     <dl class="dl-horizontal">
+                        <dt><code>bootstrap2compatible</code></dt>
+                        <dd><code><strong>false</strong></code>: Enable for Bootstrap 2.x compatibility.</dd>
                         <dt><code>preserveselectiononmove</code></dt>
                         <dd><code><strong>false</strong></code>: Selections are cleared on move. This is the forced setting on Android because of a <a href="http://code.google.com/p/android/issues/detail?id=16922" target="_blank">bug</a>.</dd>
                         <dd><code>'moved'</code>: Selection is cleared in the list where the options are moved to, and the moved options are selected after move.</dd>
@@ -218,7 +220,7 @@ $(&quot;#demo2-add-clear&quot;).click(function(){
         <script src="libraries/jquery-placeholder/jquery.placeholder.js"></script>
 
         <script>
-                $('input').placeholder();
-                prettyPrint();
+                            $('input').placeholder();
+                            prettyPrint();
         </script>
 
