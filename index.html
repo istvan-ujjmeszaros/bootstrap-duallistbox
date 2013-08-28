@@ -14,7 +14,7 @@
         <script src="libraries/modernizr/modernizr-custom.min.js"></script>
 
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
-        <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" media="all">
+        <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet" type="text/css" media="all">
         <link href="libraries/prettify/prettify.css" rel="stylesheet" type="text/css" media="all">
         <link href="bootstrap-duallistbox/bootstrap-duallistbox.css" rel="stylesheet" type="text/css" media="all">
 
@@ -27,17 +27,15 @@
     <body>
 
         <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container-fluid">
-                    <a href="http://www.virtuosoft.eu/code/bootstrap-duallistbox/"><span class="brand">Bootstrap Dual Listbox</span></a>
-                    <a class="btn btn-link pull-right" href="https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox" target="_blank">github project page</a>
-                </div>
+            <div class="container">
+                <a class="navbar-brand" href="http://www.virtuosoft.eu/code/bootstrap-duallistbox/">Bootstrap Dual Listbox</a>
+                <a class="btn btn-link pull-right" href="https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox" target="_blank">github project page</a>
             </div>
         </div>
 
 
-        <div class="container-fluid" style="max-width:920px;margin:0 auto;">
-            <div class="row-fluid">
+        <div class="container" style="max-width:920px;margin:0 auto;">
+            <div class="row">
 
                 <h2>Bootstrap Dual Listbox</h2>
                 <p>
@@ -47,35 +45,43 @@
                 <p>
                     The dual listbox is created from a select multiple by calling <code>.bootstrapDualListbox(settings);</code> on a selector. The selector can be any element, not just selects. When the method is called on a selector other than a select, then all select childrens are converted into dual list boxes.
                 </p>
-                <div class="row-fluid">
-                    <div class="span12">
+                <div class="row">
+                    <div class="col-md-12">
                         <pre class="prettyprint">
-var demo1 = $('[name=duallistbox_demo1]').bootstrapDualListbox();</pre>
-                        <select multiple="multiple" size="10" name="duallistbox_demo1">
-                            <option value="option1">Option 1</option>
-                            <option value="option2">Option 2</option>
-                            <option value="option3" selected="selected">Option 3</option>
-                            <option value="option4">Option 4</option>
-                            <option value="option5">Option 5</option>
-                            <option value="option6" selected="selected">Option 6</option>
-                            <option value="option7">Option 7</option>
-                            <option value="option8">Option 8</option>
-                            <option value="option9">Option 9</option>
-                            <option value="option0">Option 10</option>
-                        </select>
+var demo1 = $('[name="duallistbox_demo1[]"]').bootstrapDualListbox();</pre>
+                        <form id="demoform" action="#" method="post">
+                            <select multiple="multiple" size="10" name="duallistbox_demo1[]">
+                                <option value="option1">Option 1</option>
+                                <option value="option2">Option 2</option>
+                                <option value="option3" selected="selected">Option 3</option>
+                                <option value="option4">Option 4</option>
+                                <option value="option5">Option 5</option>
+                                <option value="option6" selected="selected">Option 6</option>
+                                <option value="option7">Option 7</option>
+                                <option value="option8">Option 8</option>
+                                <option value="option9">Option 9</option>
+                                <option value="option0">Option 10</option>
+                            </select>
+                            <br>
+                            <button type="submit" class="btn btn-default btn-block">Submit data</button>
+                        </form>
                         <script>
-                            var demo1 = $('[name=duallistbox_demo1]').bootstrapDualListbox();
+                            var demo1 = $('[name="duallistbox_demo1[]"]').bootstrapDualListbox();
+                            $("#demoform").submit(function(){
+                                alert($('[name="duallistbox_demo1[]"]').val());
+                                return false;
+                            });
                         </script>
                     </div>
                 </div>
             </div>
 
-            <div class="row-fluid">
-                <div class="span12">
+            <div class="row">
+                <div class="col-md-12">
                     <h3>Example with custom settings</h3>
 
-                    <div class="row-fluid">
-                        <pre class="prettyprint span6">
+                    <div class="row">
+                        <pre class="prettyprint col-md-6">
 $('.demo2').bootstrapDualListbox({
     nonselectedlistlabel: 'Non-selected',
     selectedlistlabel: 'Selected',
@@ -84,7 +90,7 @@ $('.demo2').bootstrapDualListbox({
     initialfilterfrom: 'ion ([7-9]|[1][0-2])'
 });
                         </pre>
-                        <select multiple="multiple" size="10" name="duallistbox_demo2" class='demo2 span6'>
+                        <select multiple="multiple" size="10" name="duallistbox_demo2" class='demo2 col-md-6'>
                             <option value="option1">Option 1</option>
                             <option value="option2">Option 2</option>
                             <option value="option3" selected="selected">Option 3</option>
@@ -117,20 +123,21 @@ $('.demo2').bootstrapDualListbox({
                         </script>
                     </div>
 
-                    <h3><span class="label label-warning">new</span> Dynamically add options to the selects</h3>
-                    <p>
-                        The options must be added to/removed from the original select.<br>
-                        Note that the <code>bootstrapduallistbox.refresh</code> event must be triggered on it after manipulating the options.
-                    </p>
-                    <p>
-                        If there are some highlighted options in the lists, then triggering the <code>bootstrapduallistbox.refresh</code> event with the optional <code>true</code> parameter results the highlights to be removed. Example usage: <code>demo2.trigger('bootstrapduallistbox.refresh', true)</code><br>
-                        It has meaning only when <code>moveonselect</code> setting is <code>false</code>.
-                    </p>
-                    <p>
-                        <button id="demo2-add" type="button" class="btn">Add options to demo2</button>
-                        <button id="demo2-add-clear" type="button" class="btn">Add with clearing highlights</button>
-                    </p>
-                    <pre class="prettyprint">
+                    <div class="row">
+                        <h3>Dynamically add options to the selects</h3>
+                        <p>
+                            The options must be added to/removed from the original select.<br>
+                            Note that the <code>bootstrapduallistbox.refresh</code> event must be triggered on it after manipulating the options.
+                        </p>
+                        <p>
+                            If there are some highlighted options in the lists, then triggering the <code>bootstrapduallistbox.refresh</code> event with the optional <code>true</code> parameter results the highlights to be removed. Example usage: <code>demo2.trigger('bootstrapduallistbox.refresh', true)</code><br>
+                            It has meaning only when <code>moveonselect</code> setting is <code>false</code>.
+                        </p>
+                        <p>
+                            <button id="demo2-add" type="button" class="btn">Add options to demo2</button>
+                            <button id="demo2-add-clear" type="button" class="btn">Add with clearing highlights</button>
+                        </p>
+                        <pre class="prettyprint">
 $(&quot;#demo2-add&quot;).click(function(){
     demo2.append('&lt;option value=&quot;apples&quot;&gt;Apples&lt;/option&gt;&lt;option value=&quot;oranges&quot; selected&gt;Oranges&lt;/option&gt;');
     demo2.trigger('bootstrapduallistbox.refresh');
@@ -140,23 +147,24 @@ $(&quot;#demo2-add-clear&quot;).click(function(){
     demo2.append('&lt;option value=&quot;apples&quot;&gt;Apples&lt;/option&gt;&lt;option value=&quot;oranges&quot; selected&gt;Oranges&lt;/option&gt;');
     demo2.trigger('bootstrapduallistbox.refresh', true);
 });</pre>
-                    <script>
-                        $("#demo2-add").click(function() {
-                            demo2.append('<option value="apples">Apples</option><option value="oranges" selected>Oranges</option>');
-                            demo2.trigger('bootstrapduallistbox.refresh');
-                        });
+                        <script>
+                            $("#demo2-add").click(function() {
+                                demo2.append('<option value="apples">Apples</option><option value="oranges" selected>Oranges</option>');
+                                demo2.trigger('bootstrapduallistbox.refresh');
+                            });
 
-                        $("#demo2-add-clear").click(function() {
-                            demo2.append('<option value="apples">Apples</option><option value="oranges" selected>Oranges</option>');
-                            demo2.trigger('bootstrapduallistbox.refresh', true);
-                        });
-                    </script>
+                            $("#demo2-add-clear").click(function() {
+                                demo2.append('<option value="apples">Apples</option><option value="oranges" selected>Oranges</option>');
+                                demo2.trigger('bootstrapduallistbox.refresh', true);
+                            });
+                        </script>
+                    </div>
 
                 </div>
             </div>
 
-            <div class='row-fluid'>
-                <div class="span12">
+            <div class='row'>
+                <div class="col-md-12">
                     <h3>Settings</h3>
                     <dl class="dl-horizontal">
                         <dt><code>bootstrap2compatible</code></dt>
@@ -185,7 +193,7 @@ $(&quot;#demo2-add-clear&quot;).click(function(){
                         <dd><code>false</code>: None of the info texts are visible.
 
                         <dt><code>infotextfiltered</code></dt>
-                        <dd><code><strong>'&lt;span class="label label-warning"&gt;Filtered&lt;/span&gt; {0} from {1}'</strong></code>: this is the info text when not all of the options are visible.</dd>
+                        <dd><code><strong>'&lt;col-md- class="label label-warning"&gt;Filtered&lt;/col-md-&gt; {0} from {1}'</strong></code>: this is the info text when not all of the options are visible.</dd>
 
                         <dt><code>infotextempty</code></dt>
                         <dd><code><strong>'Empty list'</strong></code>: this is the info text when the list is empty.</dd>
@@ -210,7 +218,7 @@ $(&quot;#demo2-add-clear&quot;).click(function(){
                 </div>
             </div>
 
-            <div class="row-fluid">
+            <div class="row">
                 <h3>Download</h3>
                 <p><a href="https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox" target="_blank">Download</a> from github. Please report issues and suggestions to github's issue tracker or contact me on <a href="https://plus.google.com/101242556570448529330/posts" target="_blank">g+</a> or <a href="https://twitter.com/styu007" target="_blank">twitter</a>!</p>
             </div>
