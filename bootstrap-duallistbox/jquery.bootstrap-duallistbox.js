@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  Bootstrap Dual Listbox
- *  v2.0.1
+ *  v2.0.2
  *
  *  Responsive dual multiple select with filtering. Designed to work on
  *  small touch devices.
@@ -201,10 +201,12 @@
                     }
                 });
 
-                filter1();
-                filter2();
+                if (settings.showfilterinputs) {
+                    filter1();
+                    filter2();
 
-                refreshinfo();
+                    refreshinfo();
+                }
             }
 
             function formatstring(s, args)
@@ -355,6 +357,10 @@
             }
 
             function filter1() {
+                if (!settings.showfilterinputs) {
+                    return;
+                }
+
                 saveselections1();
 
                 elements.select1.empty().scrollTop(0);
@@ -377,6 +383,10 @@
             }
 
             function filter2() {
+                if (!settings.showfilterinputs) {
+                    return;
+                }
+
                 saveselections2();
 
                 elements.select2.empty().scrollTop(0);
@@ -425,6 +435,7 @@
                 else if (settings.preserveselectiononmove === 'moved') {
                     saveselections1();
                 }
+
 
                 elements.select1.find('option:selected').each(function(index, item) {
                     var $item = $(item);
