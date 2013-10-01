@@ -446,6 +446,7 @@
                 });
 
                 refreshselects();
+                triggerchangeevent();
 
                 sortoptions(elements.select2);
             }
@@ -469,6 +470,7 @@
                 });
 
                 refreshselects();
+                triggerchangeevent();
 
                 sortoptions(elements.select1);
             }
@@ -492,6 +494,7 @@
                 });
 
                 refreshselects();
+                triggerchangeevent();
             }
 
             function removeall()
@@ -513,6 +516,12 @@
                 });
 
                 refreshselects();
+                triggerchangeevent();
+            }
+
+            function triggerchangeevent()
+            {
+                elements.originalselect.trigger('change');
             }
         });
 
