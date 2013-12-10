@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  Bootstrap Dual Listbox
- *  v2.0.2
+ *  v2.0.3
  *
  *  Responsive dual multiple select with filtering. Designed to work on
  *  small touch devices.
@@ -12,6 +12,12 @@
  *  http://www.virtuosoft.eu/code/bootstrap-duallistbox/
  *
  *  Copyright 2013 István Ujj-Mészáros
+ *
+ *  Thanks for the contributors:
+ *      Ninir - https://github.com/Ninir
+ *      Christophe Coevoet - https://github.com/stof
+ *      Ed Ng - https://github.com/gnedster
+ *      ssafejava - https://github.com/ssafejava
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
