@@ -54,6 +54,7 @@
 }
 
 .bootstrap-duallistbox-container .filter {
+    display: inline-block;
     width: 100%;
     height: 31px;
     margin: 0 0 5px 0;
