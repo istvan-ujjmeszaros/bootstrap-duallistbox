@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  Bootstrap Dual Listbox
- *  v2.0.3
+ *  v2.1.0
  *
  *  Responsive dual multiple select with filtering. Designed to work on
  *  small touch devices.
@@ -18,6 +18,7 @@
  *      Christophe Coevoet - https://github.com/stof
  *      Ed Ng - https://github.com/gnedster
  *      ssafejava - https://github.com/ssafejava
+ *      justthefish - https://github.com/justthefish
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -67,7 +68,7 @@
                 filtertextclear         : 'show all',
                 nonselectedlistlabel    : false,            // 'string', false
                 selectedlistlabel       : false,            // 'string', false
-                filterOnValues          : false             // filter by selector's values, boolean
+                filteronvalues          : false             // filter by selector's values, boolean
             }, options);
 
             var container;
@@ -378,7 +379,7 @@
                     var $item = $(item);
                     var isFiltered = true;
 
-                    if (item.text.match(regex) ||  (settings.filterOnValues && $item.attr('value').match(regex) ) ) {
+                    if (item.text.match(regex) ||  (settings.filteronvalues && $item.attr('value').match(regex) ) ) {
                         isFiltered = false;
                         elements.select1.append($item.clone(true).prop('selected', $item.data('_selected')));
                     }
@@ -404,7 +405,7 @@
                     var $item = $(item);
                     var isFiltered = true;
 
-                    if (item.text.match(regex) ||  (settings.filterOnValues && $item.attr('value').match(regex) ) ) {
+                    if (item.text.match(regex) ||  (settings.filteronvalues && $item.attr('value').match(regex) ) ) {
                         isFiltered = false;
                         elements.select2.append($item.clone(true).prop('selected', $item.data('_selected')));
                     }
