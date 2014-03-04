@@ -29,7 +29,7 @@ Check the [official website](http://www.virtuosoft.eu/code/bootstrap-duallistbox
 4. Call the plugin:
 
 	```javascript
-	$("#element").bootstrapDualListBox({
+	$("#element").bootstrapDualListbox({
 		// see next for specifications
 	});
 	```
@@ -38,7 +38,7 @@ Check the [official website](http://www.virtuosoft.eu/code/bootstrap-duallistbox
 
 ### Initialization parameters object
 
-When calling `$("#element").bootstrapDualListBox()` you can pass a parameters object with zero or more of the following:
+When calling `$("#element").bootstrapDualListbox()` you can pass a parameters object with zero or more of the following:
 
 - `bootstrap2Compatible`, defaults to `false`, set this to `true` if you want graphic compatibility with Bootstrap 2.
 - `filterTextClear`, defaults to `'show all'`, is the text for the "Show All" button.
