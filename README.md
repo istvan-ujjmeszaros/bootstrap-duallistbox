@@ -180,6 +180,33 @@ Specify all dependencies loaded via Node.JS.
 
 > Check [NPM](https://npmjs.org/doc/json.html) for more details.
 
+## Building
+
+To build and test the plugin, you need:
+
+- [**NodeJS**](www.nodejs.org) with **npm**
+- **bower** (install it with `npm install bower --g`)
+- **grunt-cli** (install it with `npm install grunt-cli --g`)
+
+Then, `cd` to the project directory and install the required dependencies:
+
+	```shell
+	$ npm install
+	$ bower install
+	```
+
+To run jshint on the plugin code, call:
+
+	```shell
+	$ grunt jshint
+	```
+
+To build the output js and css files, with the related minified ones, run:
+
+	```shell
+	$ grunt
+	```
+
 ## Issues and Contributions
 
 You can report any issue you may encounter on the [GitHub Issue Tracker](https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox/issues).
