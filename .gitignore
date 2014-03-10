@@ -1,7 +1,4 @@
-.hg
-.git
-.hgignore
-nbproject
-index_demo_site.html
-
-/.project
+.DS_Store
+.idea
+node_modules
+bower_components
