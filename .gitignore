@@ -1,4 +1,6 @@
 .DS_Store
 .idea
+.hg
+nbproject
 node_modules
 bower_components
