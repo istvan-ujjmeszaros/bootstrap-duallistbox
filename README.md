@@ -48,7 +48,7 @@ When calling `$("#element").bootstrapDualListbox()` you can pass a parameters ob
 - `removeSelectedLabel`, defaults to `'Remove selected'`, is the label for the "Remove Selected" button.
 - `removeAllLabel`, defaults to `'Remove all'`, is the label for the "Remove All" button.
 - `moveOnSelect`, defaults to `true`, determines whether to move `option`s upon selection. This option is forced to `true` on the Android browser.
-- `preserveSelectionOnMove`, defaults to `false`, can also be `'all'` or `'moved'`
+- `preserveSelectionOnMove`, can be`'all'` (for selecting both moved elements and the already selected ones in the target list) or `'moved'` (for selecting moved elements only); defaults to `false`.
 - `selectedListLabel`, defaults to `false`, can be a `string` specifying the name of the selected list.
 - `nonSelectedListLabel`, defaults to `false`, can be a `string` specifying the name of the non selected list.
 - `helperSelectNamePostfix`, defaults to `'_helper'`. The added `select`s will have the same name as the original one, concatenated with this `string` and `1` (for the non selected list, e.g. `element_helper1`) or `2` (for the selected list, e.g. `element_helper2`).

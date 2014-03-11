@@ -179,10 +179,10 @@
   }
 
   function move(dualListbox) {
-    if (dualListbox.settings.preserveSelectionOnMove === 'all') {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !this.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
-    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved') {
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !this.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
     }
 
@@ -199,10 +199,10 @@
   }
 
   function remove(dualListbox) {
-    if (dualListbox.settings.preserveSelectionOnMove === 'all') {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !this.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
-    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved') {
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !this.settings.moveOnSelect) {
       saveSelections(dualListbox, 2);
     }
 
@@ -219,10 +219,10 @@
   }
 
   function moveAll(dualListbox) {
-    if (dualListbox.settings.preserveSelectionOnMove === 'all') {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !this.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
-    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved') {
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !this.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
     }
 
@@ -238,10 +238,10 @@
   }
 
   function removeAll(dualListbox) {
-    if (dualListbox.settings.preserveSelectionOnMove === 'all') {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !this.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
-    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved') {
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !this.settings.moveOnSelect) {
       saveSelections(dualListbox, 2);
     }
 
@@ -495,7 +495,6 @@
       this.settings.moveOnSelect = value;
       if (this.settings.moveOnSelect) {
         this.container.addClass('moveonselect');
-        this.settings.preserveSelectionOnMove = false;
         var self = this;
         this.elements.select1.on('change', function() {
           move(self);
