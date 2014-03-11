@@ -9,7 +9,7 @@
     <script src="../src/jquery.bootstrap-duallistbox.js"></script>
 </head>
 <body class="container">
-<select id="element" multiple>
+<select id="element" name="myselect" multiple>
     <option>element 1</option>
     <option>element 2</option>
     <option>element 3</option>
@@ -28,7 +28,10 @@
                     filterSelected: '2',
                     filterNonSelected: '1',
                     moveOnSelect: false,
-                    preserveSelectionOnMove: 'all'
+                    preserveSelectionOnMove: 'all',
+                    helperSelectNamePostfix: '_myhelper',
+                    selectedListLabel: 'Selected elements',
+                    nonSelectedListLabel: 'Unselected elements'
                 })
                 .bootstrapDualListbox('setMoveAllLabel', 'Move all teh elementz!!!')
                 .bootstrapDualListbox('setRemoveAllLabel', 'Remove them all!')

@@ -179,10 +179,10 @@
   }
 
   function move(dualListbox) {
-    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !this.settings.moveOnSelect) {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
-    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !this.settings.moveOnSelect) {
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
     }
 
@@ -199,10 +199,10 @@
   }
 
   function remove(dualListbox) {
-    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !this.settings.moveOnSelect) {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
-    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !this.settings.moveOnSelect) {
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 2);
     }
 
@@ -219,10 +219,10 @@
   }
 
   function moveAll(dualListbox) {
-    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !this.settings.moveOnSelect) {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
-    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !this.settings.moveOnSelect) {
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
     }
 
@@ -238,10 +238,10 @@
   }
 
   function removeAll(dualListbox) {
-    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !this.settings.moveOnSelect) {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
-    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !this.settings.moveOnSelect) {
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 2);
     }
 
@@ -375,7 +375,7 @@
       var select1Id = 'bootstrap-duallistbox-nonselected-list_' + this.originalSelectName,
         select2Id = 'bootstrap-duallistbox-selected-list_' + this.originalSelectName;
       this.elements.select1.attr('id', select1Id);
-      this.elements.select1.attr('id', select2Id);
+      this.elements.select2.attr('id', select2Id);
       this.elements.label1.attr('for', select1Id);
       this.elements.label2.attr('for', select2Id);
 
@@ -526,9 +526,9 @@
     setSelectedListLabel: function(value, refresh) {
       this.settings.selectedListLabel = value;
       if (value) {
-        this.elements.label1.show().html(value);
+        this.elements.label2.show().html(value);
       } else {
-        this.elements.label1.hide().html(value);
+        this.elements.label2.hide().html(value);
       }
       if (refresh) {
         refreshSelects(this);
@@ -538,9 +538,9 @@
     setNonSelectedListLabel: function(value, refresh) {
       this.settings.nonSelectedListLabel = value;
       if (value) {
-        this.elements.label2.show().html(value);
+        this.elements.label1.show().html(value);
       } else {
-        this.elements.label2.hide().html(value);
+        this.elements.label1.hide().html(value);
       }
       if (refresh) {
         refreshSelects(this);
