@@ -124,9 +124,8 @@
     if (dualListbox.settings.showFilterInputs) {
       filter(dualListbox, 1);
       filter(dualListbox, 2);
-
-      refreshInfo(dualListbox);
     }
+    refreshInfo(dualListbox);
   }
 
   function filter(dualListbox, selectIndex) {
@@ -575,14 +574,17 @@
       return this.element;
     },
     setShowFilterInputs: function(value, refresh) {
-      this.settings.showFilterInputs = value;
       if (!value) {
+        this.setNonSelectedFilter('');
+        this.setSelectedFilter('');
+        refreshSelects(this);
         this.elements.filterInput1.hide();
         this.elements.filterInput2.hide();
       } else {
         this.elements.filterInput1.show();
         this.elements.filterInput2.show();
       }
+      this.settings.showFilterInputs = value;
       if (refresh) {
         refreshSelects(this);
       }
