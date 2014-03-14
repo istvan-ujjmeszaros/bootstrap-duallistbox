@@ -638,6 +638,9 @@
       }
       return this.element;
     },
+    getContainer: function() {
+      return this.container;
+    },
     refresh: function(mustClearSelections) {
       updateSelectionStates(this);
 
