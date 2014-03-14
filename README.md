@@ -7,32 +7,32 @@ Check the [official website](http://www.virtuosoft.eu/code/bootstrap-duallistbox
 
 1. Download the latest tag from the [releases page](https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox/releases) or get it via **bower**:
 
-	```shell
-	$ bower install bootstrap-duallistbox
-	```
+```shell
+$ bower install bootstrap-duallistbox
+```
 
 2. Include **jQuery** and **Bootstrap**:
 
-	```html
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-	```
+```html
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+```
 
 3. Include plugin's code:
 
-	```html
-	<script src="dist/jquery.bootstrap-duallistbox.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="../src/bootstrap-duallistbox.css">
-	```
+```html
+<script src="dist/jquery.bootstrap-duallistbox.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/bootstrap-duallistbox.css">
+```
 
 4. Call the plugin:
 
-	```javascript
-	$("#element").bootstrapDualListbox({
-		// see next for specifications
-	});
-	```
+```javascript
+$("#element").bootstrapDualListbox({
+    // see next for specifications
+});
+```
 
 ## Specifications
 
@@ -52,10 +52,10 @@ When calling `$("#element").bootstrapDualListbox()` you can pass a parameters ob
 - `selectedListLabel`, defaults to `false`, can be a `string` specifying the name of the selected list.
 - `nonSelectedListLabel`, defaults to `false`, can be a `string` specifying the name of the non selected list.
 - `helperSelectNamePostfix`, defaults to `'_helper'`. The added `select`s will have the same name as the original one, concatenated with this `string` and `1` (for the non selected list, e.g. `element_helper1`) or `2` (for the selected list, e.g. `element_helper2`).
-- `selectOrMinimalHeight`, defaults to `100`, representes the minimal height of the generated dual listbox.
+- `selectOrMinimalHeight`, defaults to `100`, represents the minimal height of the generated dual listbox.
 - `showFilterInputs`, defaults to `true`, whether to show filter inputs.
-- `nonSelectedFilter`, defaults to the empty string `''`, initalizes the dual listbox with a filter for the non selected elements. This is applied only if `showFilterInputs` is set to `true`.
-- `selectedFilter`, defaults to the empty string `''`, initalizes the dual listbox with a filter for the selected elements. This is applied only if `showFilterInputs` is set to `true`.
+- `nonSelectedFilter`, defaults to the empty string `''`, initializes the dual listbox with a filter for the non selected elements. This is applied only if `showFilterInputs` is set to `true`.
+- `selectedFilter`, defaults to the empty string `''`, initializes the dual listbox with a filter for the selected elements. This is applied only if `showFilterInputs` is set to `true`.
 - `infoText`, defaults to `'Showing all {0}'`, determines which `string` format to use when all options are visible. Set this to `false` to hide this information. Remember to insert the `{0}` placeholder.
 - `infoTextFiltered`, defaults to `'<span class="label label-warning">Filtered</span> {0} from {1}'`, determines which element format to use when some element is filtered. Remember to insert the `{0}` and `{1} `placeholders.
 - `infoTextEmpty`, defaults to `'Empty list'`, determines the `string` to use when there are no options in the list.
@@ -67,9 +67,9 @@ You can modify the behavior and aspect of the dual listbox by calling its method
 
 To call methods on the dual listbox instance, use the following syntax:
 
-	```javascript
-	$(selector).bootstrapDualListbox(methodName, parameter);
-	```
+```javascript
+$(selector).bootstrapDualListbox(methodName, parameter);
+```
 
 **Note**: when making multiple chained calls to the plugin, set `refresh` to `true` to the last call only, in order to make a unique UI change; alternatively, you can also call the `refresh` method as your last one.
 
@@ -100,6 +100,7 @@ Furthermore, you can call:
 
 - `refresh()` or `trigger` the `bootstrapDualListbox.refresh` event to update the plugin element UI.
 - `destroy()` to restore the original `select` element and delete the plugin element.
+- `getContainer()` to get the container element.
 
 ## Structure
 
@@ -190,22 +191,22 @@ To build and test the plugin, you need:
 
 Then, `cd` to the project directory and install the required dependencies:
 
-	```shell
-	$ npm install
-	$ bower install
-	```
+```shell
+$ npm install
+$ bower install
+```
 
 To run jshint on the plugin code, call:
 
-	```shell
-	$ grunt jshint
-	```
+```shell
+$ grunt jshint
+```
 
 To build the output js and css files, with the related minified ones, run:
 
-	```shell
-	$ grunt
-	```
+```shell
+$ grunt
+```
 
 ## Issues and Contributions
 
