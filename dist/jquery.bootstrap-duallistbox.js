@@ -1,5 +1,5 @@
 /*
- *  Bootstrap Duallistbox - v3.0.0
+ *  Bootstrap Duallistbox - v3.0.1
  *  A responsive dual listbox widget optimized for Twitter Bootstrap. It works on all modern browsers and on touch devices.
  *  http://www.virtuosoft.eu/code/bootstrap-duallistbox/
  *
@@ -132,9 +132,8 @@
     if (dualListbox.settings.showFilterInputs) {
       filter(dualListbox, 1);
       filter(dualListbox, 2);
-
-      refreshInfo(dualListbox);
     }
+    refreshInfo(dualListbox);
   }
 
   function filter(dualListbox, selectIndex) {
@@ -187,10 +186,10 @@
   }
 
   function move(dualListbox) {
-    if (dualListbox.settings.preserveSelectionOnMove === 'all') {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
-    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved') {
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
     }
 
@@ -207,10 +206,10 @@
   }
 
   function remove(dualListbox) {
-    if (dualListbox.settings.preserveSelectionOnMove === 'all') {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
-    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved') {
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 2);
     }
 
@@ -227,10 +226,10 @@
   }
 
   function moveAll(dualListbox) {
-    if (dualListbox.settings.preserveSelectionOnMove === 'all') {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
-    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved') {
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
     }
 
@@ -246,10 +245,10 @@
   }
 
   function removeAll(dualListbox) {
-    if (dualListbox.settings.preserveSelectionOnMove === 'all') {
+    if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
-    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved') {
+    } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 2);
     }
 
@@ -383,7 +382,7 @@
       var select1Id = 'bootstrap-duallistbox-nonselected-list_' + this.originalSelectName,
         select2Id = 'bootstrap-duallistbox-selected-list_' + this.originalSelectName;
       this.elements.select1.attr('id', select1Id);
-      this.elements.select1.attr('id', select2Id);
+      this.elements.select2.attr('id', select2Id);
       this.elements.label1.attr('for', select1Id);
       this.elements.label2.attr('for', select2Id);
 
@@ -503,7 +502,6 @@
       this.settings.moveOnSelect = value;
       if (this.settings.moveOnSelect) {
         this.container.addClass('moveonselect');
-        this.settings.preserveSelectionOnMove = false;
         var self = this;
         this.elements.select1.on('change', function() {
           move(self);
@@ -535,9 +533,9 @@
     setSelectedListLabel: function(value, refresh) {
       this.settings.selectedListLabel = value;
       if (value) {
-        this.elements.label1.show().html(value);
+        this.elements.label2.show().html(value);
       } else {
-        this.elements.label1.hide().html(value);
+        this.elements.label2.hide().html(value);
       }
       if (refresh) {
         refreshSelects(this);
@@ -547,9 +545,9 @@
     setNonSelectedListLabel: function(value, refresh) {
       this.settings.nonSelectedListLabel = value;
       if (value) {
-        this.elements.label2.show().html(value);
+        this.elements.label1.show().html(value);
       } else {
-        this.elements.label2.hide().html(value);
+        this.elements.label1.hide().html(value);
       }
       if (refresh) {
         refreshSelects(this);
@@ -584,14 +582,17 @@
       return this.element;
     },
     setShowFilterInputs: function(value, refresh) {
-      this.settings.showFilterInputs = value;
       if (!value) {
+        this.setNonSelectedFilter('');
+        this.setSelectedFilter('');
+        refreshSelects(this);
         this.elements.filterInput1.hide();
         this.elements.filterInput2.hide();
       } else {
         this.elements.filterInput1.show();
         this.elements.filterInput2.show();
       }
+      this.settings.showFilterInputs = value;
       if (refresh) {
         refreshSelects(this);
       }
@@ -644,6 +645,9 @@
         refreshSelects(this);
       }
       return this.element;
+    },
+    getContainer: function() {
+      return this.container;
     },
     refresh: function(mustClearSelections) {
       updateSelectionStates(this);
