@@ -52,7 +52,7 @@ When calling `$("#element").bootstrapDualListbox()` you can pass a parameters ob
 - `selectedListLabel`, defaults to `false`, can be a `string` specifying the name of the selected list.
 - `nonSelectedListLabel`, defaults to `false`, can be a `string` specifying the name of the non selected list.
 - `helperSelectNamePostfix`, defaults to `'_helper'`. The added `select`s will have the same name as the original one, concatenated with this `string` and `1` (for the non selected list, e.g. `element_helper1`) or `2` (for the selected list, e.g. `element_helper2`).
-- `selectOrMinimalHeight`, defaults to `100`, represents the minimal height of the generated dual listbox.
+- `selectorMinimalHeight`, defaults to `100`, represents the minimal height of the generated dual listbox.
 - `showFilterInputs`, defaults to `true`, whether to show filter inputs.
 - `nonSelectedFilter`, defaults to the empty string `''`, initializes the dual listbox with a filter for the non selected elements. This is applied only if `showFilterInputs` is set to `true`.
 - `selectedFilter`, defaults to the empty string `''`, initializes the dual listbox with a filter for the selected elements. This is applied only if `showFilterInputs` is set to `true`.
@@ -87,7 +87,7 @@ Here are the available methods:
 - `setSelectedListLabel(value, refresh)` to change the `selectedListLabel` parameter.
 - `setNonSelectedListLabel(value, refresh)` to change the `nonSelectedListLabel` parameter.
 - `setHelperSelectNamePostfix(value, refresh)` to change the `helperSelectNamePostfix` parameter.
-- `setSelectOrMinimalHeight(value, refresh)` to change the `selectOrMinimalHeight` parameter.
+- `setSelectOrMinimalHeight(value, refresh)` to change the `selectorMinimalHeight` parameter.
 - `setShowFilterInputs(value, refresh)` to change the `showFilterInputs` parameter.
 - `setNonSelectedFilter(value, refresh)` to change the `nonSelectedFilter` parameter.
 - `setSelectedFilter(value, refresh)` to change the `selectedFilter` parameter.
@@ -221,7 +221,7 @@ Check [Release](https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox/rele
 ## License
 
 ```
-  Copyright 2014 István Ujj-Mészáros
+  Copyright 2013-2014 István Ujj-Mészáros
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.

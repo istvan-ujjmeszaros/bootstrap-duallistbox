@@ -14,7 +14,7 @@
       selectedListLabel: false,                                                           // 'string', false
       nonSelectedListLabel: false,                                                        // 'string', false
       helperSelectNamePostfix: '_helper',                                                 // 'string_of_postfix' / false
-      selectOrMinimalHeight: 100,
+      selectorMinimalHeight: 100,
       showFilterInputs: true,                                                             // whether to show filter inputs
       nonSelectedFilter: '',                                                              // string, filter the non selected options
       selectedFilter: '',                                                                 // string, filter the selected options
@@ -393,7 +393,7 @@
       this.setSelectedListLabel(this.settings.selectedListLabel);
       this.setNonSelectedListLabel(this.settings.nonSelectedListLabel);
       this.setHelperSelectNamePostfix(this.settings.helperSelectNamePostfix);
-      this.setSelectOrMinimalHeight(this.settings.selectOrMinimalHeight);
+      this.setSelectOrMinimalHeight(this.settings.selectorMinimalHeight);
 
       updateSelectionStates(this);
 
@@ -561,7 +561,7 @@
       return this.element;
     },
     setSelectOrMinimalHeight: function(value, refresh) {
-      this.settings.selectOrMinimalHeight = value;
+      this.settings.selectorMinimalHeight = value;
       var height = this.element.height();
       if (this.element.height() < value) {
         height = value;

@@ -6,7 +6,7 @@ small touch devices.
 - https://github.com/istvan-meszaros/bootstrap-duallistbox
 - http://www.virtuosoft.eu/code/bootstrap-duallistbox/
 
-Copyright 2014 István Ujj-Mészáros
+Copyright 2013-2014 István Ujj-Mészáros
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
