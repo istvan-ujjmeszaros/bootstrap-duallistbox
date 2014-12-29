@@ -1,4 +1,5 @@
-;(function ($, window, document, undefined) {
+;
+(function ($, window, document, undefined) {
   // Create the defaults once
   var pluginName = 'bootstrapDualListbox',
     defaults = {
@@ -23,8 +24,8 @@
       infoTextEmpty: 'Empty list',                                                        // when there are no options present in the list
       filterOnValues: false                                                               // filter by selector's values, boolean
     },
-    // Selections are invisible on android if the containing select is styled with CSS
-    // http://code.google.com/p/android/issues/detail?id=16922
+  // Selections are invisible on android if the containing select is styled with CSS
+  // http://code.google.com/p/android/issues/detail?id=16922
     isBuggyAndroid = /android/i.test(navigator.userAgent.toLowerCase());
 
   // The actual plugin constructor
@@ -45,7 +46,7 @@
   }
 
   function updateSelectionStates(dualListbox) {
-    dualListbox.element.find('option').each(function(index, item) {
+    dualListbox.element.find('option').each(function (index, item) {
       var $item = $(item);
       if (typeof($item.data('original-index')) === 'undefined') {
         $item.data('original-index', dualListbox.elementCount++);
@@ -57,7 +58,7 @@
   }
 
   function changeSelectionState(dualListbox, original_index, selected) {
-    dualListbox.element.find('option').each(function(index, item) {
+    dualListbox.element.find('option').each(function (index, item) {
       var $item = $(item);
       if ($item.data('original-index') === original_index) {
         $item.prop('selected', selected);
@@ -66,9 +67,13 @@
   }
 
   function formatString(s, args) {
-    return s.replace(/\{(\d+)\}/g, function(match, number) {
+    return s.replace(/\{(\d+)\}/g, function (match, number) {
       return typeof args[number] !== 'undefined' ? args[number] : match;
     });
+  }
+
+  function visibleFilter(){
+    return $(this).css('display') != 'none';
   }
 
   function refreshInfo(dualListbox) {
@@ -76,8 +81,8 @@
       return;
     }
 
-    var visible1 = dualListbox.elements.select1.find('option').length,
-      visible2 = dualListbox.elements.select2.find('option').length,
+    var visible1 = dualListbox.elements.select1.find('option').filter(visibleFilter).length,
+      visible2 = dualListbox.elements.select2.find('option').filter(visibleFilter).length,
       all1 = dualListbox.element.find('option').length - dualListbox.selectedElements,
       all2 = dualListbox.selectedElements,
       content = '';
@@ -105,21 +110,62 @@
     dualListbox.elements.box2.toggleClass('filtered', !(visible2 === all2 || all2 === 0));
   }
 
+  function copyOptGroup(optgroup) {
+    var newoptgroup = $("<optgroup></optgroup>")
+    $.each(optgroup[0].attributes, function (i, attrib) {
+      var name = attrib.name;
+      var value = attrib.value;
+      newoptgroup.attr(name, value)
+    });
+    return newoptgroup;
+  }
+
+  function addOptions(parentElem, selectedList, unSelectedList){
+    parentElem.find(">option").each(function (index, item) {
+      var $item = $(item);
+      console.log("Option Item is ", $item);
+      if ($item.prop('selected')) {
+        selectedList.append($item.clone(true).prop('selected', $item.data('_selected')));
+        //console.log("Appending to selected list", $item, selectedList);
+      } else {
+        //console.log("Appending to unselected list", $item, unSelectedList);
+        unSelectedList.append($item.clone(true).prop('selected', $item.data('_selected')));
+      }
+    });
+  }
+
+
   function refreshSelects(dualListbox) {
     dualListbox.selectedElements = 0;
 
     dualListbox.elements.select1.empty();
     dualListbox.elements.select2.empty();
 
-    dualListbox.element.find('option').each(function(index, item) {
-      var $item = $(item);
-      if ($item.prop('selected')) {
-        dualListbox.selectedElements++;
-        dualListbox.elements.select2.append($item.clone(true).prop('selected', $item.data('_selected')));
-      } else {
-        dualListbox.elements.select1.append($item.clone(true).prop('selected', $item.data('_selected')));
+    var optgroups = dualListbox.element.find('optgroup');
+
+    optgroups.each(function (index, item) {
+      var totalOptions = $(item).find("option").length;
+      var selectedOptions = $(item).find("option:selected").length
+      var selectedList = null;
+      var unselectedList = null;
+
+      if (selectedOptions > 0) {
+        selectedList  = copyOptGroup($(item));
+        dualListbox.elements.select2.append(selectedList);
       }
+
+      if(totalOptions - selectedOptions > 0 ){
+        unselectedList  = copyOptGroup($(item));
+        dualListbox.elements.select1.append(unselectedList);
+      }
+
+      addOptions($(item),selectedList, unselectedList);
+      dualListbox.selectedElements += selectedOptions;
+
     });
+    addOptions(dualListbox.element, dualListbox.elements.select2,
+      dualListbox.elements.select1);
+
 
     if (dualListbox.settings.showFilterInputs) {
       filter(dualListbox, 1);
@@ -135,44 +181,40 @@
 
     saveSelections(dualListbox, selectIndex);
 
-    dualListbox.elements['select'+selectIndex].empty().scrollTop(0);
-    var regex = new RegExp($.trim(dualListbox.elements['filterInput'+selectIndex].val()), 'gi'),
-      options = dualListbox.element;
+    //dualListbox.elements['select' + selectIndex].empty().scrollTop(0);
+    var regex = new RegExp($.trim(dualListbox.elements['filterInput' + selectIndex].val()), 'gi'),
+      options = dualListbox.elements['select' + selectIndex].find("option");
 
-    if (selectIndex === 1) {
-      options = options.find('option').not(':selected');
-    } else  {
-      options = options.find('option:selected');
-    }
-
-    options.each(function(index, item) {
+    options.each(function (index, item) {
       var $item = $(item),
         isFiltered = true;
-      if (item.text.match(regex) || (dualListbox.settings.filterOnValues && $item.attr('value').match(regex) ) ) {
+      if (item.text.match(regex) || (dualListbox.settings.filterOnValues && $item.attr('value').match(regex) )) {
         isFiltered = false;
-        dualListbox.elements['select'+selectIndex].append($item.clone(true).prop('selected', $item.data('_selected')));
+        $item.show();
+      }else{
+        $item.hide();
       }
-      dualListbox.element.find('option').eq($item.data('original-index')).data('filtered'+selectIndex, isFiltered);
+      dualListbox.element.find('option').eq($item.data('original-index')).data('filtered' + selectIndex, isFiltered);
     });
 
     refreshInfo(dualListbox);
   }
 
   function saveSelections(dualListbox, selectIndex) {
-    dualListbox.elements['select'+selectIndex].find('option').each(function(index, item) {
+    dualListbox.elements['select' + selectIndex].find('option').each(function (index, item) {
       var $item = $(item);
       dualListbox.element.find('option').eq($item.data('original-index')).data('_selected', $item.prop('selected'));
     });
   }
 
   function sortOptions(select) {
-    select.find('option').sort(function(a, b) {
+    select.find('option').sort(function (a, b) {
       return ($(a).data('original-index') > $(b).data('original-index')) ? 1 : -1;
     }).appendTo(select);
   }
 
   function clearSelections(dualListbox) {
-    dualListbox.elements.select1.find('option').each(function() {
+    dualListbox.elements.select1.find('option').each(function () {
       dualListbox.element.find('option').data('_selected', false);
     });
   }
@@ -185,7 +227,7 @@
       saveSelections(dualListbox, 1);
     }
 
-    dualListbox.elements.select1.find('option:selected').each(function(index, item) {
+    dualListbox.elements.select1.find('option:selected').each(function (index, item) {
       var $item = $(item);
       if (!$item.data('filtered1')) {
         changeSelectionState(dualListbox, $item.data('original-index'), true);
@@ -194,7 +236,7 @@
 
     refreshSelects(dualListbox);
     triggerChangeEvent(dualListbox);
-    sortOptions(dualListbox.elements.select2);
+    //sortOptions(dualListbox.elements.select2);
   }
 
   function remove(dualListbox) {
@@ -205,7 +247,7 @@
       saveSelections(dualListbox, 2);
     }
 
-    dualListbox.elements.select2.find('option:selected').each(function(index, item) {
+    dualListbox.elements.select2.find('option:selected').each(function (index, item) {
       var $item = $(item);
       if (!$item.data('filtered2')) {
         changeSelectionState(dualListbox, $item.data('original-index'), false);
@@ -214,7 +256,7 @@
 
     refreshSelects(dualListbox);
     triggerChangeEvent(dualListbox);
-    sortOptions(dualListbox.elements.select1);
+    //sortOptions(dualListbox.elements.select1);
   }
 
   function moveAll(dualListbox) {
@@ -225,7 +267,7 @@
       saveSelections(dualListbox, 1);
     }
 
-    dualListbox.element.find('option').each(function(index, item) {
+    dualListbox.element.find('option').each(function (index, item) {
       var $item = $(item);
       if (!$item.data('filtered1')) {
         $item.prop('selected', true);
@@ -244,7 +286,7 @@
       saveSelections(dualListbox, 2);
     }
 
-    dualListbox.element.find('option').each(function(index, item) {
+    dualListbox.element.find('option').each(function (index, item) {
       var $item = $(item);
       if (!$item.data('filtered2')) {
         $item.prop('selected', false);
@@ -256,7 +298,7 @@
   }
 
   function bindEvents(dualListbox) {
-    dualListbox.elements.form.submit(function(e) {
+    dualListbox.elements.form.submit(function (e) {
       if (dualListbox.elements.filterInput1.is(':focus')) {
         e.preventDefault();
         dualListbox.elements.filterInput1.focusout();
@@ -266,39 +308,39 @@
       }
     });
 
-    dualListbox.element.on('bootstrapDualListbox.refresh', function(e, mustClearSelections){
+    dualListbox.element.on('bootstrapDualListbox.refresh', function (e, mustClearSelections) {
       dualListbox.refresh(mustClearSelections);
     });
 
-    dualListbox.elements.filterClear1.on('click', function() {
+    dualListbox.elements.filterClear1.on('click', function () {
       dualListbox.setNonSelectedFilter('', true);
     });
 
-    dualListbox.elements.filterClear2.on('click', function() {
+    dualListbox.elements.filterClear2.on('click', function () {
       dualListbox.setSelectedFilter('', true);
     });
 
-    dualListbox.elements.moveButton.on('click', function() {
+    dualListbox.elements.moveButton.on('click', function () {
       move(dualListbox);
     });
 
-    dualListbox.elements.moveAllButton.on('click', function() {
+    dualListbox.elements.moveAllButton.on('click', function () {
       moveAll(dualListbox);
     });
 
-    dualListbox.elements.removeButton.on('click', function() {
+    dualListbox.elements.removeButton.on('click', function () {
       remove(dualListbox);
     });
 
-    dualListbox.elements.removeAllButton.on('click', function() {
+    dualListbox.elements.removeAllButton.on('click', function () {
       removeAll(dualListbox);
     });
 
-    dualListbox.elements.filterInput1.on('change keyup', function() {
+    dualListbox.elements.filterInput1.on('change keyup', function () {
       filter(dualListbox, 1);
     });
 
-    dualListbox.elements.filterInput2.on('change keyup', function() {
+    dualListbox.elements.filterInput2.on('change keyup', function () {
       filter(dualListbox, 2);
     });
   }
@@ -413,7 +455,7 @@
 
       return this.element;
     },
-    setBootstrap2Compatible: function(value, refresh) {
+    setBootstrap2Compatible: function (value, refresh) {
       this.settings.bootstrap2Compatible = value;
       if (value) {
         this.container.removeClass('row').addClass('row-fluid bs2compatible');
@@ -437,7 +479,7 @@
       }
       return this.element;
     },
-    setFilterTextClear: function(value, refresh) {
+    setFilterTextClear: function (value, refresh) {
       this.settings.filterTextClear = value;
       this.elements.filterClear1.html(value);
       this.elements.filterClear2.html(value);
@@ -446,7 +488,7 @@
       }
       return this.element;
     },
-    setFilterPlaceHolder: function(value, refresh) {
+    setFilterPlaceHolder: function (value, refresh) {
       this.settings.filterPlaceHolder = value;
       this.elements.filterInput1.attr('placeholder', value);
       this.elements.filterInput2.attr('placeholder', value);
@@ -455,7 +497,7 @@
       }
       return this.element;
     },
-    setMoveSelectedLabel: function(value, refresh) {
+    setMoveSelectedLabel: function (value, refresh) {
       this.settings.moveSelectedLabel = value;
       this.elements.moveButton.attr('title', value);
       if (refresh) {
@@ -463,7 +505,7 @@
       }
       return this.element;
     },
-    setMoveAllLabel: function(value, refresh) {
+    setMoveAllLabel: function (value, refresh) {
       this.settings.moveAllLabel = value;
       this.elements.moveAllButton.attr('title', value);
       if (refresh) {
@@ -471,7 +513,7 @@
       }
       return this.element;
     },
-    setRemoveSelectedLabel: function(value, refresh) {
+    setRemoveSelectedLabel: function (value, refresh) {
       this.settings.removeSelectedLabel = value;
       this.elements.removeButton.attr('title', value);
       if (refresh) {
@@ -479,7 +521,7 @@
       }
       return this.element;
     },
-    setRemoveAllLabel: function(value, refresh) {
+    setRemoveAllLabel: function (value, refresh) {
       this.settings.removeAllLabel = value;
       this.elements.removeAllButton.attr('title', value);
       if (refresh) {
@@ -487,7 +529,7 @@
       }
       return this.element;
     },
-    setMoveOnSelect: function(value, refresh) {
+    setMoveOnSelect: function (value, refresh) {
       if (isBuggyAndroid) {
         value = true;
       }
@@ -495,10 +537,10 @@
       if (this.settings.moveOnSelect) {
         this.container.addClass('moveonselect');
         var self = this;
-        this.elements.select1.on('change', function() {
+        this.elements.select1.on('change', function () {
           move(self);
         });
-        this.elements.select2.on('change', function() {
+        this.elements.select2.on('change', function () {
           remove(self);
         });
       } else {
@@ -511,7 +553,7 @@
       }
       return this.element;
     },
-    setPreserveSelectionOnMove: function(value, refresh) {
+    setPreserveSelectionOnMove: function (value, refresh) {
       // We are forcing to move on select and disabling preserveSelectionOnMove on Android
       if (isBuggyAndroid) {
         value = false;
@@ -522,7 +564,7 @@
       }
       return this.element;
     },
-    setSelectedListLabel: function(value, refresh) {
+    setSelectedListLabel: function (value, refresh) {
       this.settings.selectedListLabel = value;
       if (value) {
         this.elements.label2.show().html(value);
@@ -534,7 +576,7 @@
       }
       return this.element;
     },
-    setNonSelectedListLabel: function(value, refresh) {
+    setNonSelectedListLabel: function (value, refresh) {
       this.settings.nonSelectedListLabel = value;
       if (value) {
         this.elements.label1.show().html(value);
@@ -546,7 +588,7 @@
       }
       return this.element;
     },
-    setHelperSelectNamePostfix: function(value, refresh) {
+    setHelperSelectNamePostfix: function (value, refresh) {
       this.settings.helperSelectNamePostfix = value;
       if (value) {
         this.elements.select1.attr('name', this.originalSelectName + value + '1');
@@ -560,7 +602,7 @@
       }
       return this.element;
     },
-    setSelectOrMinimalHeight: function(value, refresh) {
+    setSelectOrMinimalHeight: function (value, refresh) {
       this.settings.selectorMinimalHeight = value;
       var height = this.element.height();
       if (this.element.height() < value) {
@@ -573,7 +615,7 @@
       }
       return this.element;
     },
-    setShowFilterInputs: function(value, refresh) {
+    setShowFilterInputs: function (value, refresh) {
       if (!value) {
         this.setNonSelectedFilter('');
         this.setSelectedFilter('');
@@ -590,7 +632,7 @@
       }
       return this.element;
     },
-    setNonSelectedFilter: function(value, refresh) {
+    setNonSelectedFilter: function (value, refresh) {
       if (this.settings.showFilterInputs) {
         this.settings.nonSelectedFilter = value;
         this.elements.filterInput1.val(value);
@@ -600,7 +642,7 @@
         return this.element;
       }
     },
-    setSelectedFilter: function(value, refresh) {
+    setSelectedFilter: function (value, refresh) {
       if (this.settings.showFilterInputs) {
         this.settings.selectedFilter = value;
         this.elements.filterInput2.val(value);
@@ -610,38 +652,38 @@
         return this.element;
       }
     },
-    setInfoText: function(value, refresh) {
+    setInfoText: function (value, refresh) {
       this.settings.infoText = value;
       if (refresh) {
         refreshSelects(this);
       }
       return this.element;
     },
-    setInfoTextFiltered: function(value, refresh) {
+    setInfoTextFiltered: function (value, refresh) {
       this.settings.infoTextFiltered = value;
       if (refresh) {
         refreshSelects(this);
       }
       return this.element;
     },
-    setInfoTextEmpty: function(value, refresh) {
+    setInfoTextEmpty: function (value, refresh) {
       this.settings.infoTextEmpty = value;
       if (refresh) {
         refreshSelects(this);
       }
       return this.element;
     },
-    setFilterOnValues: function(value, refresh) {
+    setFilterOnValues: function (value, refresh) {
       this.settings.filterOnValues = value;
       if (refresh) {
         refreshSelects(this);
       }
       return this.element;
     },
-    getContainer: function() {
+    getContainer: function () {
       return this.container;
     },
-    refresh: function(mustClearSelections) {
+    refresh: function (mustClearSelections) {
       updateSelectionStates(this);
 
       if (!mustClearSelections) {
@@ -653,7 +695,7 @@
 
       refreshSelects(this);
     },
-    destroy: function() {
+    destroy: function () {
       this.container.remove();
       this.element.show();
       $.data(this, 'plugin_' + pluginName, null);
@@ -671,7 +713,7 @@
       return this.each(function () {
         // If this is not a select
         if (!$(this).is('select')) {
-          $(this).find('select').each(function(index, item) {
+          $(this).find('select').each(function (index, item) {
             // For each nested select, instantiate the Dual List Box
             $(item).bootstrapDualListbox(options);
           });
