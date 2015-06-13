@@ -127,14 +127,14 @@
 
         var list = selected ? dualListbox.elements.select2 : dualListbox.elements.select1;
 
-        if (selected) dualListbox.selectedElements++;
+        if (selected) { dualListbox.selectedElements++; }
 
         var tip = list;
         if (ingroup) {
             var $grp = $item.parent();
             var label = $grp.attr('label');
             var grpin = list.find('optgroup[label=' + label + ']');
-            if (grpin.length == 0) {
+            if (grpin.length === 0) {
                 grpin = $('<optgroup/>').attr('label', label).on('click', { dlb: dualListbox }, selected? unselectGroup: selectGroup);
                 list.append(grpin);
             }
@@ -156,7 +156,7 @@
       }
 
       saveSelections(dualListbox, selectIndex);
-      if (moveToTop != false) {
+      if (moveToTop !== false) {
           dualListbox.elements['select' + selectIndex].empty().scrollTop(0);
       }
       else {
@@ -183,7 +183,7 @@
               var $grp = $item.parent();
               var label = $grp.attr('label');
               var grpin = list.find('optgroup[label="' + label + '"]');
-              if (grpin.length == 0) {
+              if (grpin.length === 0) {
                   grpin = $('<optgroup/>').attr('label', label).on('click', { dlb: dualListbox }, (selectIndex === 1) ? selectGroup : unselectGroup);
                   list.append(grpin);
               }
@@ -218,7 +218,7 @@
               var $grp = $item.parent();
               var label = $grp.attr('label');
               var grpin = select.find('optgroup[label=' + label + ']');
-              if (grpin.length == 0) {
+              if (grpin.length === 0) {
                   grpin = $('<optgroup/>').attr('label', label);
                   $newgroups.append(grpin);
                   select.append(grpin);
