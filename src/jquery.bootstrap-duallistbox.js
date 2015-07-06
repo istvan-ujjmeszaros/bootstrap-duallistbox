@@ -153,7 +153,8 @@
         isFiltered = false;
         dualListbox.elements['select'+selectIndex].append($item.clone(true).prop('selected', $item.data('_selected')));
       }
-      allOptions.eq($item.data('original-index')).data('filtered'+selectIndex, isFiltered);
+      allOptions.eq($item.data('original-index'));
+      allOptions.eq($item.data('filtered'+selectIndex, isFiltered));
     });
 
     refreshInfo(dualListbox);
