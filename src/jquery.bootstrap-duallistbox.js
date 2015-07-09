@@ -133,7 +133,9 @@
       return;
     }
 
-    saveSelections(dualListbox, selectIndex);
+    if (!dualListbox.settings.moveOnSelect) {
+      saveSelections(dualListbox, selectIndex);
+    }
 
     dualListbox.elements['select'+selectIndex].empty().scrollTop(0);
     var regex = new RegExp($.trim(dualListbox.elements['filterInput'+selectIndex].val()), 'gi'),
