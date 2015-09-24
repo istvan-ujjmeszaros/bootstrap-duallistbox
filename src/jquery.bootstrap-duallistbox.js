@@ -1,7 +1,20 @@
+/*
+ *  Bootstrap Duallistbox - v3.0.1
+ *  A responsive dual listbox widget optimized for Twitter Bootstrap. It works on all modern browsers and on touch devices.
+ *  http://www.virtuosoft.eu/code/bootstrap-duallistbox/
+ *
+ *  Made by István Ujj-Mészáros
+ *  Under Apache License v2.0 License
+ */
 ;(function ($, window, document, undefined) {
   // Create the defaults once
   var pluginName = 'bootstrapDualListbox',
     defaults = {
+      selectedOnRight: true,                                                              // Selected tree displayed on right side
+      bootstrap3ArrowRight:  'glyphicon glyphicon-arrow-right',                           // bootstrap 3 arrow right
+      bootstrap3ArrowLeft:  'glyphicon glyphicon-arrow-left',                             // bootstrap 3 arrow left
+      bootstrap2ArrowRight:  'icon-arrow-right',                                          // bootstrap 2 arrow right
+      bootstrap2ArrowLeft:  'icon-arrow-left',                                            // bootstrap 2 arrow left
       bootstrap2Compatible: false,
       filterTextClear: 'show all',
       filterPlaceHolder: 'Filter',
@@ -308,46 +321,57 @@
   BootstrapDualListbox.prototype = {
     init: function () {
       // Add the custom HTML template
-      this.container = $('' +
-        '<div class="bootstrap-duallistbox-container">' +
-        ' <div class="box1">' +
-        '   <label></label>' +
-        '   <span class="info-container">' +
-        '     <span class="info"></span>' +
-        '     <button type="button" class="btn clear1 pull-right"></button>' +
-        '   </span>' +
-        '   <input class="filter" type="text">' +
-        '   <div class="btn-group buttons">' +
-        '     <button type="button" class="btn moveall">' +
-        '       <i></i>' +
-        '       <i></i>' +
-        '     </button>' +
-        '     <button type="button" class="btn move">' +
-        '       <i></i>' +
-        '     </button>' +
-        '   </div>' +
-        '   <select multiple="multiple"></select>' +
-        ' </div>' +
-        ' <div class="box2">' +
-        '   <label></label>' +
-        '   <span class="info-container">' +
-        '     <span class="info"></span>' +
-        '     <button type="button" class="btn clear2 pull-right"></button>' +
-        '   </span>' +
-        '   <input class="filter" type="text">' +
-        '   <div class="btn-group buttons">' +
-        '     <button type="button" class="btn remove">' +
-        '       <i></i>' +
-        '     </button>' +
-        '     <button type="button" class="btn removeall">' +
-        '       <i></i>' +
-        '       <i></i>' +
-        '     </button>' +
-        '   </div>' +
-        '   <select multiple="multiple"></select>' +
-        ' </div>' +
-        '</div>')
-        .insertBefore(this.element);
+      this.box1Markup =
+              ' <div class="box1">' +
+              '   <label></label>' +
+              '   <span class="info-container">' +
+              '     <span class="info"></span>' +
+              '     <button type="button" class="btn clear1 pull-right"></button>' +
+              '   </span>' +
+              '   <input class="filter" type="text">' +
+              '   <div class="btn-group buttons">' +
+              '     <button type="button" class="btn moveall">' +
+              '       <i></i>' +
+              '       <i></i>' +
+              '     </button>' +
+              '     <button type="button" class="btn move">' +
+              '       <i></i>' +
+              '     </button>' +
+              '   </div>' +
+              '   <select multiple="multiple"></select>' +
+              ' </div>';
+
+      this.box2Markup =
+              ' <div class="box2">' +
+              '   <label></label>' +
+              '   <span class="info-container">' +
+              '     <span class="info"></span>' +
+              '     <button type="button" class="btn clear2 pull-right"></button>' +
+              '   </span>' +
+              '   <input class="filter" type="text">' +
+              '   <div class="btn-group buttons">' +
+              '     <button type="button" class="btn remove">' +
+              '       <i></i>' +
+              '     </button>' +
+              '     <button type="button" class="btn removeall">' +
+              '       <i></i>' +
+              '       <i></i>' +
+              '     </button>' +
+              '   </div>' +
+              '   <select multiple="multiple"></select>' +
+              ' </div>';
+
+      this.containerMarkup = '<div class="bootstrap-duallistbox-container">';
+        if(this.settings.selectedOnRight) {
+            this.containerMarkup += this.box1Markup;
+            this.containerMarkup += this.box2Markup;
+        } else {
+            this.containerMarkup += this.box2Markup;
+            this.containerMarkup += this.box1Markup;
+        }
+      this.containerMarkup +='</div>';
+
+      this.container = $(this.containerMarkup).insertBefore(this.element);
 
       // Cache the inner elements
       this.elements = {
@@ -383,6 +407,11 @@
       // Apply all settings
       this.selectedElements = 0;
       this.elementCount = 0;
+      this.setSelectedOnRight(this.settings.selectedOnRight);
+      this.setBootstrap2ArrowRight(this.settings.bootstrap2ArrowRight);
+      this.setBootstrap2ArrowLeft(this.settings.bootstrap2ArrowLeft);
+      this.setBootstrap3ArrowRight(this.settings.bootstrap3ArrowRight);
+      this.setBootstrap3ArrowLeft(this.settings.bootstrap3ArrowLeft);
       this.setBootstrap2Compatible(this.settings.bootstrap2Compatible);
       this.setFilterTextClear(this.settings.filterTextClear);
       this.setFilterPlaceHolder(this.settings.filterPlaceHolder);
@@ -415,6 +444,13 @@
 
       return this.element;
     },
+    setSelectedOnRight: function(value, refresh) {
+      this.settings.selectedOnRight = value;
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
     setBootstrap2Compatible: function(value, refresh) {
       this.settings.bootstrap2Compatible = value;
       if (value) {
@@ -423,17 +459,15 @@
         this.container.find('.clear1, .clear2').removeClass('btn-default btn-xs').addClass('btn-mini');
         this.container.find('input, select').removeClass('form-control');
         this.container.find('.btn').removeClass('btn-default');
-        this.container.find('.moveall > i, .move > i').removeClass('glyphicon glyphicon-arrow-right').addClass('icon-arrow-right');
-        this.container.find('.removeall > i, .remove > i').removeClass('glyphicon glyphicon-arrow-left').addClass('icon-arrow-left');
       } else {
         this.container.removeClass('row-fluid bs2compatible').addClass('row');
         this.container.find('.box1, .box2').removeClass('span6').addClass('col-md-6');
         this.container.find('.clear1, .clear2').removeClass('btn-mini').addClass('btn-default btn-xs');
         this.container.find('input, select').addClass('form-control');
         this.container.find('.btn').addClass('btn-default');
-        this.container.find('.moveall > i, .move > i').removeClass('icon-arrow-right').addClass('glyphicon glyphicon-arrow-right');
-        this.container.find('.removeall > i, .remove > i').removeClass('icon-arrow-left').addClass('glyphicon glyphicon-arrow-left');
       }
+      this.container.find('.moveall > i, .move > i').removeClass(this.getArrowRight(value)).addClass(this.getArrowRight(!value));
+      this.container.find('.removeall > i, .remove > i').removeClass(this.getArrowLeft(value)).addClass(this.getArrowLeft(!value));
       if (refresh) {
         refreshSelects(this);
       }
@@ -639,6 +673,48 @@
         refreshSelects(this);
       }
       return this.element;
+    },
+    setBootstrap2ArrowRight: function(value, refresh) {
+        this.settings.bootstrap2ArrowRight = value;
+        if (refresh) {
+            refreshSelects(this);
+        }
+        return this.element;
+    },
+    setBootstrap2ArrowLeft: function(value, refresh) {
+        this.settings.bootstrap2ArrowLeft = value;
+        if (refresh) {
+            refreshSelects(this);
+        }
+        return this.element;
+    },
+    setBootstrap3ArrowRight: function(value, refresh) {
+        this.settings.bootstrap3ArrowRight = value;
+        if (refresh) {
+            refreshSelects(this);
+        }
+        return this.element;
+    },
+    setBootstrap3ArrowLeft: function(value, refresh) {
+        this.settings.bootstrap3ArrowLeft = value;
+        if (refresh) {
+            refreshSelects(this);
+        }
+        return this.element;
+    },
+    getArrowLeft: function(bootstrap2Arrows) {
+        if(bootstrap2Arrows === true) {
+            return this.settings.selectedOnRight === true ? this.settings.bootstrap3ArrowLeft : this.settings.bootstrap3ArrowRight;
+        } else {
+            return this.settings.selectedOnRight === true ? this.settings.bootstrap2ArrowLeft : this.settings.bootstrap2ArrowRight;
+        }
+    },
+    getArrowRight: function(bootstrap2Arrows) {
+        if(bootstrap2Arrows === true) {
+            return this.settings.selectedOnRight === true ? this.settings.bootstrap3ArrowRight : this.settings.bootstrap3ArrowLeft;
+        } else {
+            return this.settings.selectedOnRight === true ? this.settings.bootstrap2ArrowRight : this.settings.bootstrap2ArrowLeft;
+        }
     },
     getContainer: function() {
       return this.container;
