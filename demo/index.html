@@ -69,13 +69,14 @@ var demo2 = $('.demo2').bootstrapDualListbox({
   selectedListLabel: 'Selected',
   preserveSelectionOnMove: 'moved',
   moveOnSelect: false,
-  nonSelectedFilter: 'ion ([7-9]|[1][0-2])'
+  nonSelectedFilter: 'ion ([7-9]|[1][0-2])',
+  filterOnData: true
 });</pre>
     </div>
     <div class="col-md-7">
       <select multiple="multiple" size="10" name="duallistbox_demo2" class="demo2">
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
+        <option value="option1" data-filter-example="test 1">Option 1</option>
+        <option value="option2" data-filter-example2="test 1">Option 2</option>
         <option value="option3" selected="selected">Option 3</option>
         <option value="option4">Option 4</option>
         <option value="option5">Option 5</option>
@@ -101,7 +102,8 @@ var demo2 = $('.demo2').bootstrapDualListbox({
           selectedListLabel: 'Selected',
           preserveSelectionOnMove: 'moved',
           moveOnSelect: false,
-          nonSelectedFilter: 'ion ([7-9]|[1][0-2])'
+          nonSelectedFilter: 'ion ([7-9]|[1][0-2])',
+          filterOnData: true
         });
       </script>
     </div>
@@ -233,6 +235,10 @@ $("#demo2-add-clear").click(function() {
       <tr>
         <td><code>filterOnValues</code></td>
         <td><code><strong>false</strong></code>: set this to <code>true</code> to filter the options according to their values and not their HTML contents.</td>
+      </tr>
+      <tr>
+        <td><code>filterOnData</code></td>
+        <td><code><strong>false</strong></code>: set this to <code>true</code> to filter the <code>data-filter-*'s</code> you assign on options.</td>
       </tr>
       <tr>
         <td><code>eventMoveOverride</code></td>
@@ -367,6 +373,10 @@ $(selector).bootstrapDualListbox(methodName, parameter);</pre>
       <tr>
         <td><code>setFilterOnValues(value, refresh)</code></td>
         <td>change the <code>filterOnValues</code> parameter.</td>
+      </tr>
+      <tr>
+        <td><code>setFilterOnData(value, refresh)</code></td>
+        <td>change the <code>filterOnData</code> parameter.</td>
       </tr>
       <tr>
         <td><code>setEventMoveOverride(value, refresh)</code></td>
