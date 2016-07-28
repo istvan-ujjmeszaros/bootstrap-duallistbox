@@ -251,6 +251,9 @@
     refreshSelects(dualListbox);
     triggerChangeEvent(dualListbox);
     sortOptions(dualListbox.elements.select1);
+    if(dualListbox.settings.sortByInputOrder){
+        sortOptionsByInputOrder(dualListbox.elements.select2);
+    }
   }
 
   function moveAll(dualListbox) {
