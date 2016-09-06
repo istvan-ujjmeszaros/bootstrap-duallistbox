@@ -1,5 +1,5 @@
 /*
- *  Bootstrap Duallistbox - v3.0.5
+ *  Bootstrap Duallistbox - v3.0.6
  *  A responsive dual listbox widget optimized for Twitter Bootstrap. It works on all modern browsers and on touch devices.
  *  http://www.virtuosoft.eu/code/bootstrap-duallistbox/
  *
@@ -30,7 +30,11 @@
       infoTextFiltered: '<span class="label label-warning">Filtered</span> {0} from {1}', // when not all of the options are visible due to the filter
       infoTextEmpty: 'Empty list',                                                        // when there are no options present in the list
       filterOnValues: false,                                                              // filter by selector's values, boolean
-      sortByInputOrder: false
+      sortByInputOrder: false,
+      eventMoveOverride: false,                                                           // boolean, allows user to unbind default event behaviour and run their own instead
+      eventMoveAllOverride: false,                                                        // boolean, allows user to unbind default event behaviour and run their own instead
+      eventRemoveOverride: false,                                                         // boolean, allows user to unbind default event behaviour and run their own instead
+      eventRemoveAllOverride: false                                                       // boolean, allows user to unbind default event behaviour and run their own instead
     },
     // Selections are invisible on android if the containing select is styled with CSS
     // http://code.google.com/p/android/issues/detail?id=16922
@@ -255,6 +259,9 @@
     refreshSelects(dualListbox);
     triggerChangeEvent(dualListbox);
     sortOptions(dualListbox.elements.select1);
+    if(dualListbox.settings.sortByInputOrder){
+        sortOptionsByInputOrder(dualListbox.elements.select2);
+    }
   }
 
   function moveAll(dualListbox) {
@@ -321,21 +328,29 @@
       dualListbox.setSelectedFilter('', true);
     });
 
-    dualListbox.elements.moveButton.on('click', function() {
-      move(dualListbox);
-    });
+    if (dualListbox.settings.eventMoveOverride === false) {
+      dualListbox.elements.moveButton.on('click', function() {
+        move(dualListbox);
+      });
+    }
 
-    dualListbox.elements.moveAllButton.on('click', function() {
-      moveAll(dualListbox);
-    });
+    if (dualListbox.settings.eventMoveAllOverride === false) {
+      dualListbox.elements.moveAllButton.on('click', function() {
+        moveAll(dualListbox);
+      });
+    }
 
-    dualListbox.elements.removeButton.on('click', function() {
-      remove(dualListbox);
-    });
+    if (dualListbox.settings.eventRemoveOverride === false) {
+      dualListbox.elements.removeButton.on('click', function() {
+        remove(dualListbox);
+      });
+    }
 
-    dualListbox.elements.removeAllButton.on('click', function() {
-      removeAll(dualListbox);
-    });
+    if (dualListbox.settings.eventRemoveAllOverride === false) {
+      dualListbox.elements.removeAllButton.on('click', function() {
+        removeAll(dualListbox);
+      });
+    }
 
     dualListbox.elements.filterInput1.on('change keyup', function() {
       filter(dualListbox, 1);
@@ -449,6 +464,10 @@
       this.setInfoTextEmpty(this.settings.infoTextEmpty);
       this.setFilterOnValues(this.settings.filterOnValues);
       this.setSortByInputOrder(this.settings.sortByInputOrder);
+      this.setEventMoveOverride(this.settings.eventMoveOverride);
+      this.setEventMoveAllOverride(this.settings.eventMoveAllOverride);
+      this.setEventRemoveOverride(this.settings.eventRemoveOverride);
+      this.setEventRemoveAllOverride(this.settings.eventRemoveAllOverride);
 
       // Hide the original select
       this.element.hide();
@@ -685,6 +704,34 @@
     },
     setSortByInputOrder: function(value, refresh){
         this.settings.sortByInputOrder = value;
+        if (refresh) {
+          refreshSelects(this);
+        }
+        return this.element;
+    },
+    setEventMoveOverride: function(value, refresh) {
+        this.settings.eventMoveOverride = value;
+        if (refresh) {
+          refreshSelects(this);
+        }
+        return this.element;
+    },
+    setEventMoveAllOverride: function(value, refresh) {
+        this.settings.eventMoveAllOverride = value;
+        if (refresh) {
+          refreshSelects(this);
+        }
+        return this.element;
+    },
+    setEventRemoveOverride: function(value, refresh) {
+        this.settings.eventRemoveOverride = value;
+        if (refresh) {
+          refreshSelects(this);
+        }
+        return this.element;
+    },
+    setEventRemoveAllOverride: function(value, refresh) {
+        this.settings.eventRemoveAllOverride = value;
         if (refresh) {
           refreshSelects(this);
         }
