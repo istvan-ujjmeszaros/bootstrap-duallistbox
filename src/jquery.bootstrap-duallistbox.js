@@ -749,6 +749,19 @@
       this.element.show();
       $.data(this, 'plugin_' + pluginName, null);
       return this.element;
+    },
+	populateAndSort: function (some_sortIndex) {
+        refreshSelects(this);
+
+        if (this.settings.sortByInputOrder) {
+            sortOptionsByInputOrder(this.elements.select2);
+        } else {
+            sortOptions(this.elements.select2);
+        }
+
+        if (some_sortIndex != null) {
+            this.sortIndex = some_sortIndex;
+        }
     }
   };
 
