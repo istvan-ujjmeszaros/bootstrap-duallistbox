@@ -218,7 +218,12 @@
       saveSelections(dualListbox, 1);
     }
 
-    dualListbox.elements.select1.find('option:selected').each(function(index, item) {
+    var options = dualListbox.element.find('option:selected');
+    if (!dualListbox.settings.moveDisabledElements) {
+      options = options.filter(':enabled');
+    }
+
+    options.each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered1')) {
         changeSelectionState(dualListbox, $item.data('original-index'), true);
@@ -242,7 +247,12 @@
       saveSelections(dualListbox, 2);
     }
 
-    dualListbox.elements.select2.find('option:selected').each(function(index, item) {
+    var options = dualListbox.element.find('option:selected');
+    if (!dualListbox.settings.moveDisabledElements) {
+      options = options.filter(':enabled');
+    }
+
+    options.each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered2')) {
         changeSelectionState(dualListbox, $item.data('original-index'), false);
@@ -265,7 +275,12 @@
       saveSelections(dualListbox, 1);
     }
 
-    dualListbox.element.find('option').each(function(index, item) {
+    var options = dualListbox.element.find('option');
+    if (!dualListbox.settings.moveDisabledElements) {
+      options = options.filter(':enabled');
+    }
+
+    options.each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered1')) {
         $item.prop('selected', true);
@@ -286,7 +301,12 @@
       saveSelections(dualListbox, 2);
     }
 
-    dualListbox.element.find('option').each(function(index, item) {
+    var options = dualListbox.element.find('option');
+    if (!dualListbox.settings.moveDisabledElements) {
+      options = options.filter(':enabled');
+    }
+
+    options.each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered2')) {
         $item.prop('selected', false);
@@ -438,6 +458,7 @@
       this.setFilterPlaceHolder(this.settings.filterPlaceHolder);
       this.setMoveSelectedLabel(this.settings.moveSelectedLabel);
       this.setMoveAllLabel(this.settings.moveAllLabel);
+      this.setMoveDisabledElements(this.settings.moveDisabledElements);
       this.setRemoveSelectedLabel(this.settings.removeSelectedLabel);
       this.setRemoveAllLabel(this.settings.removeAllLabel);
       this.setMoveOnSelect(this.settings.moveOnSelect);
@@ -528,6 +549,14 @@
       }
       return this.element;
     },
+    setMoveDisabledElements: function(value, refresh) {
+      this.settings.moveDisabledElements = value;
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
+
     setRemoveSelectedLabel: function(value, refresh) {
       this.settings.removeSelectedLabel = value;
       this.elements.removeButton.attr('title', value);
