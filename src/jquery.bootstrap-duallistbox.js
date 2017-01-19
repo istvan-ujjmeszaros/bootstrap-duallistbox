@@ -556,7 +556,6 @@
       }
       return this.element;
     },
-
     setRemoveSelectedLabel: function(value, refresh) {
       this.settings.removeSelectedLabel = value;
       this.elements.removeButton.attr('title', value);
