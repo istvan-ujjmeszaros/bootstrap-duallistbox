@@ -23,6 +23,7 @@
       nonSelectedListLabel: false,                                                        // 'string', false
       helperSelectNamePostfix: '_helper',                                                 // 'string_of_postfix' / false
       selectorMinimalHeight: 100,
+      minCharFilter: 3,                                                                   // number of minumum chars for filter
       showFilterInputs: true,                                                             // whether to show filter inputs
       nonSelectedFilter: '',                                                              // string, filter the non selected options
       selectedFilter: '',                                                                 // string, filter the selected options
@@ -353,11 +354,15 @@
     }
 
     dualListbox.elements.filterInput1.on('change keyup', function() {
-      filter(dualListbox, 1);
+      if (a.elements.filterInput1.val().length>=minCharFilter||a.elements.filterInput1.val().length==0){
+        filter(dualListbox, 1);
+      }
     });
 
     dualListbox.elements.filterInput2.on('change keyup', function() {
-      filter(dualListbox, 2);
+      if (a.elements.filterInput2.val().length>=minCharFilter||a.elements.filterInput2.val().length==0){
+        filter(dualListbox, 2);
+      }
     });
   }
 
@@ -590,7 +595,7 @@
       this.settings.selectedListLabel = value;
       if (value) {
         this.elements.label2.show().html(value);
-      } else {
+      } else {0
         this.elements.label2.hide().html(value);
       }
       if (refresh) {
