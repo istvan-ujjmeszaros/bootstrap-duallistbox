@@ -14,9 +14,10 @@ $ bower install bootstrap-duallistbox
 2. Include **jQuery** and **Bootstrap**:
 
 ```html
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 ```
 
 3. Include plugin's code:
@@ -41,6 +42,7 @@ $("#element").bootstrapDualListbox({
 When calling `$("#element").bootstrapDualListbox()` you can pass a parameters object with zero or more of the following:
 
 - `bootstrap2Compatible`, defaults to `false`, set this to `true` if you want graphic compatibility with Bootstrap 2.
+- `bootstrap3Compatible`, defaults to `false`, set this to `true` if you want graphic compatibility with Bootstrap 3.
 - `filterTextClear`, defaults to `'show all'`, is the text for the "Show All" button.
 - `filterPlaceHolder`, defaults to `'Filter'`, is the placeholder for the `input` element for filtering elements.
 - `moveSelectedLabel`, defaults to `'Move selected'`, is the label for the "Move Selected" button.
@@ -60,6 +62,9 @@ When calling `$("#element").bootstrapDualListbox()` you can pass a parameters ob
 - `infoTextFiltered`, defaults to `'<span class="label label-warning">Filtered</span> {0} from {1}'`, determines which element format to use when some element is filtered. Remember to insert the `{0}` and `{1} `placeholders.
 - `infoTextEmpty`, defaults to `'Empty list'`, determines the `string` to use when there are no options in the list.
 - `filterOnValues`, defaults to `false`, set this to `true` to filter the `option`s according to their `value`s and not their HTML contents.
+- `iconsPrefix`, defaults to `oi`, set it to whichever prefix your icon family uses.
+- `iconMove`, defaults to `oi-arrow-thick-right`, sets the class for the move icon.
+- `iconRemove`, defaults to `oi-arrow-thick-left`, sets the class for the remove icon.
 
 ### Methods
 
@@ -76,6 +81,7 @@ $(selector).bootstrapDualListbox(methodName, parameter);
 Here are the available methods:
 
 - `setBootstrap2Compatible(value, refresh)` to change the `bootstrap2Compatible` parameter.
+- `setBootstrap3Compatible(value, refresh)` to change the `bootstrap3Compatible` parameter.
 - `setFilterTextClear(value, refresh)` to change the `filterTextClear` parameter.
 - `setFilterPlaceHolder(value, refresh)` to change the `filterPlaceHolder` parameter.
 - `setMoveSelectedLabel(value, refresh)` to change the `moveSelectedLabel` parameter.

@@ -3,6 +3,7 @@
   var pluginName = 'bootstrapDualListbox',
     defaults = {
       bootstrap2Compatible: false,
+      bootstrap3Compatible: false,
       filterTextClear: 'show all',
       filterPlaceHolder: 'Filter',
       moveSelectedLabel: 'Move selected',
@@ -26,7 +27,10 @@
       eventMoveOverride: false,                                                           // boolean, allows user to unbind default event behaviour and run their own instead
       eventMoveAllOverride: false,                                                        // boolean, allows user to unbind default event behaviour and run their own instead
       eventRemoveOverride: false,                                                         // boolean, allows user to unbind default event behaviour and run their own instead
-      eventRemoveAllOverride: false                                                       // boolean, allows user to unbind default event behaviour and run their own instead
+      eventRemoveAllOverride: false,                                                      // boolean, allows user to unbind default event behaviour and run their own instead
+      iconsPrefix: 'oi',                                                                  // string, sets an icon prefix
+      iconMove: 'oi-arrow-thick-right',                                                    // string, sets the icon for left arrow
+      iconRemove: 'oi-arrow-thick-left'                                                    // string, sets the icon for right arrow
     },
     // Selections are invisible on android if the containing select is styled with CSS
     // http://code.google.com/p/android/issues/detail?id=16922
@@ -433,6 +437,7 @@
       this.sortIndex = 0;
       this.elementCount = 0;
       this.setBootstrap2Compatible(this.settings.bootstrap2Compatible);
+      this.setBootstrap3Compatible(this.settings.bootstrap3Compatible);
       this.setFilterTextClear(this.settings.filterTextClear);
       this.setFilterPlaceHolder(this.settings.filterPlaceHolder);
       this.setMoveSelectedLabel(this.settings.moveSelectedLabel);
@@ -479,7 +484,15 @@
         this.container.find('.btn').removeClass('btn-default');
         this.container.find('.moveall > i, .move > i').removeClass('glyphicon glyphicon-arrow-right').addClass('icon-arrow-right');
         this.container.find('.removeall > i, .remove > i').removeClass('glyphicon glyphicon-arrow-left').addClass('icon-arrow-left');
-      } else {
+      }
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
+    setBootstrap3Compatible: function(value, refresh) {
+      this.settings.bootstrap3Compatible = value;
+      if (value) {
         this.container.removeClass('row-fluid bs2compatible').addClass('row');
         this.container.find('.box1, .box2').removeClass('span6').addClass('col-md-6');
         this.container.find('.clear1, .clear2').removeClass('btn-mini').addClass('btn-default btn-xs');
@@ -487,6 +500,14 @@
         this.container.find('.btn').addClass('btn-default');
         this.container.find('.moveall > i, .move > i').removeClass('icon-arrow-right').addClass('glyphicon glyphicon-arrow-right');
         this.container.find('.removeall > i, .remove > i').removeClass('icon-arrow-left').addClass('glyphicon glyphicon-arrow-left');
+      } else {
+        this.container.removeClass('row-fluid bs2compatible').addClass('row');
+        this.container.find('.box1, .box2').removeClass('span6').addClass('col-md-6');
+        this.container.find('.clear1, .clear2').removeClass('btn-mini').addClass('btn-secondary btn-sm');
+        this.container.find('input, select').addClass('form-control');
+        this.container.find('.btn').addClass('btn-secondary');
+        this.container.find('.moveall > i, .move > i').removeClass('icon-arrow-right').addClass(this.settings.iconsPrefix + ' ' + this.settings.iconMove);
+        this.container.find('.removeall > i, .remove > i').removeClass('icon-arrow-left').addClass(this.settings.iconsPrefix + ' ' + this.settings.iconRemove);
       }
       if (refresh) {
         refreshSelects(this);
