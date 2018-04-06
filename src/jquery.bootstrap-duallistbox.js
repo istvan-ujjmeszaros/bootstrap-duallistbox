@@ -1,4 +1,23 @@
-;(function ($, window, document, undefined) {
+(function(factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(['jquery'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    module.exports = function(root, jQuery) {
+      if (jQuery === undefined) {
+        if (typeof window !== 'undefined') {
+          jQuery = require('jquery');
+        }
+        else {
+          jQuery = require('jquery')(root);
+        }
+      }
+      factory(jQuery);
+      return jQuery;
+    };
+  } else {
+    factory(jQuery);
+  }
+}(function($) {
   // Create the defaults once
   var pluginName = 'bootstrapDualListbox',
     defaults = {
@@ -27,10 +46,10 @@
       eventRemoveOverride: false,                                                         // boolean, allows user to unbind default event behaviour and run their own instead
       eventRemoveAllOverride: false,                                                      // boolean, allows user to unbind default event behaviour and run their own instead
       btnClass: 'btn-outline-secondary',                                                  // sets the button style class for all the buttons
-      btnMoveText: 'Move &gt;',                                                           // string, sets the text for the "Move" button
-      btnRemoveText: '&lt; Remove',                                                       // string, sets the text for the "Remove" button
-      btnMoveAllText: 'Move all &gt;&gt;',                                                // string, sets the text for the "Move All" button
-      btnRemoveAllText: '&lt;&lt; Remove all'                                             // string, sets the text for the "Remove All" button
+      btnMoveText: '&gt;',                                                                // string, sets the text for the "Move" button
+      btnRemoveText: '&lt;',                                                              // string, sets the text for the "Remove" button
+      btnMoveAllText: '&gt;&gt;',                                                         // string, sets the text for the "Move All" button
+      btnRemoveAllText: '&lt;&lt;'                                                        // string, sets the text for the "Remove All" button
     },
     // Selections are invisible on android if the containing select is styled with CSS
     // http://code.google.com/p/android/issues/detail?id=16922
@@ -827,4 +846,4 @@
 
   };
 
-})(jQuery, window, document);
+}));
