@@ -26,11 +26,11 @@
       eventMoveAllOverride: false,                                                        // boolean, allows user to unbind default event behaviour and run their own instead
       eventRemoveOverride: false,                                                         // boolean, allows user to unbind default event behaviour and run their own instead
       eventRemoveAllOverride: false,                                                      // boolean, allows user to unbind default event behaviour and run their own instead
-      btnClass: 'btn-outline-secondary',                                                            // sets the button style class for all the buttons
-      btnMoveText: 'Move &gt;',                                                                // string, sets the text for the "Move" button
-      btnRemoveText: '&lt; Remove',                                                            // string, sets the text for the "Remove" button
-      btnMoveAllText: 'Move all &gt;&gt;',                                                         // string, sets the text for the "Move All" button
-      btnRemoveAllText: '&lt;&lt; Remove all'                                                      // string, sets the text for the "Remove All" button
+      btnClass: 'btn-outline-secondary',                                                  // sets the button style class for all the buttons
+      btnMoveText: 'Move &gt;',                                                           // string, sets the text for the "Move" button
+      btnRemoveText: '&lt; Remove',                                                       // string, sets the text for the "Remove" button
+      btnMoveAllText: 'Move all &gt;&gt;',                                                // string, sets the text for the "Move All" button
+      btnRemoveAllText: '&lt;&lt; Remove all'                                             // string, sets the text for the "Remove All" button
     },
     // Selections are invisible on android if the containing select is styled with CSS
     // http://code.google.com/p/android/issues/detail?id=16922
@@ -540,10 +540,14 @@
         this.elements.select2.on('change', function() {
           remove(self);
         });
+        this.elements.moveButton.detach();
+        this.elements.removeButton.detach();
       } else {
         this.container.removeClass('moveonselect');
         this.elements.select1.off('change');
         this.elements.select2.off('change');
+        this.elements.moveButton.insertAfter(this.elements.moveAllButton);
+        this.elements.removeButton.insertBefore(this.elements.removeAllButton);
       }
       if (refresh) {
         refreshSelects(this);
