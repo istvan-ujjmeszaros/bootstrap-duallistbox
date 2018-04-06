@@ -10,7 +10,6 @@
   // Create the defaults once
   var pluginName = 'bootstrapDualListbox',
     defaults = {
-      bootstrap2Compatible: false,
       filterTextClear: 'show all',
       filterPlaceHolder: 'Filter',
       moveSelectedLabel: 'Move selected',
@@ -27,14 +26,19 @@
       nonSelectedFilter: '',                                                              // string, filter the non selected options
       selectedFilter: '',                                                                 // string, filter the selected options
       infoText: 'Showing all {0}',                                                        // text when all options are visible / false for no info text
-      infoTextFiltered: '<span class="label label-warning">Filtered</span> {0} from {1}', // when not all of the options are visible due to the filter
+      infoTextFiltered: '<span class="badge badge-warning">Filtered</span> {0} from {1}', // when not all of the options are visible due to the filter
       infoTextEmpty: 'Empty list',                                                        // when there are no options present in the list
       filterOnValues: false,                                                              // filter by selector's values, boolean
       sortByInputOrder: false,
       eventMoveOverride: false,                                                           // boolean, allows user to unbind default event behaviour and run their own instead
       eventMoveAllOverride: false,                                                        // boolean, allows user to unbind default event behaviour and run their own instead
       eventRemoveOverride: false,                                                         // boolean, allows user to unbind default event behaviour and run their own instead
-      eventRemoveAllOverride: false                                                       // boolean, allows user to unbind default event behaviour and run their own instead
+      eventRemoveAllOverride: false,                                                      // boolean, allows user to unbind default event behaviour and run their own instead
+      btnClass: 'btn-outline-secondary',                                                            // sets the button style class for all the buttons
+      btnMoveText: 'Move &gt;',                                                                // string, sets the text for the "Move" button
+      btnRemoveText: '&lt; Remove',                                                            // string, sets the text for the "Remove" button
+      btnMoveAllText: 'Move all &gt;&gt;',                                                         // string, sets the text for the "Move All" button
+      btnRemoveAllText: '&lt;&lt; Remove all'                                                      // string, sets the text for the "Remove All" button
     },
     // Selections are invisible on android if the containing select is styled with CSS
     // http://code.google.com/p/android/issues/detail?id=16922
@@ -85,7 +89,8 @@
   }
 
   function formatString(s, args) {
-    return s.replace(/\{(\d+)\}/g, function(match, number) {
+    console.log(s, args);
+    return s.replace(/{(\d+)}/g, function(match, number) {
       return typeof args[number] !== 'undefined' ? args[number] : match;
     });
   }
@@ -155,7 +160,7 @@
     saveSelections(dualListbox, selectIndex);
 
     dualListbox.elements['select'+selectIndex].empty().scrollTop(0);
-    var regex = new RegExp($.trim(dualListbox.elements['filterInput'+selectIndex].val()), 'gi'),
+    var regex,
       allOptions = dualListbox.element.find('option'),
       options = dualListbox.element;
 
@@ -163,6 +168,14 @@
       options = allOptions.not(':selected');
     } else  {
       options = options.find('option:selected');
+    }
+
+    try {
+      regex = new RegExp($.trim(dualListbox.elements['filterInput'+selectIndex].val()), 'gi');
+    }
+    catch(e) {
+      // a regex to match nothing
+      regex = new RegExp('/a^/', 'gi');
     }
 
     options.each(function(index, item) {
@@ -365,40 +378,30 @@
     init: function () {
       // Add the custom HTML template
       this.container = $('' +
-        '<div class="bootstrap-duallistbox-container">' +
-        ' <div class="box1">' +
+        '<div class="bootstrap-duallistbox-container row">' +
+        ' <div class="box1 col-md-6">' +
         '   <label></label>' +
         '   <span class="info-container">' +
         '     <span class="info"></span>' +
-        '     <button type="button" class="btn clear1 pull-right"></button>' +
+        '     <button type="button" class="btn btn-sm clear1" style="float:right!important;"></button>' +
         '   </span>' +
-        '   <input class="filter" type="text">' +
+        '   <input class="form-control filter" type="text">' +
         '   <div class="btn-group buttons">' +
-        '     <button type="button" class="btn moveall">' +
-        '       <i></i>' +
-        '       <i></i>' +
-        '     </button>' +
-        '     <button type="button" class="btn move">' +
-        '       <i></i>' +
-        '     </button>' +
+        '     <button type="button" class="btn moveall"></button>' +
+        '     <button type="button" class="btn move"></button>' +
         '   </div>' +
         '   <select multiple="multiple"></select>' +
         ' </div>' +
-        ' <div class="box2">' +
+        ' <div class="box2 col-md-6">' +
         '   <label></label>' +
         '   <span class="info-container">' +
         '     <span class="info"></span>' +
-        '     <button type="button" class="btn clear2 pull-right"></button>' +
+        '     <button type="button" class="btn btn-sm clear2" style="float:right!important;"></button>' +
         '   </span>' +
-        '   <input class="filter" type="text">' +
+        '   <input class="form-control filter" type="text">' +
         '   <div class="btn-group buttons">' +
-        '     <button type="button" class="btn remove">' +
-        '       <i></i>' +
-        '     </button>' +
-        '     <button type="button" class="btn removeall">' +
-        '       <i></i>' +
-        '       <i></i>' +
-        '     </button>' +
+        '     <button type="button" class="btn remove"></button>' +
+        '     <button type="button" class="btn removeall"></button>' +
         '   </div>' +
         '   <select multiple="multiple"></select>' +
         ' </div>' +
@@ -440,7 +443,6 @@
       this.selectedElements = 0;
       this.sortIndex = 0;
       this.elementCount = 0;
-      this.setBootstrap2Compatible(this.settings.bootstrap2Compatible);
       this.setFilterTextClear(this.settings.filterTextClear);
       this.setFilterPlaceHolder(this.settings.filterPlaceHolder);
       this.setMoveSelectedLabel(this.settings.moveSelectedLabel);
@@ -468,6 +470,11 @@
       this.setEventMoveAllOverride(this.settings.eventMoveAllOverride);
       this.setEventRemoveOverride(this.settings.eventRemoveOverride);
       this.setEventRemoveAllOverride(this.settings.eventRemoveAllOverride);
+      this.setBtnClass(this.settings.btnClass);
+      this.setBtnMoveText(this.settings.btnMoveText);
+      this.setBtnRemoveText(this.settings.btnRemoveText);
+      this.setBtnMoveAllText(this.settings.btnMoveAllText);
+      this.setBtnRemoveAllText(this.settings.btnRemoveAllText);
 
       // Hide the original select
       this.element.hide();
@@ -475,30 +482,6 @@
       bindEvents(this);
       refreshSelects(this);
 
-      return this.element;
-    },
-    setBootstrap2Compatible: function(value, refresh) {
-      this.settings.bootstrap2Compatible = value;
-      if (value) {
-        this.container.removeClass('row').addClass('row-fluid bs2compatible');
-        this.container.find('.box1, .box2').removeClass('col-md-6').addClass('span6');
-        this.container.find('.clear1, .clear2').removeClass('btn-default btn-xs').addClass('btn-mini');
-        this.container.find('input, select').removeClass('form-control');
-        this.container.find('.btn').removeClass('btn-default');
-        this.container.find('.moveall > i, .move > i').removeClass('glyphicon glyphicon-arrow-right').addClass('icon-arrow-right');
-        this.container.find('.removeall > i, .remove > i').removeClass('glyphicon glyphicon-arrow-left').addClass('icon-arrow-left');
-      } else {
-        this.container.removeClass('row-fluid bs2compatible').addClass('row');
-        this.container.find('.box1, .box2').removeClass('span6').addClass('col-md-6');
-        this.container.find('.clear1, .clear2').removeClass('btn-mini').addClass('btn-default btn-xs');
-        this.container.find('input, select').addClass('form-control');
-        this.container.find('.btn').addClass('btn-default');
-        this.container.find('.moveall > i, .move > i').removeClass('icon-arrow-right').addClass('glyphicon glyphicon-arrow-right');
-        this.container.find('.removeall > i, .remove > i').removeClass('icon-arrow-left').addClass('glyphicon glyphicon-arrow-left');
-      }
-      if (refresh) {
-        refreshSelects(this);
-      }
       return this.element;
     },
     setFilterTextClear: function(value, refresh) {
@@ -736,6 +719,49 @@
           refreshSelects(this);
         }
         return this.element;
+    },
+    setBtnClass: function(value, refresh) {
+      this.settings.btnClass = value;
+      this.elements.moveButton.attr('class', 'btn move').addClass(value);
+      this.elements.removeButton.attr('class', 'btn remove').addClass(value);
+      this.elements.moveAllButton.attr('class', 'btn moveall').addClass(value);
+      this.elements.removeAllButton.attr('class', 'btn removeall').addClass(value);
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
+    setBtnMoveText: function(value, refresh) {
+      this.settings.btnMoveText = value;
+      this.elements.moveButton.html(value);
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
+    setBtnRemoveText: function(value, refresh) {
+      this.settings.btnMoveText = value;
+      this.elements.removeButton.html(value);
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
+    setBtnMoveAllText: function(value, refresh) {
+      this.settings.btnMoveText = value;
+      this.elements.moveAllButton.html(value);
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
+    setBtnRemoveAllText: function(value, refresh) {
+      this.settings.btnMoveText = value;
+      this.elements.removeAllButton.html(value);
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
     },
     getContainer: function() {
       return this.container;
