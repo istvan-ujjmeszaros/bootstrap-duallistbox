@@ -36,6 +36,7 @@
       removeSelectedLabel: 'Remove selected',
       removeAllLabel: 'Remove all',
       moveOnSelect: true,                                                                 // true/false (forced true on androids, see the comment later)
+      moveOnDoubleClick: true,                                                            // true/false (forced false on androids, cause moveOnSelect is forced to true)
       preserveSelectionOnMove: false,                                                     // 'all' / 'moved' / false
       selectedListLabel: false,                                                           // 'string', false
       nonSelectedListLabel: false,                                                        // 'string', false
@@ -469,6 +470,7 @@
       this.setRemoveSelectedLabel(this.settings.removeSelectedLabel);
       this.setRemoveAllLabel(this.settings.removeAllLabel);
       this.setMoveOnSelect(this.settings.moveOnSelect);
+      this.setMoveOnDoubleClick(this.settings.moveOnDoubleClick);
       this.setPreserveSelectionOnMove(this.settings.preserveSelectionOnMove);
       this.setSelectedListLabel(this.settings.selectedListLabel);
       this.setNonSelectedListLabel(this.settings.nonSelectedListLabel);
@@ -575,6 +577,30 @@
         this.elements.select2.off('change');
         this.elements.moveButton.insertAfter(this.elements.moveAllButton);
         this.elements.removeButton.insertBefore(this.elements.removeAllButton);
+      }
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
+    setMoveOnDoubleClick: function(value, refresh) {
+      if (isBuggyAndroid) {
+        value = false;
+      }
+      this.settings.moveOnDoubleClick = value;
+      if (this.settings.moveOnDoubleClick) {
+        this.container.addClass('moveondoubleclick');
+        var self = this;
+        this.elements.select1.on('dblclick', function() {
+          move(self);
+        });
+        this.elements.select2.on('dblclick', function() {
+          remove(self);
+        });
+      } else {
+        this.container.removeClass('moveondoubleclick');
+        this.elements.select1.off('dblclick');
+        this.elements.select2.off('dblclick');
       }
       if (refresh) {
         refreshSelects(this);
