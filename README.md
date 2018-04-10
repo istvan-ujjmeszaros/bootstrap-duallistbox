@@ -48,6 +48,7 @@ When calling `$("#element").bootstrapDualListbox()` you can pass a parameters ob
 - `removeSelectedLabel`, defaults to `'Remove selected'`, is the label for the "Remove Selected" button.
 - `removeAllLabel`, defaults to `'Remove all'`, is the label for the "Remove All" button.
 - `moveOnSelect`, defaults to `true`, determines whether to move `option`s upon selection. This option is forced to `true` on the Android browser.
+- `moveOnDoubleClick`, defaults to `true`, determines whether to move `option`s upon double click. This option is not used on the Android browser.
 - `preserveSelectionOnMove`, can be`'all'` (for selecting both moved elements and the already selected ones in the target list) or `'moved'` (for selecting moved elements only); defaults to `false`.
 - `selectedListLabel`, defaults to `false`, can be a `string` specifying the name of the selected list.
 - `nonSelectedListLabel`, defaults to `false`, can be a `string` specifying the name of the non selected list.
@@ -83,6 +84,7 @@ Here are the available methods:
 - `setRemoveSelectedLabel(value, refresh)` to change the `removeSelectedLabel` parameter.
 - `setRemoveAllLabel(value, refresh)` to change the `removeAllLabel` parameter.
 - `setMoveOnSelect(value, refresh)` to change the `moveOnSelect` parameter.
+- `setMoveOnDoubleClick(value, refresh)` to change the `moveOnDoubleClick` parameter.
 - `setPreserveSelectionOnMove(value, refresh)` to change the `preserveSelectionOnMove` parameter.
 - `setSelectedListLabel(value, refresh)` to change the `selectedListLabel` parameter.
 - `setNonSelectedListLabel(value, refresh)` to change the `nonSelectedListLabel` parameter.
