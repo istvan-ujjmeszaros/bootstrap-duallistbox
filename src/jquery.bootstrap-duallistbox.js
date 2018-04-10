@@ -700,6 +700,13 @@
     },
     setInfoText: function(value, refresh) {
       this.settings.infoText = value;
+      if (value) {
+        this.elements.info1.show();
+        this.elements.info2.show();
+      } else {
+        this.elements.info1.hide();
+        this.elements.info2.hide();
+      }
       if (refresh) {
         refreshSelects(this);
       }
