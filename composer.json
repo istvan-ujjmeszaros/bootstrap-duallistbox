@@ -3,8 +3,8 @@
     "type": "library",
     "keywords": ["bootstrap", "bootstrap select", "select", "bootstrap duallistbox", "duallistbox"],
     "description": "A responsive dual listbox widget optimized for Twitter Bootstrap. It works on all modern browsers and on touch devices.",
-    "homepage": "http://www.virtuosoft.eu/code/bootstrap-duallistbox/",
-    "version": "3.0.6",
+    "homepage": "https://www.virtuosoft.eu/code/bootstrap-duallistbox/",
+    "version": "3.0.7",
     "authors": [
         {
             "name": "István Ujj-Mészáros",

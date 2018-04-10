@@ -9,7 +9,7 @@
         "input",
         "ui"
     ],
-    "version": "3.0.6",
+    "version": "3.0.7",
     "author": {
         "name": "István Ujj-Mészáros",
         "url": "https://github.com/istvan-ujjmeszaros"
@@ -20,9 +20,9 @@
             "url": "http://www.apache.org/licenses/LICENSE-2.0"
         }
     ],
-    "homepage": "http://www.virtuosoft.eu/code/bootstrap-duallistbox/",
-    "demo": "http://www.virtuosoft.eu/code/bootstrap-duallistbox/",
-    "docs": "http://www.virtuosoft.eu/code/bootstrap-duallistbox/",
+    "homepage": "https://www.virtuosoft.eu/code/bootstrap-duallistbox/",
+    "demo": "https://www.virtuosoft.eu/code/bootstrap-duallistbox/",
+    "docs": "https://www.virtuosoft.eu/code/bootstrap-duallistbox/",
     "download": "https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox/archive/master.zip",
     "dependencies": {
         "jquery": ">=1.7",

@@ -6,38 +6,13 @@
     "name": "István Ujj-Mészáros",
     "url": "https://github.com/istvan-ujjmeszaros"
   },
-  "contributors": [
-    {
-      "name": "Francesco Pontillo",
-      "url": "https://github.com/frapontillo"
-    },
-    {
-      "name": "Ninir",
-      "url": "https://github.com/Ninir"
-    },
-    {
-      "name": "Christophe Coevoet",
-      "url": "https://github.com/stof"
-    },
-    {
-      "name": "Ed Ng",
-      "url": "https://github.com/gnedster"
-    },
-    {
-      "name": "ssafejava",
-      "url": "https://github.com/ssafejava"
-    },
-    {
-      "name": "justthefish",
-      "url": "https://github.com/justthefish"
-    }
-  ],
+  "contributors": [],
   "repository": {
     "type": "git",
-    "url": "http://github.com/istvan-ujjmeszaros/bootstrap-duallistbox.git"
+    "url": "https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox.git"
   },
-  "homepage": "http://www.virtuosoft.eu/code/bootstrap-duallistbox/",
-  "version": "3.0.6",
+  "homepage": "https://www.virtuosoft.eu/code/bootstrap-duallistbox/",
+  "version": "3.0.7",
   "devDependencies": {
     "grunt": "^1.0.2",
     "grunt-cli": "^1.2.0",
