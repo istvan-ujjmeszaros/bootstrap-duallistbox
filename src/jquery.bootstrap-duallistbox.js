@@ -217,11 +217,15 @@
       saveSelections(dualListbox, 1);
     }
 
+    var offset = 0;
+    var select;
     dualListbox.elements.select1.find('option:selected').each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered1')) {
         changeSelectionState(dualListbox, $item.data('original-index'), true);
       }
+      select = $(item).closest('select');
+      offset = select.scrollTop();
     });
 
     refreshSelects(dualListbox);
@@ -231,6 +235,7 @@
     } else {
         sortOptions(dualListbox.elements.select2);
     }
+    select.scrollTop(offset);
   }
 
   function remove(dualListbox) {
@@ -241,11 +246,15 @@
       saveSelections(dualListbox, 2);
     }
 
+    var offset = 0;
+    var select;
     dualListbox.elements.select2.find('option:selected').each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered2')) {
         changeSelectionState(dualListbox, $item.data('original-index'), false);
       }
+      select = $(item).closest('select');
+      offset = select.scrollTop();
     });
 
     refreshSelects(dualListbox);
@@ -254,6 +263,7 @@
     if(dualListbox.settings.sortByInputOrder){
         sortOptionsByInputOrder(dualListbox.elements.select2);
     }
+    select.scrollTop(offset);
   }
 
   function moveAll(dualListbox) {
