@@ -50,7 +50,8 @@
       btnMoveText: '&gt;',                                                                // string, sets the text for the "Move" button
       btnRemoveText: '&lt;',                                                              // string, sets the text for the "Remove" button
       btnMoveAllText: '&gt;&gt;',                                                         // string, sets the text for the "Move All" button
-      btnRemoveAllText: '&lt;&lt;'                                                        // string, sets the text for the "Remove All" button
+      btnRemoveAllText: '&lt;&lt;',                                                       // string, sets the text for the "Remove All" button
+      reversedBoxes: false                                                                // boolean, puts box1(non-selecetd) on the right and box2(selected) on the left
     },
     // Selections are invisible on android if the containing select is styled with CSS
     // http://code.google.com/p/android/issues/detail?id=16922
@@ -468,6 +469,7 @@
       this.setNonSelectedListLabel(this.settings.nonSelectedListLabel);
       this.setHelperSelectNamePostfix(this.settings.helperSelectNamePostfix);
       this.setSelectOrMinimalHeight(this.settings.selectorMinimalHeight);
+      this.setReversedBoxes(this.settings.reversedBoxes);
 
       updateSelectionStates(this);
 
@@ -811,6 +813,32 @@
       }
       return this.element;
     },
+    setReversedBoxes: function(value,refresh){
+		this.settings.reversedBoxes = value;
+		if (value){
+			if(!$(this.elements.box2).after().hasClass('box1')){
+				$(this.elements.box2).insertBefore($(this.elements.box1));
+				$(this.elements.box2).find('.remove').insertAfter($(this.elements.box2).find('.removeall'));
+				$(this.elements.box2).find('.glyphicon-arrow-left').removeClass('glyphicon-arrow-left').addClass('glyphicon-arrow-right');
+				$(this.elements.box1).find('.move').insertBefore($(this.elements.box1).find('.moveall'));
+				$(this.elements.box1).find('.glyphicon-arrow-right').removeClass('glyphicon-arrow-right').addClass('glyphicon-arrow-left');
+			}
+		}
+		else{
+			if(!$(this.elements.box2).before().hasClass('box1')){
+				$(this.elements.box1).insertBefore($(this.elements.box2));
+				$(this.elements.box2).find('.removeall').insertAfter($(this.elements.box2).find('.remove'));
+				$(this.elements.box2).find('.glyphicon-arrow-right').removeClass('glyphicon-arrow-right').addClass('glyphicon-arrow-left');
+				$(this.elements.box1).find('.moveall').insertBefore($(this.elements.box1).find('.move'));
+				$(this.elements.box1).find('.glyphicon-arrow-left').removeClass('glyphicon-arrow-left').addClass('glyphicon-arrow-right');
+			}
+		}
+		if (refresh) {
+          refreshSelects(this);
+        }
+        return this.element;
+	},
+	
     getContainer: function() {
       return this.container;
     },
