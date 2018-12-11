@@ -817,20 +817,24 @@
 		this.settings.reversedBoxes = value;
 		if (value){
 			if(!$(this.elements.box2).after().hasClass('box1')){
+        classbox1 = $(this.elements.box1).find('.move i').attr('class');
+        classbox2 = $(this.elements.box2).find('.remove i').attr('class');
 				$(this.elements.box2).insertBefore($(this.elements.box1));
 				$(this.elements.box2).find('.remove').insertAfter($(this.elements.box2).find('.removeall'));
-				$(this.elements.box2).find('.glyphicon-arrow-left').removeClass('glyphicon-arrow-left').addClass('glyphicon-arrow-right');
+				$(this.elements.box2).find('.remove i, .removeall i').removeClass(classbox2).addClass(classbox1);
 				$(this.elements.box1).find('.move').insertBefore($(this.elements.box1).find('.moveall'));
-				$(this.elements.box1).find('.glyphicon-arrow-right').removeClass('glyphicon-arrow-right').addClass('glyphicon-arrow-left');
+				$(this.elements.box1).find('.move i, moveall i').removeClass(classbox1).addClass(classbox2);
 			}
 		}
 		else{
+      classbox1 = $(this.elements.box1).find('.move i').attr('class');
+      classbox2 = $(this.elements.box2).find('.remove i').attr('class');
 			if(!$(this.elements.box2).before().hasClass('box1')){
 				$(this.elements.box1).insertBefore($(this.elements.box2));
 				$(this.elements.box2).find('.removeall').insertAfter($(this.elements.box2).find('.remove'));
-				$(this.elements.box2).find('.glyphicon-arrow-right').removeClass('glyphicon-arrow-right').addClass('glyphicon-arrow-left');
+				$(this.elements.box2).find('.remove i, removeall i').removeClass(classbox1).addClass(classbox2);
 				$(this.elements.box1).find('.moveall').insertBefore($(this.elements.box1).find('.move'));
-				$(this.elements.box1).find('.glyphicon-arrow-left').removeClass('glyphicon-arrow-left').addClass('glyphicon-arrow-right');
+				$(this.elements.box1).find('.remove i, removeall i').removeClass(classbox2).addClass(classbox1);
 			}
 		}
 		if (refresh) {
