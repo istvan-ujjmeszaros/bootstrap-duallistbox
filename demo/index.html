@@ -101,7 +101,13 @@ var demo2 = $('.demo2').bootstrapDualListbox({
         selectedListLabel: 'Selected',
         preserveSelectionOnMove: 'moved',
         moveOnSelect: false,
-        nonSelectedFilter: 'ion ([7-9]|[1][0-2])'
+        nonSelectedFilter: 'ion ([7-9]|[1][0-2])',
+        callbackMove: function(items){
+          alert("Moved items: " + $.map(items,function(i){return i.text}));
+        },
+        callbackRemove: function(items){
+          alert("Removed items:" + $.map(items,function(i){return i.text}));
+        }
       });
     </script>
   </div>

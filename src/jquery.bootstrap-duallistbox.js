@@ -51,7 +51,9 @@
       btnRemoveText: '&lt;',                                                              // string, sets the text for the "Remove" button
       btnMoveAllText: '&gt;&gt;',                                                         // string, sets the text for the "Move All" button
       btnRemoveAllText: '&lt;&lt;',                                                       // string, sets the text for the "Remove All" button
-      reversedBoxes: false                                                                // boolean, puts box1(non-selecetd) on the right and box2(selected) on the left
+      reversedBoxes: false,                                                               // boolean, puts box1(non-selecetd) on the right and box2(selected) on the left
+      callbackMove: null,                                                                 // function, execute a funtion on move a selection as selected. Uses the selected options to move as the last parameter
+      callbackRemove: null                                                                // function, execute a funtion on remove a selection as selected. Uses the selected options to remove as the last parameter
     },
     // Selections are invisible on android if the containing select is styled with CSS
     // http://code.google.com/p/android/issues/detail?id=16922
@@ -102,7 +104,7 @@
   }
 
   function formatString(s, args) {
-    console.log(s, args);
+    //console.log(s, args);
     return s.replace(/{(\d+)}/g, function(match, number) {
       return typeof args[number] !== 'undefined' ? args[number] : match;
     });
@@ -251,6 +253,7 @@
       saveSelections(dualListbox, 1);
     }
 
+    var itemsToMove = dualListbox.elements.select1.find('option:selected');
     dualListbox.elements.select1.find('option:selected').each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered1')) {
@@ -265,6 +268,10 @@
     } else {
         sortOptions(dualListbox.elements.select2);
     }
+
+    if (typeof(dualListbox.settings.callbackMove)=='function'){
+      dualListbox.settings.callbackMove(itemsToMove);
+    }
   }
 
   function remove(dualListbox) {
@@ -275,6 +282,7 @@
       saveSelections(dualListbox, 2);
     }
 
+    var itemsToRemove = dualListbox.elements.select2.find('option:selected');
     dualListbox.elements.select2.find('option:selected').each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered2')) {
@@ -288,6 +296,11 @@
     if(dualListbox.settings.sortByInputOrder){
         sortOptionsByInputOrder(dualListbox.elements.select2);
     }
+
+    if (typeof(dualListbox.settings.callbackRemove) == 'function'){
+        dualListbox.settings.callbackRemove(itemsToRemove)
+    }
+
   }
 
   function moveAll(dualListbox) {
@@ -298,6 +311,7 @@
       saveSelections(dualListbox, 1);
     }
 
+    var itemsToMove = dualListbox.element.find('option');
     dualListbox.element.find('option').each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered1')) {
@@ -309,6 +323,9 @@
 
     refreshSelects(dualListbox);
     triggerChangeEvent(dualListbox);
+    if (typeof(dualListbox.settings.callbackMove)=='function'){
+      dualListbox.settings.callbackMove(itemsToMove);
+    }
   }
 
   function removeAll(dualListbox) {
@@ -318,6 +335,8 @@
     } else if (dualListbox.settings.preserveSelectionOnMove === 'moved' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 2);
     }
+
+    var itemsToReove = dualListbox.element.find('option');
 
     dualListbox.element.find('option').each(function(index, item) {
       var $item = $(item);
@@ -329,6 +348,9 @@
 
     refreshSelects(dualListbox);
     triggerChangeEvent(dualListbox);
+    if (typeof(dualListbox.settings.callbackRemove)=='function'){
+      dualListbox.settings.callbackRemove(itemsToRemove);
+    }
   }
 
   function bindEvents(dualListbox) {
@@ -490,6 +512,9 @@
       this.setBtnRemoveText(this.settings.btnRemoveText);
       this.setBtnMoveAllText(this.settings.btnMoveAllText);
       this.setBtnRemoveAllText(this.settings.btnRemoveAllText);
+      this.setCallbackMove(this.settings.callbackMove);
+      this.setCallbackRemove(this.settings.callbackRemove);
+
 
       // Hide the original select
       this.element.hide();
@@ -814,36 +839,52 @@
       return this.element;
     },
     setReversedBoxes: function(value,refresh){
-    this.settings.reversedBoxes = value;
+      this.settings.reversedBoxes = value;
     
-		if (value){
-			if(!$(this.elements.box2).after().hasClass('box1')){
+      if (value){
+        if(!$(this.elements.box2).after().hasClass('box1')){
+          classbox1 = $(this.elements.box1).find('.move i').attr('class');
+          classbox2 = $(this.elements.box2).find('.remove i').attr('class');
+          $(this.elements.box2).insertBefore($(this.elements.box1));
+          $(this.elements.box2).find('.remove').insertAfter($(this.elements.box2).find('.removeall'));
+          $(this.elements.box2).find('.remove i, .removeall i').removeClass(classbox2).addClass(classbox1);
+          $(this.elements.box1).find('.move').insertBefore($(this.elements.box1).find('.moveall'));
+          $(this.elements.box1).find('.move i, moveall i').removeClass(classbox1).addClass(classbox2);
+        }
+      }
+      else{
         classbox1 = $(this.elements.box1).find('.move i').attr('class');
         classbox2 = $(this.elements.box2).find('.remove i').attr('class');
-				$(this.elements.box2).insertBefore($(this.elements.box1));
-				$(this.elements.box2).find('.remove').insertAfter($(this.elements.box2).find('.removeall'));
-				$(this.elements.box2).find('.remove i, .removeall i').removeClass(classbox2).addClass(classbox1);
-				$(this.elements.box1).find('.move').insertBefore($(this.elements.box1).find('.moveall'));
-				$(this.elements.box1).find('.move i, moveall i').removeClass(classbox1).addClass(classbox2);
-			}
-		}
-		else{
-      classbox1 = $(this.elements.box1).find('.move i').attr('class');
-      classbox2 = $(this.elements.box2).find('.remove i').attr('class');
-			if(!$(this.elements.box2).before().hasClass('box1')){
-				$(this.elements.box1).insertBefore($(this.elements.box2));
-				$(this.elements.box2).find('.removeall').insertAfter($(this.elements.box2).find('.remove'));
-				$(this.elements.box2).find('.remove i, removeall i').removeClass(classbox1).addClass(classbox2);
-				$(this.elements.box1).find('.moveall').insertBefore($(this.elements.box1).find('.move'));
-				$(this.elements.box1).find('.remove i, removeall i').removeClass(classbox2).addClass(classbox1);
-			}
-		}
-		if (refresh) {
-          refreshSelects(this);
+        if(!$(this.elements.box2).before().hasClass('box1')){
+          $(this.elements.box1).insertBefore($(this.elements.box2));
+          $(this.elements.box2).find('.removeall').insertAfter($(this.elements.box2).find('.remove'));
+          $(this.elements.box2).find('.remove i, removeall i').removeClass(classbox1).addClass(classbox2);
+          $(this.elements.box1).find('.moveall').insertBefore($(this.elements.box1).find('.move'));
+          $(this.elements.box1).find('.remove i, removeall i').removeClass(classbox2).addClass(classbox1);
         }
-        return this.element;
-	},
-	
+      }
+      if (refresh) {
+            refreshSelects(this);
+      }
+      return this.element;
+	  },
+  
+    setCallbackMove: function(value,refresh){
+      this.settings.callbackMove = value;
+      if (refresh){
+        refreshSelects(this);
+      }
+      return this.element;
+    },
+    
+    setCallbackRemove: function(value,refresh){
+      this.settings.callbackRemove = value;
+      if (refresh){
+        refreshSelects(this);
+      }
+      return this.element;
+    },
+
     getContainer: function() {
       return this.container;
     },
