@@ -862,21 +862,6 @@
 				$(this.elements.box1).find('.remove i, removeall i').removeClass(classbox2).addClass(classbox1);
 			}
 		}
-		if (refresh) {
-          refreshSelects(this);
-        }
-      }
-      else{
-        classbox1 = $(this.elements.box1).find('.move i').attr('class');
-        classbox2 = $(this.elements.box2).find('.remove i').attr('class');
-        if(!$(this.elements.box2).before().hasClass('box1')){
-          $(this.elements.box1).insertBefore($(this.elements.box2));
-          $(this.elements.box2).find('.removeall').insertAfter($(this.elements.box2).find('.remove'));
-          $(this.elements.box2).find('.remove i, removeall i').removeClass(classbox1).addClass(classbox2);
-          $(this.elements.box1).find('.moveall').insertBefore($(this.elements.box1).find('.move'));
-          $(this.elements.box1).find('.remove i, removeall i').removeClass(classbox2).addClass(classbox1);
-        }
-      }
       if (refresh) {
             refreshSelects(this);
       }
