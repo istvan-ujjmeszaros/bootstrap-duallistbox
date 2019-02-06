@@ -298,7 +298,7 @@
     }
 
     if (typeof(dualListbox.settings.callbackRemove) === 'function'){
-        dualListbox.settings.callbackRemove(itemsToRemove)
+        dualListbox.settings.callbackRemove(itemsToRemove);
     }
 
   }
