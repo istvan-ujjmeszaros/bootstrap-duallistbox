@@ -66,6 +66,9 @@ When calling `$("#element").bootstrapDualListbox()` you can pass a parameters ob
 - `iconsPrefix`, defaults to `oi`, set it to whichever prefix your icon family uses.
 - `iconMove`, defaults to `oi-arrow-thick-right`, sets the class for the move icon.
 - `iconRemove`, defaults to `oi-arrow-thick-left`, sets the class for the remove icon.
+- `callbackMove`, defaults to null, set it to execute a function when moving(selecting) a option. Ex: function(items){         alert("Moved items: " + $.map(items,function(i){return i.text}));}
+- `callbackRemove`, defaults to null, set it to execute a function when removing(selecting) a option. Ex: function(items){         alert("Removed items: " + $.map(items,function(i){return i.text}));}
+- `reversedBoxes`, defaults to false, set it to true to swap the position of the boxes
 
 ### Methods
 
@@ -103,7 +106,9 @@ Here are the available methods:
 - `setInfoTextFiltered(value, refresh)` to change the `infoTextFiltered` parameter.
 - `setInfoTextEmpty(value, refresh)` to change the `infoTextEmpty` parameter.
 - `setFilterOnValues(value, refresh)` to change the `filterOnValues` parameter.
-
+- `setCallbackMove(function)` to execute a function when moving options as selected.
+- `setCallbackReove(function)` to execute a function when removing options as non-selected.
+- `setReversedBoxes(true/false)` to swap the position of the boxes (selected to Left).
 Furthermore, you can call:
 
 - `refresh()` or `trigger` the `bootstrapDualListbox.refresh` event to update the plugin element UI.
