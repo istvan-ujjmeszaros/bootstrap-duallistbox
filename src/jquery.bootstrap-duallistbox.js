@@ -311,7 +311,7 @@
       saveSelections(dualListbox, 1);
     }
 
-    var itemsToMove = dualListbox.elements.find('option');
+    var itemsToMove = dualListbox.elements.select1.find('option');
     dualListbox.element.find('option').each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered1')) {
