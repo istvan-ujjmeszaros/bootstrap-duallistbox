@@ -269,7 +269,7 @@
         sortOptions(dualListbox.elements.select2);
     }
 
-    if (typeof(dualListbox.settings.callbackMove)=='function'){
+    if (typeof(dualListbox.settings.callbackMove)==='function'){
       dualListbox.settings.callbackMove(itemsToMove);
     }
   }
@@ -297,7 +297,7 @@
         sortOptionsByInputOrder(dualListbox.elements.select2);
     }
 
-    if (typeof(dualListbox.settings.callbackRemove) == 'function'){
+    if (typeof(dualListbox.settings.callbackRemove) === 'function'){
         dualListbox.settings.callbackRemove(itemsToRemove)
     }
 
@@ -323,7 +323,7 @@
 
     refreshSelects(dualListbox);
     triggerChangeEvent(dualListbox);
-    if (typeof(dualListbox.settings.callbackMove)=='function'){
+    if (typeof(dualListbox.settings.callbackMove)==='function'){
       dualListbox.settings.callbackMove(itemsToMove);
     }
   }
@@ -348,7 +348,7 @@
 
     refreshSelects(dualListbox);
     triggerChangeEvent(dualListbox);
-    if (typeof(dualListbox.settings.callbackRemove)=='function'){
+    if (typeof(dualListbox.settings.callbackRemove)==='function'){
       dualListbox.settings.callbackRemove(itemsToRemove);
     }
   }
