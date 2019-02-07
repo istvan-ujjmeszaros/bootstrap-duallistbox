@@ -878,12 +878,12 @@
       if(value === true){
         $(this.elements.box1).attr('disabled','disabled').find('button,select').attr('disabled','disabled');
         $(this.elements.box2).attr('disabled','disabled').find('button,select').attr('disabled','disabled');
-        $(this.elements.originalSelect).attr("disabled","disabled");
+        $(this.elements.originalSelect).attr('disabled','disabled');
       }
       if (value === false){
         $(this.elements.box1).removeAttr('disabled').find('button,select').removeAttr('disabled');
         $(this.elements.box2).removeAttr('disabled').find('button,select').removeAttr('disabled');
-        $(this.elements.originalSelect).removeAttr("disabled","disabled");
+        $(this.elements.originalSelect).removeAttr('disabled','disabled');
       }
       if (refresh) {
         refreshSelects(this);
