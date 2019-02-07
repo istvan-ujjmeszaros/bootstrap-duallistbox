@@ -53,7 +53,10 @@
       btnRemoveAllText: '&lt;&lt;',                                                       // string, sets the text for the "Remove All" button
       reversedBoxes: false,                                                               // boolean, puts box1(non-selecetd) on the right and box2(selected) on the left
       callbackMove: null,                                                                 // function, execute a funtion on move a selection as selected. Uses the selected options to move as the last parameter
-      callbackRemove: null                                                                // function, execute a funtion on remove a selection as selected. Uses the selected options to remove as the last parameter
+      callbackRemove: null,                                                               // function, execute a funtion on remove a selection as selected. Uses the selected options to remove as the last parameter
+      disabled: null,                                                                     // boolean or null, if true disable all the options to be changed, if false enable all selects (override disableMove and disableRemove)
+      disabledMove: null,                                                                 // boolean or null, if true disable only not selected options to be selected
+      disabledRemove: null                                                                // boolean or null, if true disable only selected options to be not selected
     },
     // Selections are invisible on android if the containing select is styled with CSS
     // http://code.google.com/p/android/issues/detail?id=16922
@@ -492,6 +495,9 @@
       this.setHelperSelectNamePostfix(this.settings.helperSelectNamePostfix);
       this.setSelectOrMinimalHeight(this.settings.selectorMinimalHeight);
       this.setReversedBoxes(this.settings.reversedBoxes);
+      this.setDisabledMove(this.settings.disabledMove);
+      this.setDisabledRemove(this.settings.disabledRemove);
+      this.setDisabled(this.settings.disabled);
 
       updateSelectionStates(this);
 
@@ -839,34 +845,77 @@
       return this.element;
     },
     setReversedBoxes: function(value,refresh){
-		this.settings.reversedBoxes = value;
-		if (value){
-			if(!$(this.elements.box2).after().hasClass('box1')){
+      this.settings.reversedBoxes = value;
+      if (value){
+        if(!$(this.elements.box2).after().hasClass('box1')){
+          classbox1 = $(this.elements.box1).find('.move i').attr('class');
+          classbox2 = $(this.elements.box2).find('.remove i').attr('class');
+          $(this.elements.box2).insertBefore($(this.elements.box1));
+          $(this.elements.box2).find('.remove').insertAfter($(this.elements.box2).find('.removeall'));
+          $(this.elements.box2).find('.remove i, .removeall i').removeClass(classbox2).addClass(classbox1);
+          $(this.elements.box1).find('.move').insertBefore($(this.elements.box1).find('.moveall'));
+          $(this.elements.box1).find('.move i, moveall i').removeClass(classbox1).addClass(classbox2);
+        }
+      }
+      else{
         classbox1 = $(this.elements.box1).find('.move i').attr('class');
         classbox2 = $(this.elements.box2).find('.remove i').attr('class');
-				$(this.elements.box2).insertBefore($(this.elements.box1));
-				$(this.elements.box2).find('.remove').insertAfter($(this.elements.box2).find('.removeall'));
-				$(this.elements.box2).find('.remove i, .removeall i').removeClass(classbox2).addClass(classbox1);
-				$(this.elements.box1).find('.move').insertBefore($(this.elements.box1).find('.moveall'));
-				$(this.elements.box1).find('.move i, moveall i').removeClass(classbox1).addClass(classbox2);
-			}
-		}
-		else{
-      classbox1 = $(this.elements.box1).find('.move i').attr('class');
-      classbox2 = $(this.elements.box2).find('.remove i').attr('class');
-			if(!$(this.elements.box2).before().hasClass('box1')){
-				$(this.elements.box1).insertBefore($(this.elements.box2));
-				$(this.elements.box2).find('.removeall').insertAfter($(this.elements.box2).find('.remove'));
-				$(this.elements.box2).find('.remove i, removeall i').removeClass(classbox1).addClass(classbox2);
-				$(this.elements.box1).find('.moveall').insertBefore($(this.elements.box1).find('.move'));
-				$(this.elements.box1).find('.remove i, removeall i').removeClass(classbox2).addClass(classbox1);
-			}
-		}
+        if(!$(this.elements.box2).before().hasClass('box1')){
+          $(this.elements.box1).insertBefore($(this.elements.box2));
+          $(this.elements.box2).find('.removeall').insertAfter($(this.elements.box2).find('.remove'));
+          $(this.elements.box2).find('.remove i, removeall i').removeClass(classbox1).addClass(classbox2);
+          $(this.elements.box1).find('.moveall').insertBefore($(this.elements.box1).find('.move'));
+          $(this.elements.box1).find('.remove i, removeall i').removeClass(classbox2).addClass(classbox1);
+        }
+      }
+        if (refresh) {
+              refreshSelects(this);
+        }
+        return this.element;
+    },
+    
+    setDisabled: function(value, refresh){
+      if(value === true){
+        $(this.elements.box1).attr('disabled','disabled').find('button,select').attr('disabled','disabled');
+        $(this.elements.box2).attr('disabled','disabled').find('button,select').attr('disabled','disabled');
+        $(this.elements.originalSelect).attr("disabled","disabled");
+      }
+      if (value === false){
+        $(this.elements.box1).removeAttr('disabled').find('button,select').removeAttr('disabled');
+        $(this.elements.box2).removeAttr('disabled').find('button,select').removeAttr('disabled');
+        $(this.elements.originalSelect).removeAttr("disabled","disabled");
+      }
       if (refresh) {
-            refreshSelects(this);
+        refreshSelects(this);
       }
       return this.element;
-	  },
+    },
+
+    setDisabledMove: function(value, refresh){
+      if(value === true){
+        $(this.elements.box1).attr('disabled','disabled').find('button,select').attr('disabled','disabled');
+      }
+      if(value === false){
+        $(this.elements.box1).removeAttr('disabled').find('button,select').removeAttr('disabled');
+      }
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
+
+    setDisabledRemove: function(value, refresh){
+      if(value === true){
+        $(this.elements.box2).attr('disabled','disabled').find('button,select').attr('disabled','disabled');
+      }
+      if(value === false){
+        $(this.elements.box2).removeAttr('disabled').find('button,select').removeAttr('disabled');
+      }
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
   
     setCallbackMove: function(value,refresh){
       this.settings.callbackMove = value;
