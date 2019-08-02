@@ -79,6 +79,9 @@
       if (typeof($item.data('original-index')) === 'undefined') {
         $item.data('original-index', dualListbox.elementCount++);
       }
+      if (dualListbox.settings.sortByInputOrder) {
+        $item.attr('data-sortindex', dualListbox.sortIndex++);
+      }
       if (typeof($item.data('_selected')) === 'undefined') {
         $item.data('_selected', false);
       }
