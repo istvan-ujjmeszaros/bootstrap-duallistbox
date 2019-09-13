@@ -144,18 +144,21 @@
   function refreshSelects(dualListbox) {
     dualListbox.selectedElements = 0;
 
-    dualListbox.elements.select1.empty();
-    dualListbox.elements.select2.empty();
+    var select1InnerHtml = "";
+    var select2InnerHtml = "";
 
     dualListbox.element.find('option').each(function(index, item) {
       var $item = $(item);
+	  var htmlToAdd = $item.clone(true).prop('selected', $item.data('_selected'))[0].outerHTML;
       if ($item.prop('selected')) {
         dualListbox.selectedElements++;
-        dualListbox.elements.select2.append($item.clone(true).prop('selected', $item.data('_selected')));
+        select2InnerHtml += htmlToAdd;
       } else {
-        dualListbox.elements.select1.append($item.clone(true).prop('selected', $item.data('_selected')));
+        select1InnerHtml += htmlToAdd;
       }
     });
+    dualListbox.elements.select1[0].innerHTML = select1InnerHtml;
+    dualListbox.elements.select2[0].innerHTML = select2InnerHtml;
 
     if (dualListbox.settings.showFilterInputs) {
       filter(dualListbox, 1);
@@ -255,15 +258,13 @@
       if (!$item.data('filtered1')) {
         changeSelectionState(dualListbox, $item.data('original-index'), true);
       }
+	  dualListbox.selectedElements++;
+	  var itemToInsert = $item.clone(true).prop('selected', $item.data('_selected'));
+	  insertOptionIntoSelect(dualListbox.elements.select2, itemToInsert, dualListbox.settings.sortByInputOrder));
+	  $item.remove();
     });
 
-    refreshSelects(dualListbox);
     triggerChangeEvent(dualListbox);
-    if(dualListbox.settings.sortByInputOrder){
-        sortOptionsByInputOrder(dualListbox.elements.select2);
-    } else {
-        sortOptions(dualListbox.elements.select2);
-    }
   }
 
   function remove(dualListbox) {
@@ -279,15 +280,52 @@
       if (!$item.data('filtered2')) {
         changeSelectionState(dualListbox, $item.data('original-index'), false);
       }
+	  dualListbox.selectedElements--;
+	  var itemToInsert = $item.clone(true).prop('selected', $item.data('_selected'));
+	  insertOptionIntoSelect(dualListbox.elements.select1, itemToInsert, dualListbox.settings.sortByInputOrder));
+	  $item.remove();
+	  
     });
 
-    refreshSelects(dualListbox);
     triggerChangeEvent(dualListbox);
-    sortOptions(dualListbox.elements.select1);
-    if(dualListbox.settings.sortByInputOrder){
-        sortOptionsByInputOrder(dualListbox.elements.select2);
-    }
   }
+  
+    function insertOptionIntoSelect(select, itemToInsert, sortByInputOrder) {
+        var options = select.find('option');
+		var comparer = sortByInputOrder ? 
+			function (a, b) {
+                return ($(a).data('sortindex') > $(b).data('sortindex')) ? 1 : -1;
+            }
+			:
+			function (a, b) {
+                return ($(a).data('original-index') > $(b).data('original-index')) ? 1 : -1;
+            };
+        var insertPos = binarySearch(options, itemToInsert, comparer);
+        insertPos = insertPos >= 0 ? options.length : -insertPos - 1;
+        if (options.length < insertPos + 1) {
+            select.append(itemToInsert);
+        } else {
+            options.eq(insertPos).before(itemToInsert);
+        }
+    }
+
+    // from https://stackoverflow.com/a/29018745
+    function binarySearch(ar, el, comparer) {
+        var m = 0;
+        var n = ar.length - 1;
+        while (m <= n) {
+            var k = (n + m) >> 1;
+            var cmp = comparer(el, ar[k]);
+            if (cmp > 0) {
+                m = k + 1;
+            } else if (cmp < 0) {
+                n = k - 1;
+            } else {
+                return k;
+            }
+        }
+        return -m - 1;
+    }
 
   function moveAll(dualListbox) {
     if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
