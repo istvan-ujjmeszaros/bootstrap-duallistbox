@@ -120,8 +120,8 @@
   function refreshSelects(dualListbox) {
     dualListbox.selectedElements = 0;
 
-    const initialScrollPositionSelect1 = dualListbox.elements.select1.scrollTop();
-    const initialScrollPositionSelect2 = dualListbox.elements.select2.scrollTop();
+    var initialScrollPositionSelect1 = dualListbox.elements.select1.scrollTop();
+    var initialScrollPositionSelect2 = dualListbox.elements.select2.scrollTop();
     
     dualListbox.elements.select1.empty();
     dualListbox.elements.select2.empty();
