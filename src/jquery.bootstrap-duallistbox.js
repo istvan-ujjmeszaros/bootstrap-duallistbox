@@ -260,7 +260,7 @@
       }
 	  dualListbox.selectedElements++;
 	  var itemToInsert = $item.clone(true).prop('selected', $item.data('_selected'));
-	  insertOptionIntoSelect(dualListbox.elements.select2, itemToInsert, dualListbox.settings.sortByInputOrder));
+	  insertOptionIntoSelect(dualListbox.elements.select2, itemToInsert, dualListbox.settings.sortByInputOrder);
 	  $item.remove();
     });
 
