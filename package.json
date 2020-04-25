@@ -12,14 +12,14 @@
     "url": "https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox.git"
   },
   "homepage": "https://www.virtuosoft.eu/code/bootstrap-duallistbox/",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "devDependencies": {
-    "grunt": "^1.0.2",
-    "grunt-cli": "^1.2.0",
-    "grunt-contrib-jshint": "^1.1.0",
+    "grunt": "^1.1.0",
+    "grunt-cli": "^1.3.2",
+    "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-uglify": "^3.3.0",
-    "grunt-contrib-cssmin": "^2.2.1"
+    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-contrib-cssmin": "^3.0.0"
   },
   "scripts": {
     "test": "grunt travis --verbose"
