@@ -27,7 +27,12 @@
       eventMoveOverride: false,                                                           // boolean, allows user to unbind default event behaviour and run their own instead
       eventMoveAllOverride: false,                                                        // boolean, allows user to unbind default event behaviour and run their own instead
       eventRemoveOverride: false,                                                         // boolean, allows user to unbind default event behaviour and run their own instead
-      eventRemoveAllOverride: false                                                       // boolean, allows user to unbind default event behaviour and run their own instead
+      eventRemoveAllOverride: false,                                                      // boolean, allows user to unbind default event behaviour and run their own instead
+      iconsPrefix: 'glyphicon',                                                           // string, set the icon prefix (e.g. "fa", "glyphicon", etc.)
+      icons: {                                                                            // object, set the icon for move and remove operations
+          move: 'glyphicon-arrow-right',
+          remove: 'glyphicon-arrow-left'
+      }
     },
     // Selections are invisible on android if the containing select is styled with CSS
     // http://code.google.com/p/android/issues/detail?id=16922
@@ -482,16 +487,16 @@
         this.container.find('.clear1, .clear2').removeClass('btn-default btn-xs').addClass('btn-mini');
         this.container.find('input, select').removeClass('form-control');
         this.container.find('.btn').removeClass('btn-default');
-        this.container.find('.moveall > i, .move > i').removeClass('glyphicon glyphicon-arrow-right').addClass('icon-arrow-right');
-        this.container.find('.removeall > i, .remove > i').removeClass('glyphicon glyphicon-arrow-left').addClass('icon-arrow-left');
+        this.container.find('.moveall > i, .move > i').removeClass(this.settings.iconsPrefix + ' ' + this.settings.icons.move).addClass('icon-arrow-right');
+        this.container.find('.removeall > i, .remove > i').removeClass(this.settings.iconsPrefix + ' ' + this.settings.icons.remove).addClass('icon-arrow-left');
       } else {
         this.container.removeClass('row-fluid bs2compatible').addClass('row');
         this.container.find('.box1, .box2').removeClass('span6').addClass('col-md-6');
         this.container.find('.clear1, .clear2').removeClass('btn-mini').addClass('btn-default btn-xs');
         this.container.find('input, select').addClass('form-control');
         this.container.find('.btn').addClass('btn-default');
-        this.container.find('.moveall > i, .move > i').removeClass('icon-arrow-right').addClass('glyphicon glyphicon-arrow-right');
-        this.container.find('.removeall > i, .remove > i').removeClass('icon-arrow-left').addClass('glyphicon glyphicon-arrow-left');
+        this.container.find('.moveall > i, .move > i').removeClass('icon-arrow-right').addClass(this.settings.iconsPrefix + ' ' + this.settings.icons.move);
+        this.container.find('.removeall > i, .remove > i').removeClass('icon-arrow-left').addClass(this.settings.iconsPrefix + ' ' + this.settings.icons.remove);
       }
       if (refresh) {
         refreshSelects(this);
