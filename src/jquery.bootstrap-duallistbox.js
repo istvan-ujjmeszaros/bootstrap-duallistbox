@@ -120,6 +120,9 @@
   function refreshSelects(dualListbox) {
     dualListbox.selectedElements = 0;
 
+    var initialScrollPositionSelect1 = dualListbox.elements.select1.scrollTop();
+    var initialScrollPositionSelect2 = dualListbox.elements.select2.scrollTop();
+    
     dualListbox.elements.select1.empty();
     dualListbox.elements.select2.empty();
 
@@ -137,6 +140,10 @@
       filter(dualListbox, 1);
       filter(dualListbox, 2);
     }
+    
+    dualListbox.elements.select1.scrollTop(initialScrollPositionSelect1);
+    dualListbox.elements.select2.scrollTop(initialScrollPositionSelect2);
+    
     refreshInfo(dualListbox);
   }
 
