@@ -61,6 +61,7 @@ When calling `$("#element").bootstrapDualListbox()` you can pass a parameters ob
 - `infoTextFiltered`, defaults to `'<span class="label label-warning">Filtered</span> {0} from {1}'`, determines which element format to use when some element is filtered. Remember to insert the `{0}` and `{1} `placeholders.
 - `infoTextEmpty`, defaults to `'Empty list'`, determines the `string` to use when there are no options in the list.
 - `filterOnValues`, defaults to `false`, set this to `true` to filter the `option`s according to their `value`s and not their HTML contents.
+- `filterOnData`, defaults to `false`, set this to `true` to filter the `data-filter-*`s you assign on options.
 
 ### Methods
 
@@ -97,6 +98,7 @@ Here are the available methods:
 - `setInfoTextFiltered(value, refresh)` to change the `infoTextFiltered` parameter.
 - `setInfoTextEmpty(value, refresh)` to change the `infoTextEmpty` parameter.
 - `setFilterOnValues(value, refresh)` to change the `filterOnValues` parameter.
+- `setFilterOnData(value, refresh)` to change the `filterOnData` parameter.
 
 Furthermore, you can call:
 

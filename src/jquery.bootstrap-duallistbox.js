@@ -24,6 +24,7 @@
       infoTextEmpty: 'Empty list',                                                        // when there are no options present in the list
       filterOnValues: false,                                                              // filter by selector's values, boolean
       sortByInputOrder: false,
+      filterOnData: false,                                                                // filter by data-filter-*, boolean
       eventMoveOverride: false,                                                           // boolean, allows user to unbind default event behaviour and run their own instead
       eventMoveAllOverride: false,                                                        // boolean, allows user to unbind default event behaviour and run their own instead
       eventRemoveOverride: false,                                                         // boolean, allows user to unbind default event behaviour and run their own instead
@@ -161,7 +162,7 @@
     options.each(function(index, item) {
       var $item = $(item),
         isFiltered = true;
-      if (item.text.match(regex) || (dualListbox.settings.filterOnValues && $item.attr('value').match(regex) ) ) {
+      if (item.text.match(regex) || (dualListbox.settings.filterOnValues && $item.attr('value').match(regex)) || (dualListbox.settings.filterOnData && hasFilterOnData($item, regex))) {
         isFiltered = false;
         dualListbox.elements['select'+selectIndex].append($item.clone(true).prop('selected', $item.data('_selected')));
       }
@@ -177,6 +178,20 @@
       var $item = $(item);
       options.eq($item.data('original-index')).data('_selected', $item.prop('selected'));
     });
+  }
+
+  function hasFilterOnData(item, regex) {
+    var $item = $(item),
+    isFiltered = false;
+    if ($item) {
+      $.each($item.data(), function(key, value) {
+        if (key.match(/filter([A-Z]+)+/) && value && value.toString().match(regex)) {
+          isFiltered = true;
+          return false;
+        }
+      });
+    }
+    return isFiltered;
   }
 
   function sortOptionsByInputOrder(select){
@@ -270,7 +285,7 @@
 
     dualListbox.element.find('option').each(function(index, item) {
       var $item = $(item);
-      if (!$item.data('filtered1')) {
+      if (!$item.data('filtered1') && !$item.prop('disabled')) {
         $item.prop('selected', true);
         $item.attr('data-sortindex', dualListbox.sortIndex);
         dualListbox.sortIndex++;
@@ -291,7 +306,7 @@
 
     dualListbox.element.find('option').each(function(index, item) {
       var $item = $(item);
-      if (!$item.data('filtered2')) {
+      if (!$item.data('filtered2') && !$item.prop('disabled')) {
         $item.prop('selected', false);
         $item.removeAttr('data-sortindex');
       }
@@ -461,6 +476,7 @@
       this.setInfoTextEmpty(this.settings.infoTextEmpty);
       this.setFilterOnValues(this.settings.filterOnValues);
       this.setSortByInputOrder(this.settings.sortByInputOrder);
+      this.setFilterOnData(this.settings.filterOnData);
       this.setEventMoveOverride(this.settings.eventMoveOverride);
       this.setEventMoveAllOverride(this.settings.eventMoveAllOverride);
       this.setEventRemoveOverride(this.settings.eventRemoveOverride);
@@ -736,6 +752,13 @@
           refreshSelects(this);
         }
         return this.element;
+    },
+    setFilterOnData: function(value, refresh) {
+      this.settings.filterOnData = value;
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
     },
     setEventMoveOverride: function(value, refresh) {
         this.settings.eventMoveOverride = value;
