@@ -1,4 +1,4 @@
-# Bootstrap Dual Listbox [![Build Status](https://travis-ci.org/istvan-ujjmeszaros/bootstrap-touchspin.svg?branch=v4)](https://travis-ci.org/istvan-ujjmeszaros/bootstrap-touchspin)
+# Bootstrap Dual Listbox [![Build Status](https://travis-ci.org/istvan-ujjmeszaros/bootstrap-duallistbox.svg?branch=v4)](https://travis-ci.org/istvan-ujjmeszaros/bootstrap-duallistbox)
 Bootstrap Dual Listbox is a responsive dual listbox widget optimized for Twitter Bootstrap. Works on all modern browsers and on touch devices.
 
 Check the [official website](http://www.virtuosoft.eu/code/bootstrap-duallistbox/) for a demo.
