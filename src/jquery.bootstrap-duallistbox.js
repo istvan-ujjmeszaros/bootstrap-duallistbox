@@ -198,10 +198,13 @@
     selectopt.detach().appendTo(select);
   }
 
-  function sortOptions(select) {
+  function sortOptions(select, dualListbox) {
     select.find('option').sort(function(a, b) {
       return ($(a).data('original-index') > $(b).data('original-index')) ? 1 : -1;
     }).appendTo(select);
+
+    // workaround for chromium bug: https://bugs.chromium.org/p/chromium/issues/detail?id=1072475
+    refreshSelects(dualListbox);
   }
 
   function clearSelections(dualListbox) {
@@ -230,7 +233,7 @@
     if(dualListbox.settings.sortByInputOrder){
         sortOptionsByInputOrder(dualListbox.elements.select2);
     } else {
-        sortOptions(dualListbox.elements.select2);
+        sortOptions(dualListbox.elements.select2, dualListbox);
     }
   }
 
@@ -251,7 +254,7 @@
 
     refreshSelects(dualListbox);
     triggerChangeEvent(dualListbox);
-    sortOptions(dualListbox.elements.select1);
+    sortOptions(dualListbox.elements.select1, dualListbox);
     if(dualListbox.settings.sortByInputOrder){
         sortOptionsByInputOrder(dualListbox.elements.select2);
     }
