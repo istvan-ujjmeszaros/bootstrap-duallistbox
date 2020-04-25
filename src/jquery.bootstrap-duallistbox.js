@@ -221,7 +221,7 @@
       saveSelections(dualListbox, 1);
     }
 
-    dualListbox.elements.select1.find('option:selected').each(function(index, item) {
+    dualListbox.elements.select1.find('option:selected:enabled').each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered1')) {
         changeSelectionState(dualListbox, $item.data('original-index'), true);
@@ -245,7 +245,7 @@
       saveSelections(dualListbox, 2);
     }
 
-    dualListbox.elements.select2.find('option:selected').each(function(index, item) {
+    dualListbox.elements.select2.find('option:selected:enabled').each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered2')) {
         changeSelectionState(dualListbox, $item.data('original-index'), false);
@@ -268,7 +268,7 @@
       saveSelections(dualListbox, 1);
     }
 
-    dualListbox.element.find('option').each(function(index, item) {
+    dualListbox.element.find('option:enabled').each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered1')) {
         $item.prop('selected', true);
@@ -289,7 +289,7 @@
       saveSelections(dualListbox, 2);
     }
 
-    dualListbox.element.find('option').each(function(index, item) {
+    dualListbox.element.find('option:enabled').each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered2')) {
         $item.prop('selected', false);
