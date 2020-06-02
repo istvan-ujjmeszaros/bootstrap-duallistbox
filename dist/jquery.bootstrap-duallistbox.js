@@ -109,7 +109,6 @@
   }
 
   function formatString(s, args) {
-    console.log(s, args);
     return s.replace(/{(\d+)}/g, function(match, number) {
       return typeof args[number] !== 'undefined' ? args[number] : match;
     });
