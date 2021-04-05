@@ -51,8 +51,8 @@
       btnRemoveText: '&lt;',                                                              // string, sets the text for the "Remove" button
       btnMoveAllText: '&gt;&gt;',                                                         // string, sets the text for the "Move All" button
       btnRemoveAllText: '&lt;&lt;',                                                       // string, sets the text for the "Remove All" button
-      maxElements: 500,                                                                   // int, sets the maximum element in a list
-      maxElementsText: "Maximum number of displayable elements reached"                                   // string, sets text for the disabled option that indicates that the maximum number of displayable elements have been reached   
+      maxElements: 500,                                                                   // int, sets the maximum number of displayable elements in a select
+      maxElementsText: "Maximum number of displayable elements reached"                   // string, sets text for the disabled option that indicates that the maximum number of displayable elements have been reached   
     },
     // Selections are invisible on android if the containing select is styled with CSS
     // http://code.google.com/p/android/issues/detail?id=16922
