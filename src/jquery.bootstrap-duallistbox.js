@@ -50,7 +50,9 @@
       btnMoveText: '&gt;',                                                                // string, sets the text for the "Move" button
       btnRemoveText: '&lt;',                                                              // string, sets the text for the "Remove" button
       btnMoveAllText: '&gt;&gt;',                                                         // string, sets the text for the "Move All" button
-      btnRemoveAllText: '&lt;&lt;'                                                        // string, sets the text for the "Remove All" button
+      btnRemoveAllText: '&lt;&lt;',                                                       // string, sets the text for the "Remove All" button
+      maxElements: 500,                                                                   // int, sets the maximum number of displayable elements in a select
+      maxElementsText: 'Maximum number of displayable elements reached'                   // string, sets text for the disabled option that indicates that the maximum number of displayable elements have been reached   
     },
     // Selections are invisible on android if the containing select is styled with CSS
     // http://code.google.com/p/android/issues/detail?id=16922
@@ -189,12 +191,20 @@
       regex = new RegExp('/a^/', 'gi');
     }
 
+    var maxSelectedReached = false;
+    var elements = 0;
     options.each(function(index, item) {
+      elements++;
       var $item = $(item),
         isFiltered = true;
       if (item.text.match(regex) || (dualListbox.settings.filterOnValues && $item.attr('value').match(regex) ) ) {
         isFiltered = false;
-        dualListbox.elements['select'+selectIndex].append($item.clone(true).prop('selected', $item.data('_selected')));
+        if (elements < dualListbox.settings.maxElements) {
+          dualListbox.elements['select'+selectIndex].append($item.clone(true).prop('selected', $item.data('_selected')));
+        } else if (!maxSelectedReached) {
+          maxSelectedReached = true;
+          dualListbox.elements.select1.append('<option disabled>' + dualListbox.settings.maxElementsText + '</option>');
+        }
       }
       allOptions.eq($item.data('original-index')).data('filtered'+selectIndex, isFiltered);
     });
@@ -490,6 +500,8 @@
       this.setBtnRemoveText(this.settings.btnRemoveText);
       this.setBtnMoveAllText(this.settings.btnMoveAllText);
       this.setBtnRemoveAllText(this.settings.btnRemoveAllText);
+      this.setMaxElements(this.settings.maxElements);
+      this.setMaxElementsText(this.settings.maxElementsText);
 
       // Hide the original select
       this.element.hide();
@@ -781,6 +793,13 @@
       }
       return this.element;
     },
+    setMaxElements: function(value, refresh) {
+      this.settings.maxElements = value;
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
     setBtnMoveText: function(value, refresh) {
       this.settings.btnMoveText = value;
       this.elements.moveButton.html(value);
@@ -808,6 +827,13 @@
     setBtnRemoveAllText: function(value, refresh) {
       this.settings.btnMoveText = value;
       this.elements.removeAllButton.html(value);
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
+    setMaxElementsText: function(value, refresh) {
+      this.settings.maxElementsText = value;
       if (refresh) {
         refreshSelects(this);
       }
