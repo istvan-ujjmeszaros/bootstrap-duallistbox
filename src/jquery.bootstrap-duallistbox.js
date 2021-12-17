@@ -639,8 +639,16 @@
     setHelperSelectNamePostfix: function(value, refresh) {
       this.settings.helperSelectNamePostfix = value;
       if (value) {
-        this.elements.select1.attr('name', this.originalSelectName + value + '1');
-        this.elements.select2.attr('name', this.originalSelectName + value + '2');
+        // inject the postfix before the first '[' if any
+        var namePart = this.originalSelectName;
+        var arrayPart = '';
+        var bracketPos = namePart.indexOf('[');
+        if (bracketPos >= 0) {
+          arrayPart = namePart.substr(bracketPos);
+          namePart = namePart.substr(0, bracketPos);
+        }
+        this.elements.select1.attr('name', namePart + value + '1' + arrayPart);
+        this.elements.select2.attr('name', namePart + value + '2' + arrayPart);
       } else {
         this.elements.select1.removeAttr('name');
         this.elements.select2.removeAttr('name');
