@@ -397,7 +397,7 @@
         '   <label></label>' +
         '   <span class="info-container">' +
         '     <span class="info"></span>' +
-        '     <button type="button" class="btn btn-sm clear1" style="float:right!important;"></button>' +
+        '     <button type="button" class="btn btn-sm clear1"></button>' +
         '   </span>' +
         '   <input class="form-control filter" type="text">' +
         '   <div class="btn-group buttons">' +
@@ -410,7 +410,7 @@
         '   <label></label>' +
         '   <span class="info-container">' +
         '     <span class="info"></span>' +
-        '     <button type="button" class="btn btn-sm clear2" style="float:right!important;"></button>' +
+        '     <button type="button" class="btn btn-sm clear2"></button>' +
         '   </span>' +
         '   <input class="form-control filter" type="text">' +
         '   <div class="btn-group buttons">' +
