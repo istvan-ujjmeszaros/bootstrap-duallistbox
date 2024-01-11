@@ -254,7 +254,7 @@
 
     dualListbox.elements.select1.find('option:selected').each(function(index, item) {
       var $item = $(item);
-      if (!$item.data('filtered1')) {
+      if (!$item.data('filtered1') && !$item.prop("disabled")) {
         changeSelectionState(dualListbox, $item.data('original-index'), true);
       }
     });
@@ -301,7 +301,7 @@
 
     dualListbox.element.find('option').each(function(index, item) {
       var $item = $(item);
-      if (!$item.data('filtered1')) {
+      if (!$item.data('filtered1') && !$item.prop("disabled")) {
         $item.prop('selected', true);
         $item.attr('data-sortindex', dualListbox.sortIndex);
         dualListbox.sortIndex++;
