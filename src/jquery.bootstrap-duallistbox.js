@@ -164,6 +164,25 @@
   }
 
   function filter(dualListbox, selectIndex) {
+
+  /** === Changes by PHF to delay the actual filtering === */
+    // console.log('Delayed filtering called')
+    if (this.filterTimerId != null) {
+      // console.log(`Clearing previous filter timer ${this.filterTimerId}`)
+      clearTimeout(this.filterTimerId)
+    }
+
+    // delay filtering if not called back in XXX ms
+    var delayFiltering = 500 // 500 ms by default is good for a few thousands items
+    this.filterTimerId = setTimeout( actual_filter, delayFiltering, dualListbox, selectIndex)
+    // console.log(`New filter timer id ${this.filterTimerId}`)
+  }
+
+  function actual_filter(dualListbox, selectIndex) {
+    console.log(`Filtering on \"${$.trim(dualListbox.elements['filterInput'+selectIndex].val())}\"`)
+    this.filterTimerId = null;
+  /** === End of Changes by PHF to delay the actual filtering === */
+
     if (!dualListbox.settings.showFilterInputs) {
       return;
     }
