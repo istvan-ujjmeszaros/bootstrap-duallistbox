@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches: [v4]
+    tags: ['v*']
+  pull_request:
+    branches: [v4]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Lint + tests (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: Version numbers consistent
+        run: npm run version:check
+
+  pr-hygiene:
+    name: PR touches src/, not dist/
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: dist/ is rebuilt by the maintainer after merge (see CONTRIBUTING.md)
+        run: |
+          changed=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- dist)
+          if [ -n "$changed" ]; then
+            echo "::warning::This PR changes dist/ files; please only change src/. dist/ is rebuilt after merging."
+            echo "$changed"
+          fi
+
+  dist-fresh:
+    name: dist/ matches src/
+    if: github.event_name == 'push' && github.ref == 'refs/heads/v4'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx grunt
+      - name: Warn if a "Recompile after merging" commit is still due
+        run: |
+          if [ -n "$(git status --porcelain -- dist)" ]; then
+            echo "::warning::dist/ is out of date with src/. Run 'npx grunt' and commit 'Recompile after merging #N'."
+            git status --porcelain -- dist
+          fi
+
+  release-verify:
+    name: Release guard (tag ${{ github.ref_name }})
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Tag matches package.json version
+        run: |
+          want="v$(node -p "require('./package.json').version")"
+          [ "$want" = "${{ github.ref_name }}" ] || { echo "::error::tag ${{ github.ref_name }} != package.json $want"; exit 1; }
+      - run: node tools/release-check.js --ci
