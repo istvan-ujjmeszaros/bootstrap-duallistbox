@@ -260,6 +260,13 @@ $("#demo2-add-clear").click(function() {
     </td>
   </tr>
   <tr>
+    <td><code>filterDelay</code></td>
+    <td><code><strong>0</strong></code>: milliseconds to wait after the last keystroke in a filter input before
+      filtering. <code>0</code> filters on every keystroke; with thousands of options a value such as
+      <code>300</code> keeps typing responsive.
+    </td>
+  </tr>
+  <tr>
     <td><code>eventMoveOverride</code></td>
     <td><code><strong>false</strong></code>: set this to <code>true</code> to allow your own implementation of the move
       event.
@@ -403,6 +410,10 @@ $(selector).bootstrapDualListbox(methodName, parameter);</pre>
   <tr>
     <td><code>setFilterOnValues(value, refresh)</code></td>
     <td>change the <code>filterOnValues</code> parameter.</td>
+  </tr>
+  <tr>
+    <td><code>setFilterDelay(value, refresh)</code></td>
+    <td>change the <code>filterDelay</code> parameter.</td>
   </tr>
   <tr>
     <td><code>setEventMoveOverride(value, refresh)</code></td>

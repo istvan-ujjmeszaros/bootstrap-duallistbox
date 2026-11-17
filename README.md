@@ -63,6 +63,7 @@ When calling `$("#element").bootstrapDualListbox()` you can pass a parameters ob
 - `infoTextFiltered`, defaults to `'<span class="label label-warning">Filtered</span> {0} from {1}'`, determines which element format to use when some element is filtered. Remember to insert the `{0}` and `{1} `placeholders.
 - `infoTextEmpty`, defaults to `'Empty list'`, determines the `string` to use when there are no options in the list.
 - `filterOnValues`, defaults to `false`, set this to `true` to filter the `option`s according to their `value`s and not their HTML contents.
+- `filterDelay`, defaults to `0`, the number of milliseconds to wait after the last keystroke in a filter input before filtering. `0` filters on every keystroke. With thousands of `option`s, a value such as `300` keeps typing responsive.
 - `iconsPrefix`, defaults to `oi`, set it to whichever prefix your icon family uses.
 - `iconMove`, defaults to `oi-arrow-thick-right`, sets the class for the move icon.
 - `iconRemove`, defaults to `oi-arrow-thick-left`, sets the class for the remove icon.
@@ -103,6 +104,7 @@ Here are the available methods:
 - `setInfoTextFiltered(value, refresh)` to change the `infoTextFiltered` parameter.
 - `setInfoTextEmpty(value, refresh)` to change the `infoTextEmpty` parameter.
 - `setFilterOnValues(value, refresh)` to change the `filterOnValues` parameter.
+- `setFilterDelay(value, refresh)` to change the `filterDelay` parameter.
 
 Furthermore, you can call:
 
