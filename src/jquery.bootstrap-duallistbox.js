@@ -40,6 +40,7 @@
       infoText: 'Showing all {0}',                                                        // text when all options are visible / false for no info text
       infoTextFiltered: '<span class="badge badge-warning">Filtered</span> {0} from {1}', // when not all of the options are visible due to the filter
       infoTextEmpty: 'Empty list',                                                        // when there are no options present in the list
+      filterDelay: 0,                                                                     // ms to wait after the last keystroke before filtering (0 = filter immediately)
       filterOnValues: false,                                                              // filter by selector's values, boolean
       sortByInputOrder: false,
       eventMoveOverride: false,                                                           // boolean, allows user to unbind default event behaviour and run their own instead
@@ -163,7 +164,39 @@
     refreshInfo(dualListbox);
   }
 
+  function cancelPendingFilter(dualListbox, selectIndex) {
+    if (dualListbox.filterTimers && dualListbox.filterTimers[selectIndex]) {
+      clearTimeout(dualListbox.filterTimers[selectIndex]);
+      dualListbox.filterTimers[selectIndex] = null;
+      return true;
+    }
+    return false;
+  }
+
+  function flushPendingFilters(dualListbox) {
+    for (var i = 1; i <= 2; i++) {
+      if (cancelPendingFilter(dualListbox, i)) {
+        filter(dualListbox, i);
+      }
+    }
+  }
+
+  function scheduleFilter(dualListbox, selectIndex) {
+    var delay = dualListbox.settings.filterDelay;
+    cancelPendingFilter(dualListbox, selectIndex);
+    if (!delay) {
+      filter(dualListbox, selectIndex);
+      return;
+    }
+    dualListbox.filterTimers = dualListbox.filterTimers || {};
+    dualListbox.filterTimers[selectIndex] = setTimeout(function() {
+      dualListbox.filterTimers[selectIndex] = null;
+      filter(dualListbox, selectIndex);
+    }, delay);
+  }
+
   function filter(dualListbox, selectIndex) {
+    cancelPendingFilter(dualListbox, selectIndex);
     if (!dualListbox.settings.showFilterInputs) {
       return;
     }
@@ -245,6 +278,7 @@
   }
 
   function move(dualListbox) {
+    flushPendingFilters(dualListbox);
     if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
@@ -269,6 +303,7 @@
   }
 
   function remove(dualListbox) {
+    flushPendingFilters(dualListbox);
     if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
@@ -292,6 +327,7 @@
   }
 
   function moveAll(dualListbox) {
+    flushPendingFilters(dualListbox);
     if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
@@ -313,6 +349,7 @@
   }
 
   function removeAll(dualListbox) {
+    flushPendingFilters(dualListbox);
     if (dualListbox.settings.preserveSelectionOnMove === 'all' && !dualListbox.settings.moveOnSelect) {
       saveSelections(dualListbox, 1);
       saveSelections(dualListbox, 2);
@@ -379,11 +416,19 @@
       });
     }
 
-    dualListbox.elements.filterInput1.on('change keyup', function() {
+    dualListbox.elements.filterInput1.on('keyup', function() {
+      scheduleFilter(dualListbox, 1);
+    });
+
+    dualListbox.elements.filterInput2.on('keyup', function() {
+      scheduleFilter(dualListbox, 2);
+    });
+
+    dualListbox.elements.filterInput1.on('change', function() {
       filter(dualListbox, 1);
     });
 
-    dualListbox.elements.filterInput2.on('change keyup', function() {
+    dualListbox.elements.filterInput2.on('change', function() {
       filter(dualListbox, 2);
     });
   }
@@ -480,6 +525,7 @@
       this.setInfoTextFiltered(this.settings.infoTextFiltered);
       this.setInfoTextEmpty(this.settings.infoTextEmpty);
       this.setFilterOnValues(this.settings.filterOnValues);
+      this.setFilterDelay(this.settings.filterDelay);
       this.setSortByInputOrder(this.settings.sortByInputOrder);
       this.setEventMoveOverride(this.settings.eventMoveOverride);
       this.setEventMoveAllOverride(this.settings.eventMoveAllOverride);
@@ -728,6 +774,14 @@
       }
       return this.element;
     },
+    setFilterDelay: function(value, refresh) {
+      value = parseInt(value, 10);
+      this.settings.filterDelay = value > 0 ? value : 0;
+      if (refresh) {
+        refreshSelects(this);
+      }
+      return this.element;
+    },
     setFilterOnValues: function(value, refresh) {
       this.settings.filterOnValues = value;
       if (refresh) {
@@ -829,6 +883,8 @@
       refreshSelects(this);
     },
     destroy: function() {
+      cancelPendingFilter(this, 1);
+      cancelPendingFilter(this, 2);
       this.container.remove();
       this.element.show();
       $.data(this, 'plugin_' + pluginName, null);
