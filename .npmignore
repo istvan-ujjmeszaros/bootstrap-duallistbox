@@ -1,0 +1,17 @@
+# Repo tooling that must not ship in the npm package (checked by tools/release-check.js).
+# An .npmignore replaces .gitignore for npm, so the relevant .gitignore entries are repeated.
+node_modules
+bower_components
+.DS_Store
+.idea
+nbproject
+*.iml
+*.ipr
+*.iws
+.github/
+.agents/
+.claude/
+AGENTS.md
+test/
+tools/
+*.tgz
