@@ -25,6 +25,7 @@ function make(pluginSrc, opts = {}, { n = 20, count = 1 } = {}) {
   const logs = [];
   w.console.log = (...a) => logs.push(a.join(' '));
   w.eval(jquerySrc);
+  const keysBeforePlugin = new Set(Object.keys(w));
   w.eval(pluginSrc);
   const $ = w.jQuery;
   const inst = [];
@@ -32,7 +33,7 @@ function make(pluginSrc, opts = {}, { n = 20, count = 1 } = {}) {
     $('#s' + k).bootstrapDualListbox(opts);
     inst.push($('#s' + k).data('plugin_bootstrapDualListbox'));
   }
-  return { w, $, d: inst[0], inst, logs };
+  return { w, $, d: inst[0], inst, logs, keysBeforePlugin };
 }
 
 const box1 = d => d.elements.select1.find('option').length;
@@ -70,10 +71,11 @@ async function baseline(src, opts = {}) {
     ok('setNonSelectedFilter(v, true) is synchronous', box1(d) === 9, `box1=${box1(d)} exp 9`); }
   { const { d } = make(src, O()); d.elements.filterInput1.val('(').trigger('keyup'); await wait(SETTLE);
     ok('invalid regex in filter does not throw, matches nothing', box1(d) === 0, `box1=${box1(d)}`); }
-  { const { w, d } = make(src, O()); type(d, 1, 'x'); await wait(SETTLE);
-    const before = new Set(Object.keys(new JSDOM('').window));
-    const leaked = Object.keys(w).filter(k => !before.has(k) && !['jQuery', '$'].includes(k) &&
-      !(w[k] instanceof w.Element)); // jsdom exposes element ids as window props
+  { const { w, d, keysBeforePlugin } = make(src, O()); type(d, 1, 'x'); await wait(SETTLE);
+    // Compare with the same window before the plugin loaded. Ignore element ids (jsdom exposes them as
+    // window props) and EventTarget methods (some Node/jsdom combinations materialise them lazily).
+    const leaked = Object.keys(w).filter(k => !keysBeforePlugin.has(k) && !(w[k] instanceof w.Element) &&
+      !(k in w.EventTarget.prototype));
     ok('no globals leaked', leaked.length === 0, leaked.join(',') || 'none'); }
   { const { d, logs } = make(src, O(), { n: 5000 }); const t = Date.now();
     for (const s of ['i', 'it', 'ite', 'item', 'item ', 'item 4']) { type(d, 1, s); }

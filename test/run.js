@@ -19,7 +19,10 @@ const src = fs.readFileSync(file, 'utf8');
   let failed = 0;
   for (const [name, run] of suites) {
     console.log(`\n# ${name}`);
-    for (const r of await run(src, h)) {
+    let results;
+    try { results = await run(src, h); }
+    catch (e) { results = [{ name: 'suite crashed', pass: false, info: e.message }]; }
+    for (const r of results) {
       console.log(`${r.pass ? 'PASS' : 'FAIL'}  ${r.name}  [${r.info}]`);
       if (!r.pass) { failed++; }
     }
