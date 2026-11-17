@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "http://github.com/istvan-ujjmeszaros/bootstrap-duallistbox.git"
+    "url": "git+https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox.git"
   },
   "homepage": "https://www.virtuosoft.eu/code/bootstrap-duallistbox/",
   "version": "4.1.0",

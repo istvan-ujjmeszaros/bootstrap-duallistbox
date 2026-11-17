@@ -63,7 +63,12 @@ if (!CI) {
 step(`tag ${tag} exists, is annotated and points at HEAD`, () => {
   const type = tryOut('git', ['cat-file', '-t', tag]);
   if (!type) { return `missing: git tag -a ${tag} -m "${tag}"`; }
-  if (type !== 'tag') { return `${tag} is a lightweight tag; recreate it with -a`; }
+  if (type !== 'tag') {
+    // actions/checkout recreates the tag lightweight; ask the remote whether it is annotated
+    // (an annotated tag has a peeled "^{}" entry).
+    const peeled = CI ? tryOut('git', ['ls-remote', '--tags', 'origin', `refs/tags/${tag}^{}`]) : '';
+    if (!peeled) { return `${tag} is a lightweight tag; recreate it with -a`; }
+  }
   const at = sh('git', ['rev-parse', tag + '^{commit}']);
   const head = sh('git', ['rev-parse', 'HEAD']);
   return at === head ? null : `${tag} points at ${at.slice(0, 7)}, HEAD is ${head.slice(0, 7)}`;

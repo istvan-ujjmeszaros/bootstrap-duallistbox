@@ -66,7 +66,7 @@ jobs:
           fi
 
   release-verify:
-    name: Release guard (tag ${{ github.ref_name }})
+    name: Release guard
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
@@ -77,6 +77,8 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - name: Fetch the real tag object (checkout stores tags as lightweight)
+        run: git fetch --force origin "refs/tags/${GITHUB_REF_NAME}:refs/tags/${GITHUB_REF_NAME}"
       - run: npm ci
       - name: Tag matches package.json version
         run: |
