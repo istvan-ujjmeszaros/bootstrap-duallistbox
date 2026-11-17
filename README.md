@@ -1,4 +1,4 @@
-# Bootstrap Dual Listbox [![Build Status](https://travis-ci.org/istvan-ujjmeszaros/bootstrap-duallistbox.svg?branch=v4)](https://travis-ci.org/istvan-ujjmeszaros/bootstrap-duallistbox)
+# Bootstrap Dual Listbox [![CI](https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox/actions/workflows/ci.yml/badge.svg?branch=v4)](https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox/actions/workflows/ci.yml)
 Bootstrap Dual Listbox is a responsive dual listbox widget optimized for Twitter Bootstrap. Works on all modern browsers and on touch devices.
 
 Check the [official website](http://www.virtuosoft.eu/code/bootstrap-duallistbox/) for a demo.
@@ -125,10 +125,12 @@ The basic structure of the project is given in the following way:
 ├── src/
 │   ├── bootstrap-duallistbox.css
 │   └── jquery.bootstrap-duallistbox.js
+├── test/
+├── tools/
+├── .github/workflows/ci.yml
 ├── .editorconfig
 ├── .gitignore
 ├── .jshintrc
-├── .travis.yml
 ├── bootstrap-duallistbox.jquery.json
 ├── bower.json
 ├── Gruntfile.js
@@ -165,11 +167,17 @@ List of rules used by JSHint to detect errors and potential problems in JavaScri
 
 > Check [jshint.com](http://jshint.com/about/) if you haven't heard about this project yet.
 
-#### [.travis.yml](https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox/tree/master/.travis.yml)
+#### [test/](https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox/tree/v4/test)
 
-Definitions for continous integration using Travis.
+Behaviour tests that run the plugin in [jsdom](https://github.com/jsdom/jsdom). `npm test` runs them after jshint.
 
-> Check [travis-ci.org](http://about.travis-ci.org/) if you haven't heard about this project yet.
+#### [tools/](https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox/tree/v4/tools)
+
+Maintainer scripts: `version.js` keeps the version number identical in every file, `release-check.js` guards `npm publish`.
+
+#### [.github/workflows/ci.yml](https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox/tree/v4/.github/workflows/ci.yml)
+
+GitHub Actions: lint and tests on every push and pull request, release checks on version tags.
 
 #### [bootstrap-duallistbox.jquery.json](https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox/tree/master/bootstrap-duallistbox.jquery.json)
 
@@ -191,29 +199,18 @@ Specify all dependencies loaded via Node.JS.
 
 ## Building
 
-To build and test the plugin, you need:
-
-- [**NodeJS**](www.nodejs.org) with **npm**
-- **bower** (install it with `npm install bower --g`)
-- **grunt-cli** (install it with `npm install grunt-cli --g`)
-
-Then, `cd` to the project directory and install the required dependencies:
+To build and test the plugin, you need [**Node.js**](https://nodejs.org) (18 or newer) with **npm**. Then, `cd` to the project directory and install the development dependencies:
 
 ```shell
-$ npm install
-$ bower install
+$ npm ci
 ```
 
-To run jshint on the plugin code, call:
+Available commands:
 
 ```shell
-$ grunt jshint
-```
-
-To build the output js and css files, with the related minified ones, run:
-
-```shell
-$ grunt
+$ npm test         # jshint + behaviour tests (jsdom), the same as CI runs
+$ npm run lint     # jshint only
+$ npm run build    # build the dist/ js and css files, with the related minified ones
 ```
 
 ## Issues and Contributions

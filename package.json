@@ -18,12 +18,21 @@
   "devDependencies": {
     "grunt": "^1.1.0",
     "grunt-cli": "^1.3.2",
-    "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-uglify": "^4.0.1",
-    "grunt-contrib-cssmin": "^3.0.0"
+    "jquery": "^3.7.1",
+    "jsdom": "^24.1.3"
   },
   "scripts": {
-    "test": "grunt travis --verbose"
+    "lint": "grunt jshint",
+    "build": "grunt",
+    "test": "grunt jshint && node test/run.js",
+    "test:behaviour": "node test/run.js",
+    "version:check": "node tools/version.js check",
+    "version:bump": "node tools/version.js bump",
+    "release:check": "node tools/release-check.js",
+    "prepublishOnly": "node tools/release-check.js"
   }
 }
