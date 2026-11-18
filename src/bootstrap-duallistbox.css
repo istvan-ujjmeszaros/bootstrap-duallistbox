@@ -77,3 +77,7 @@
 .bootstrap-duallistbox-container.moveonselect .removeall {
   width: 100%;
 }
+
+button.clear1, button.clear2{
+  float:right!important;
+}
